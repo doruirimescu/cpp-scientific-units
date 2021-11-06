@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include <string>
-#include <gtest/gtest.h>
 namespace prefix
 {
 enum class prefix_label
