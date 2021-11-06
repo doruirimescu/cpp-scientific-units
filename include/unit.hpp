@@ -95,6 +95,11 @@ public:
     {
         return value_ != other.value_;
     }
+    template <typename Prefix2>
+    constexpr bool operator!=(const Unit<T, Name, Prefix2>& other) const
+    {
+        return calculateValueNonPrefix() != other.calculateValueNonPrefix();
+    }
 
     constexpr Unit<T, Name, Prefix> operator+(const Unit<T, Name, Prefix>& other) const
     {
@@ -115,7 +120,7 @@ public:
         return Unit<T, Name, none_type>(calculateValueNonPrefix() - other.calculateValueNonPrefix());
     }
 
-    //operator + for same Unit with different prefix_
+    //operator - for same Unit with different prefix_
     template <typename Prefix2>
     constexpr Unit<T, Name, none_type> operator-(const Unit<T, Name, Prefix2>& other) const
     {
