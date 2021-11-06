@@ -39,6 +39,47 @@ TEST(Unit, gram_equal)
     ASSERT_FALSE(1.0_kg == 1.0_g);
 }
 
+TEST(Unit, gram_lessThan)
+{
+    ASSERT_FALSE(1000.0_mg < 1000.0_mg);
+    ASSERT_FALSE(1000.0_mg < 1.0_g);
+    ASSERT_FALSE(1.0_g < 1000.0_mg);
+    ASSERT_TRUE(1.0_g < 1.1_g);
+    ASSERT_TRUE(1.0_g < 1.0_kg);
+    ASSERT_TRUE(1.0_kg < 10.0_kg);
+}
+
+TEST(Unit, gram_lessThanOrEqual)
+{
+    ASSERT_TRUE(1000.0_mg <= 1000.0_mg);
+    ASSERT_TRUE(1000.0_mg <= 1.0_g);
+    ASSERT_TRUE(1.0_g <= 1000.0_mg);
+    ASSERT_TRUE(1.0_g <= 1.1_g);
+    ASSERT_TRUE(1.0_g <= 1.0_kg);
+    ASSERT_TRUE(1.0_kg <= 10.0_kg);
+}
+
+TEST(Unit, gram_greaterThan)
+{
+    ASSERT_TRUE(2.0_g > 1.0_g);
+    ASSERT_TRUE(2.0_kg > 1.0_g);
+    ASSERT_TRUE(1000.0_g > 0.1_kg);
+    ASSERT_FALSE(2.0_g > 1.0_kg);
+    ASSERT_FALSE(2.0_g > 5.0_g);
+    ASSERT_FALSE(2.0_g > 2.0_g);
+}
+
+TEST(Unit, gram_greaterThanOrEqual)
+{
+    ASSERT_TRUE(2.0_g >= 1.0_g);
+    ASSERT_TRUE(2.0_kg >= 1.0_g);
+    ASSERT_TRUE(1000.0_g >= 0.1_kg);
+    ASSERT_FALSE(2.0_g >= 1.0_kg);
+    ASSERT_FALSE(2.0_g >= 5.0_g);
+    ASSERT_TRUE(2.0_g >= 2.0_g);
+    ASSERT_TRUE(200.0_g >= 0.2_kg);
+}
+
 TEST(Unit, gram_plus_milligram)
 {
     auto new_result = 1000.0_mg + 1.0_g;

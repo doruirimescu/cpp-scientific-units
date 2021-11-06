@@ -45,7 +45,7 @@ public:
     {
         return value_ == other.value_;
     }
-    template<typename Prefix2>
+    template <typename Prefix2>
     constexpr bool operator==(const Unit<T, Name, Prefix2>& other) const
     {
         return calculateValueNonPrefix() == other.calculateValueNonPrefix();
@@ -55,20 +55,40 @@ public:
     {
         return value_ < other.value_;
     }
+    template <typename Prefix2>
+    constexpr bool operator<(const Unit<T, Name, Prefix2>& other) const
+    {
+        return calculateValueNonPrefix() < other.calculateValueNonPrefix();
+    }
 
     constexpr bool operator>(const Unit<T, Name, Prefix>& other) const
     {
         return value_ > other.value_;
+    }
+    template <typename Prefix2>
+    constexpr bool operator>(const Unit<T, Name, Prefix2>& other) const
+    {
+        return calculateValueNonPrefix() > other.calculateValueNonPrefix();
     }
 
     constexpr bool operator<=(const Unit<T, Name, Prefix>& other) const
     {
         return value_ <= other.value_;
     }
+    template <typename Prefix2>
+    constexpr bool operator<=(const Unit<T, Name, Prefix2>& other) const
+    {
+        return calculateValueNonPrefix() <= other.calculateValueNonPrefix();
+    }
 
     constexpr bool operator>=(const Unit<T, Name, Prefix>& other) const
     {
         return value_ >= other.value_;
+    }
+    template <typename Prefix2>
+    constexpr bool operator>=(const Unit<T, Name, Prefix2>& other) const
+    {
+        return calculateValueNonPrefix() >= other.calculateValueNonPrefix();
     }
 
     constexpr bool operator!=(const Unit<T, Name, Prefix>& other) const
@@ -141,7 +161,6 @@ using gram = Unit<double, UnitNameLabel::gram, none_type>;
 
 using kilogram = Unit<double, UnitNameLabel::gram, kilo_type>;
 using milligram = Unit<double, UnitNameLabel::gram, milli_type>;
-
 
 //User-defined literals
 constexpr meter operator""_m(long double value)
