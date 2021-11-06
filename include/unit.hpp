@@ -45,6 +45,11 @@ public:
     {
         return value_ == other.value_;
     }
+    template<typename Prefix2>
+    constexpr bool operator==(const Unit<T, Name, Prefix2>& other) const
+    {
+        return calculateValueNonPrefix() == other.calculateValueNonPrefix();
+    }
 
     constexpr bool operator<(const Unit<T, Name, Prefix>& other) const
     {

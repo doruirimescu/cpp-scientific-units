@@ -29,6 +29,16 @@ TEST(Unit, gram_units)
     EXPECT_EQ(result.getPrefix(), "milli");
 }
 
+TEST(Unit, gram_equal)
+{
+    ASSERT_TRUE(1000.0_mg == 1000.0_mg);
+    ASSERT_TRUE(1000.0_mg == 1.0_g);
+    ASSERT_TRUE(1.0_g == 1000.0_mg);
+    ASSERT_FALSE(1.0_g == 1.1_g);
+    ASSERT_FALSE(1.0_g == 1.0_kg);
+    ASSERT_FALSE(1.0_kg == 1.0_g);
+}
+
 TEST(Unit, gram_plus_milligram)
 {
     auto new_result = 1000.0_mg + 1.0_g;
