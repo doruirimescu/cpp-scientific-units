@@ -40,7 +40,7 @@ struct TypeList
         }
         else
         {
-            return areTypeListsContainingSameTypes(*this, other);
+            return areTypeListsContainingSameTypes(*this, other) and areTypeListsContainingSameTypes(other, *this);
         }
     }
 

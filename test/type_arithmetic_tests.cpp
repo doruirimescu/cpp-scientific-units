@@ -2,6 +2,25 @@
 #include <test_types.hpp>
 #include <type_list.hpp>
 
+TEST(TypeList, equality)
+{
+    static_assert(TypeList<>{} == TypeList<>{}, "Empty list equality");
+    static_assert(TypeList<T1>{} == TypeList<T1>{}, "One element list equality");
+    static_assert(TypeList<T1, T2>{} == TypeList<T1, T2>{});
+    static_assert(TypeList<T2, T1>{} == TypeList<T1, T2>{}, "Order does not matter");
+    static_assert(TypeList<T1, T2, T2>{} == TypeList<T2, T1, T2>{}, "Same element can be repeated");
+}
+
+TEST(TypeList, inequality)
+{
+    static_assert(TypeList<>{} != TypeList<T1>{}, "Empty list inequality");
+    static_assert(TypeList<T1>{} != TypeList<T2>{}, "One element list equality");
+
+    static_assert(TypeList<T1, T2>{} != TypeList<T1, T1>{});
+
+    static_assert(TypeList<T2, T2>{} != TypeList<T1>{}, "");
+}
+
 TEST(TestType, test_types_made_for_testing)
 {
     constexpr auto t1 = TypeList<T1, T2>{};

@@ -12,3 +12,9 @@ constexpr bool isTypeInTypeList(const TypeList<FirstArg>& fa)
 {
     return std::is_same<FirstArg, Type>::value;
 }
+
+template <typename Type>
+constexpr bool isTypeInTypeList(const TypeList<>& fa)
+{
+    return false;
+}
