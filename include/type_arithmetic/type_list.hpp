@@ -76,4 +76,10 @@ struct TypeList
     {
         return removeTypeFromTypeList<T>(*this);
     }
+    constexpr decltype(auto) removeType() const
+    {
+        return (*this);
+    }
 };
+
+#define TYPELIST(...) TypeList<__VA_ARGS__>{}

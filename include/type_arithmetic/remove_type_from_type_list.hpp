@@ -16,3 +16,9 @@ constexpr decltype(auto) removeTypeFromTypeList(const TypeList<FirstArg>& fa)
         std::conditional_t<std::is_same<FirstArg, ToRemove>::value, const TypeList<>, const TypeList<FirstArg>>{};
     return selected_list;
 }
+
+template<typename ToRemove>
+constexpr decltype(auto) removeTypeFromTypeList(const TypeList<>&)
+{
+    return TypeList<>{};
+}

@@ -59,7 +59,22 @@ TEST(TypeList, subtraction)
     static_assert(TypeList<T1, T2, T3>{} - TypeList<T1>{} == TypeList<T2, T3>{}, "");
 }
 
-TEST(TestType, test_types_made_for_testing)
+TEST(TypeList, removeType)
+{
+    static_assert(TypeList<T1>{}.removeType<T1>() == TypeList<>{}, "");
+    static_assert(TypeList<>{}.removeType<T1>() == TypeList<>{}, "");
+    static_assert(TypeList<T1>{}.removeType() == TypeList<T1>{}, "");
+    static_assert(TypeList<T1, T1, T1>{}.removeType<T1>() == TypeList<>{}, "");
+    static_assert(TypeList<T2, T1, T1, T1, T2>{}.removeType<T1>() == TypeList<T2, T2>{}, "");
+}
+
+TEST(TypeList, test_aliases)
+{
+    static_assert(TYPELIST(T1) == TYPELIST(T1));
+    static_assert(TYPELIST(T1) + TYPELIST(T2) == TYPELIST(T1, T2));
+}
+
+TEST(TestType, variousExpressions)
 {
     constexpr auto t1 = TypeList<T1, T2>{};
     constexpr auto t2 = TypeList<T3, T4>{};
