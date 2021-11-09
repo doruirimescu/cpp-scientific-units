@@ -17,3 +17,18 @@ constexpr decltype(auto) removeTypeListFromTypeList(const TypeList<LeftArgs...>&
     //! Should remove only first occurence of type
     return removeNthOccurenceOfTypeFromTypeList<1>(RightFirst{}, left_list);
 }
+
+template<typename T>
+constexpr decltype(auto) removeTypeListFromTypeList(const TypeList<T>& left_list,
+                                                    const TypeList<>& right_list)
+{
+    //! Should remove only first occurence of type
+    return left_list;
+}
+
+constexpr decltype(auto) removeTypeListFromTypeList(const TypeList<>& left_list,
+                                                    const TypeList<>& right_list)
+{
+    //! Should remove only first occurence of type
+    return left_list;
+}

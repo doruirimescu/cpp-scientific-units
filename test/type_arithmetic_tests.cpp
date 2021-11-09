@@ -31,6 +31,34 @@ TEST(TypeList, addition)
     static_assert(TypeList<T1>{} + TypeList<T2>{} == TypeList<T1, T2>{});
 }
 
+TEST(TypeList, getSize)
+{
+    static_assert(TypeList<>{}.getSize() == 0, "Empty list size");
+    static_assert(TypeList<T1>{}.getSize() == 1);
+    static_assert(TypeList<T1, T2>{}.getSize() == 2);
+    static_assert(TypeList<T1, T2, T2, T1>{}.getSize() == 4);
+}
+
+TEST(TypeList, hasType)
+{
+    static_assert(TypeList<>{}.hasType() == true, "");
+    static_assert(TypeList<T1>{}.hasType() == false, "");
+    static_assert(TypeList<T1>{}.hasType<T1>() == true, "");
+    static_assert(TypeList<T1, T2, T3>{}.hasType<T3>() == true, "");
+    static_assert(TypeList<T1, T2, T3>{}.hasType<T3>() == true, "");
+}
+
+TEST(TypeList, subtraction)
+{
+    static_assert(TypeList<>{} - TypeList<>{} == TypeList<>{}, "");
+    static_assert(TypeList<T1>{} - TypeList<T1>{} == TypeList<>{}, "");
+    static_assert(TypeList<T1>{} - TypeList<>{} == TypeList<T1>{}, "");
+    static_assert(TypeList<T1, T2>{} - TypeList<T1>{} == TypeList<T2>{}, "");
+    static_assert(TypeList<T1, T2>{} - TypeList<T2>{} == TypeList<T1>{}, "");
+    static_assert(TypeList<T1, T2, T3>{} - TypeList<T1, T2>{} == TypeList<T3>{}, "");
+    static_assert(TypeList<T1, T2, T3>{} - TypeList<T1>{} == TypeList<T2, T3>{}, "");
+}
+
 TEST(TestType, test_types_made_for_testing)
 {
     constexpr auto t1 = TypeList<T1, T2>{};

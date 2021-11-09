@@ -55,6 +55,10 @@ struct TypeList
     {
         return isTypeInTypeList<T>(*this);
     }
+    constexpr bool hasType() const
+    {
+        return (*this) == TypeList<>{};
+    }
 
     constexpr std::size_t getSize() const
     {
