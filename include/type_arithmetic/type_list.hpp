@@ -8,24 +8,41 @@
 template <typename... ThisArgs>
 struct TypeList
 {
+    /**
+     * @brief Returns a new TypeList containing the types of the current TypeList and the types of the given TypeList.
+     *
+     */
     template <typename... OtherArgs>
     constexpr TypeList<ThisArgs..., OtherArgs...> operator+(const TypeList<OtherArgs...>& other) const
     {
         return TypeList<ThisArgs..., OtherArgs...>{};
     }
 
+    /**
+     * @brief  Removes from the current type list the types of the given type list, one by one,
+     * first occurrence.
+     *
+     */
     template <typename... OtherArgs>
     constexpr decltype(auto) operator-(const TypeList<OtherArgs...>& other) const
     {
         return removeTypeListFromTypeList(*this, other);
     }
 
+    /**
+     * @brief Removes the intersection with other from current type list. Same as subtraction
+     *
+     */
     template <typename... OtherArgs>
     constexpr decltype(auto) operator/(const TypeList<OtherArgs...>& other) const
     {
         return *this - this->calculateIntersection(other);
     }
 
+    /**
+     * @brief  Order does not matter for equality
+     *
+     */
     template <typename... OtherArgs>
     constexpr bool operator==(const TypeList<OtherArgs...>& other) const
     {
