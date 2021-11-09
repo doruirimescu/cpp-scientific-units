@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <type_list.hpp>
+#include <orderable.hpp>
 struct T1
 {
     int value = 1;
@@ -68,6 +70,39 @@ struct T7
     }
 };
 
-struct m{};
-struct kg{};
-struct s{};
+struct m
+{
+};
+struct kg
+{
+};
+struct s
+{
+};
+
+template <class Numerator, class Denominator>
+struct Ratio
+{
+    constexpr explicit Ratio(const Numerator& n, const Denominator& d)
+        : numerator(n)
+        , denominator(d)
+    {
+    }
+
+    const Numerator numerator;
+    const Denominator denominator;
+};
+
+
+struct Area_m_m : public Orderable<double>
+{
+public:
+    constexpr explicit Area_m_m(double val): Orderable<double>::Orderable(val)
+    {
+        this->value = 20;
+    }
+    TypeList<m, m> nominator{};
+    TypeList<> denominator{};
+
+    Ratio<TypeList<m, m>, TypeList<>> r{TYPELIST(m, m), TYPELIST()};
+};

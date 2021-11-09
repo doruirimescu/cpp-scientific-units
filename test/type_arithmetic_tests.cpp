@@ -122,3 +122,12 @@ TEST(TestType, variousExpressions)
     static_assert(nominator - denominator == TypeList<kg, m>{});
     static_assert(denominator / nominator == TypeList<s, s>{});
 }
+
+TEST(Area, smth)
+{
+    constexpr Area_m_m a1(10);
+    constexpr Area_m_m a2(10);
+
+    static_assert(a1 == a2);
+    static_assert(a1.value == 20);
+}
