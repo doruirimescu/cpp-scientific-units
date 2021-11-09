@@ -13,12 +13,22 @@ TEST(TypeList, equality)
 
 TEST(TypeList, inequality)
 {
-    static_assert(TypeList<>{} != TypeList<T1>{}, "Empty list inequality");
+    static_assert(TypeList<>{} != TypeList<T1>{}, "Empty list left inequality");
+    static_assert(TypeList<T1>{} != TypeList<>{}, "Empty list right inequality");
     static_assert(TypeList<T1>{} != TypeList<T2>{}, "One element list equality");
 
     static_assert(TypeList<T1, T2>{} != TypeList<T1, T1>{});
 
     static_assert(TypeList<T2, T2>{} != TypeList<T1>{}, "");
+}
+
+TEST(TypeList, addition)
+{
+    static_assert(TypeList<>{} + TypeList<>{} == TypeList<>{}, "Add two empty lists");
+    static_assert(TypeList<>{} + TypeList<T1>{} == TypeList<T1>{}, "Empty list neutral element for addition");
+    static_assert(TypeList<T1>{} + TypeList<>{} == TypeList<T1>{}, "Empty list neutral element for addition");
+    static_assert(TypeList<T1>{} + TypeList<T1>{} == TypeList<T1, T1>{});
+    static_assert(TypeList<T1>{} + TypeList<T2>{} == TypeList<T1, T2>{});
 }
 
 TEST(TestType, test_types_made_for_testing)
