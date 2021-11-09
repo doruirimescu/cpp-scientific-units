@@ -52,8 +52,9 @@ TEST(Orderable, greater_than)
 
 TEST(Orderable, greater_than_or_equal)
 {
-    OrderableTest a{39};
-    Orderable b{7};
-    ASSERT_TRUE(a >= b);
+    constexpr OrderableTest a{39};
+    constexpr Orderable b{7};
+    static_assert(a >= b);
     static_assert(Orderable{0} >= Orderable{0});
+    static_assert(Orderable{3}.value * Orderable{5}.value == 15);
 }

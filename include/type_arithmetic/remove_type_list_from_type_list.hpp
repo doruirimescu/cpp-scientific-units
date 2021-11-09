@@ -16,8 +16,8 @@ constexpr decltype(auto) removeTypeListFromTypeList(const TypeList<LeftArgs...>&
     return removeNthOccurenceOfTypeFromTypeList<1>(RightFirst{}, left_list);
 }
 
-template<typename T>
-constexpr decltype(auto) removeTypeListFromTypeList(const TypeList<T>& left_list,
+template<typename...T>
+constexpr decltype(auto) removeTypeListFromTypeList(const TypeList<T...>& left_list,
                                                     const TypeList<>& right_list)
 {
     return left_list;

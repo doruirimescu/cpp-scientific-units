@@ -63,6 +63,7 @@ TEST(TypeList, subtraction)
     static_assert(TYPELIST() + TYPELIST(s) - TYPELIST() == TYPELIST(s));
     static_assert(TYPELIST() + TYPELIST(s) - TYPELIST() == TYPELIST(s));
     static_assert(TypeList<s>{} - TypeList<>{} == TYPELIST(s));
+    static_assert(TypeList<m,m>{} - TypeList<>{} == TypeList<m,m>{}, "");
 }
 
 TEST(TypeList, removeType)

@@ -21,3 +21,10 @@ constexpr decltype(auto) removeNthOccurenceOfTypeFromTypeList(const ToRemove& ty
                const TypeList<FirstArg> > {};
     return selected_list;
 }
+
+template <int N, typename ToRemove>
+constexpr decltype(auto) removeNthOccurenceOfTypeFromTypeList(const ToRemove& type_to_remove,
+                                                                                     const TypeList<>& fa)
+{
+    return fa;
+}

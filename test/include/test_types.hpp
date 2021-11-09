@@ -80,28 +80,7 @@ struct s
 {
 };
 
-template <class Numerator, class Denominator>
-struct Quantity : public Orderable<double>
-{
-    constexpr Quantity(const double value)
-        : Orderable<double>::Orderable(value)
-    {
-    }
-    const Numerator numerator{};
-    const Denominator denominator{};
 
-    template <typename N2, typename D2>
-    constexpr decltype(auto) operator*(const Quantity<N2, D2>& other) const
-    {
-        return Quantity<decltype(numerator + other.numerator - other.denominator), decltype(denominator + other.denominator - numerator)>{this->value * other.value};
-    }
-
-    template <typename N2, typename D2>
-    constexpr decltype(auto) operator/(const Quantity<N2, D2>& other) const
-    {
-        return (*this) * Quantity<D2, N2>{1.0 / other.value};
-    }
-};
 
 struct Area_m_m : public Orderable<double>
 {
