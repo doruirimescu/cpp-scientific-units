@@ -29,7 +29,7 @@ TEST(Orderable, inequality)
 TEST(Orderable, less_than)
 {
     OrderableTest a{10.5};
-    Orderable b{10.1};
+    Orderable b{10.9};
     ASSERT_TRUE(a < b);
     static_assert(Orderable{2} < Orderable{13});
 }
@@ -37,7 +37,7 @@ TEST(Orderable, less_than)
 TEST(Orderable, less_than_or_equal)
 {
     OrderableTest a{10.5};
-    Orderable b{10.1};
+    Orderable b{10.9};
     ASSERT_TRUE(a <= b);
     static_assert(Orderable{3} <= Orderable{13});
 }

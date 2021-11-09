@@ -57,7 +57,12 @@ TEST(TypeList, subtraction)
     static_assert(TypeList<T1, T2>{} - TypeList<T2>{} == TypeList<T1>{}, "");
     static_assert(TypeList<T1, T2, T3>{} - TypeList<T1, T2>{} == TypeList<T3>{}, "");
     static_assert(TypeList<T1, T2, T3>{} - TypeList<T1>{} == TypeList<T2, T3>{}, "");
-    static_assert(TYPELIST(T1, T2, T3) - TYPELIST(T2,T4,T5) == TYPELIST(T1,T3));
+    static_assert(TYPELIST(T1, T2, T3) - TYPELIST(T2, T4, T5) == TYPELIST(T1, T3));
+    static_assert(TYPELIST(m, m) + TYPELIST() - TYPELIST(s) == TYPELIST(m, m));
+    static_assert(TYPELIST() + TYPELIST(s) - TYPELIST(m, m) == TYPELIST(s));
+    static_assert(TYPELIST() + TYPELIST(s) - TYPELIST() == TYPELIST(s));
+    static_assert(TYPELIST() + TYPELIST(s) - TYPELIST() == TYPELIST(s));
+    static_assert(TypeList<s>{} - TypeList<>{} == TYPELIST(s));
 }
 
 TEST(TypeList, removeType)
@@ -81,7 +86,7 @@ TEST(TypeList, division)
 {
     static_assert(TYPELIST(T1) / TYPELIST(T1) == TYPELIST());
     static_assert(TYPELIST(T1, T2) / TYPELIST(T1) == TYPELIST(T2));
-    static_assert(TYPELIST(T1, T2, T3) / TYPELIST(T2,T4) == TYPELIST(T1,T3));
+    static_assert(TYPELIST(T1, T2, T3) / TYPELIST(T2, T4) == TYPELIST(T1, T3));
 }
 
 TEST(TestType, variousExpressions)
@@ -121,13 +126,4 @@ TEST(TestType, variousExpressions)
     static_assert(nominator / denominator == TypeList<kg, m>{});
     static_assert(nominator - denominator == TypeList<kg, m>{});
     static_assert(denominator / nominator == TypeList<s, s>{});
-}
-
-TEST(Area, smth)
-{
-    constexpr Area_m_m a1(10);
-    constexpr Area_m_m a2(10);
-
-    static_assert(a1 == a2);
-    static_assert(a1.value == 20);
 }

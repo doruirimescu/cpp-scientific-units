@@ -81,28 +81,34 @@ struct s
 };
 
 template <class Numerator, class Denominator>
-struct Ratio
+struct Quantity : public Orderable<double>
 {
-    constexpr explicit Ratio(const Numerator& n, const Denominator& d)
-        : numerator(n)
-        , denominator(d)
+    constexpr Quantity(const double value)
+        : Orderable<double>::Orderable(value)
     {
     }
+    const Numerator numerator{};
+    const Denominator denominator{};
 
-    const Numerator numerator;
-    const Denominator denominator;
+    template <typename N2, typename D2>
+    constexpr decltype(auto) operator*(const Quantity<N2, D2>& other) const
+    {
+        return Quantity<decltype(numerator + other.numerator - other.denominator), decltype(denominator + other.denominator - numerator)>{this->value * other.value};
+    }
+
+    template <typename N2, typename D2>
+    constexpr decltype(auto) operator/(const Quantity<N2, D2>& other) const
+    {
+        return (*this) * Quantity<D2, N2>{1.0 / other.value};
+    }
 };
-
 
 struct Area_m_m : public Orderable<double>
 {
 public:
-    constexpr explicit Area_m_m(double val): Orderable<double>::Orderable(val)
+    constexpr explicit Area_m_m(double val)
+        : Orderable<double>::Orderable(val)
     {
         this->value = 20;
     }
-    TypeList<m, m> nominator{};
-    TypeList<> denominator{};
-
-    Ratio<TypeList<m, m>, TypeList<>> r{TYPELIST(m, m), TYPELIST()};
 };
