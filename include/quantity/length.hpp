@@ -2,53 +2,68 @@
 #include <quantity.hpp>
 #include <type_list.hpp>
 #include <prefix.hpp>
-#include <orderable.hpp>
+
 namespace q_length
 {
 struct Mm : public prefix::mega
 {
+    static constexpr double length = value;
 };
 struct km : public prefix::kilo
 {
+    static constexpr double length = value;
 };
 struct hm : public prefix::hecto
 {
+    static constexpr double length = value;
 };
 struct dam : public prefix::deca
 {
+    static constexpr double length = value;
 };
 struct m : public prefix::none
 {
+    static constexpr double length = value;
 };
 struct dm : public prefix::deci
 {
+    static constexpr double length = value;
 };
 struct cm : public prefix::centi
 {
+    static constexpr double length = value;
 };
 struct mm : public prefix::milli
 {
+    static constexpr double length = value;
 };
 struct um : public prefix::micro
 {
+    static constexpr double length = value;
 };
 struct nm : public prefix::nano
 {
+    static constexpr double length = value;
 };
 struct pm : public prefix::pico
 {
+    static constexpr double length = value;
 };
 struct fm : public prefix::femto
 {
+    static constexpr double length = value;
 };
 struct am : public prefix::atto
 {
+    static constexpr double length = value;
 };
 struct zm : public prefix::zepto
 {
+    static constexpr double length = value;
 };
 struct ym : public prefix::yocto
 {
+    static constexpr double length = value;
 };
 }  // namespace q_length
 
@@ -125,11 +140,11 @@ constexpr q_ym operator"" _q_ym(long double v)
 template <typename Length>
 constexpr q_m to_q_m(const Quantity<TypeList<Length>, TypeList<>>& v)
 {
-    return q_m{v.value * Length::value};
+    return q_m{v.value * Length::length};
 }
 
 template <typename Length>
 constexpr q_km to_q_km(const Quantity<TypeList<Length>, TypeList<>>& v)
 {
-    return q_km{to_q_m(v).value / q_length::km::value};
+    return q_km{to_q_m(v).value / q_length::km::length};
 }

@@ -3,6 +3,7 @@
 #include <time.hpp>
 #include <mass.hpp>
 #include <speed.hpp>
+#include <force.hpp>
 
 TEST(Time, to_q_s)
 {
@@ -72,4 +73,33 @@ TEST(Speed, speed)
 
     constexpr q_kmph speed4 = to_q_kmph(1.0_q_mps);
     EXPECT_FLOAT_EQ(speed4.value, 3.6);
+}
+
+TEST(Force, to_q_N_1)
+{
+    EXPECT_FLOAT_EQ(to_q_N(1.0_q_N).value, 1.0);
+
+    static_assert(to_q_N(2.0_q_kg * 1.0_q_m / (1.0_q_s * 1.0_q_s)).value == 2.0);
+    static_assert(to_q_N(1.0_q_kg * 2.0_q_m / (1.0_q_s * 1.0_q_s)).value == 2.0);
+    static_assert(to_q_N(1.0_q_kg * 2.0_q_m / (2.0_q_s * 1.0_q_s)).value == 1.0);
+    static_assert(to_q_N(1.0_q_kg * 60.0_q_m / (to_q_s(1.0_q_min) * 1.0_q_s)).value == 1.0);
+}
+
+TEST(Force, to_q_N_2)
+{
+    constexpr auto mass = 1000.0_q_g;
+    constexpr auto length = 100.0_q_cm;
+    constexpr auto time_1 = 1.0_q_s;
+    constexpr auto time_2 = 1.0_q_s;
+    constexpr auto some_value_convertible_to_force = mass * length / (time_1 * time_2);
+    constexpr q_N newtons = to_q_N(some_value_convertible_to_force);
+
+    EXPECT_FLOAT_EQ(newtons.value, (to_q_kg(mass) * to_q_m(length) / (to_q_s(time_1) * to_q_s(time_2))).value) << "WDF";
+}
+TEST(Conversions, uncomment_to_fail)
+{
+    // to_q_kg(1.0_q_s);
+    // to_q_mg(1.0_q_s);
+    // to_q_mg(1.0_q_m);
+    // to_q_s(1.0_q_m);
 }

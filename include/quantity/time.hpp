@@ -7,40 +7,50 @@ namespace q_time
 {
 struct s : public prefix::none
 {
+    static constexpr double time = value;
 };
 struct ms : public prefix::milli
 {
+    static constexpr double time = value;
 };
 struct us : public prefix::micro
 {
+    static constexpr double time = value;
 };
 struct ns : public prefix::nano
 {
+    static constexpr double time = value;
 };
 struct ps : public prefix::pico
 {
+    static constexpr double time = value;
 };
 struct fs : public prefix::femto
 {
+    static constexpr double time = value;
 };
 
 struct min : public Orderable<double>
 {
     static constexpr double value = 60;
+    static constexpr double time = value;
 };
 struct hour : public Orderable<double>
 {
     static constexpr double value = 3600;
+    static constexpr double time = value;
 };
 
 struct day : public Orderable<double>
 {
     static constexpr double value = 86400;
+    static constexpr double time = value;
 };
 
 struct year : public Orderable<double>
 {
     static constexpr double value = 31536000;
+    static constexpr double time = value;
 };
 
 }  // namespace q_time
@@ -98,37 +108,39 @@ constexpr q_year operator"" _q_year(long double v)
     return q_year{static_cast<double>(v)};
 }
 
+//TODO: This stuff is actually very unsafe, because Time can be any value and it will still work !
+
 // Time conversions
 template <typename Time>
 constexpr q_s to_q_s(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
-    return q_s{v.value * Time::value};
+    return q_s{v.value * Time::time};
 }
 
 template <typename Time>
 constexpr q_ms to_q_ms(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
     const auto in_seconds = to_q_s(v);
-    return q_ms{in_seconds.value / q_time::ms::value};
+    return q_ms{in_seconds.value / q_time::ms::time};
 }
 
 template <typename Time>
 constexpr q_min to_q_min(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
     const auto in_seconds = to_q_s(v);
-    return q_min{in_seconds.value / q_time::min::value};
+    return q_min{in_seconds.value / q_time::min::time};
 }
 
 template <typename Time>
 constexpr q_hour to_q_hour(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
     const auto in_seconds = to_q_s(v);
-    return q_hour{in_seconds.value / q_time::hour::value};
+    return q_hour{in_seconds.value / q_time::hour::time};
 }
 
 template <typename Time>
 constexpr q_hour to_q_day(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
     const auto in_seconds = to_q_s(v);
-    return q_hour{in_seconds.value / q_time::day::value};
+    return q_hour{in_seconds.value / q_time::day::time};
 }
