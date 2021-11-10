@@ -39,170 +39,105 @@ struct prefix_struct
     static inline std::string name = prefixToString(p);
 };
 
-struct yotta : public Orderable<double>
+struct yotta
 {
-    explicit constexpr yotta()
-        : Orderable<double>(pow(10, 24))
-    {
-    }
     static constexpr double value = pow(10, 24);
 };
 
-struct zetta : public Orderable<double>
+struct zetta
 {
-    explicit constexpr zetta()
-        : Orderable<double>(pow(10, 21))
-    {
-    }
+    static constexpr double value = pow(10, 21);
 };
 
-struct exa : public Orderable<double>
+struct exa
 {
-    explicit constexpr exa()
-        : Orderable<double>(pow(10, 18))
-    {
-    }
+    static constexpr double value = pow(10, 18);
 };
 
-struct peta : public Orderable<double>
+struct peta
 {
-    explicit constexpr peta()
-        : Orderable<double>(pow(10, 15))
-    {
-    }
+    static constexpr double value = pow(10, 15);
 };
 
-struct tera : public Orderable<double>
+struct tera
 {
-    explicit constexpr tera()
-        : Orderable<double>(pow(10, 12))
-    {
-    }
+    static constexpr double value = pow(10, 12);
 };
-struct giga : public Orderable<double>
+struct giga
 {
-    explicit constexpr giga()
-        : Orderable<double>(pow(10, 9))
-    {
-    }
+    static constexpr double value = pow(10, 9);
 };
-struct mega : public Orderable<double>
+struct mega
 {
-    explicit constexpr mega()
-        : Orderable<double>(pow(10, 6))
-    {
-    }
+    static constexpr double value = pow(10, 6);
 };
-struct kilo : public Orderable<double>
+struct kilo
 {
-    explicit constexpr kilo()
-        : Orderable<double>(pow(10, 3))
-    {
-    }
     static constexpr double value = pow(10, 3);
 };
 
-struct hecto : public Orderable<double>
+struct hecto
 {
-    explicit constexpr hecto()
-        : Orderable<double>(pow(10, 2))
-    {
-    }
+    static constexpr double value = pow(10, 2);
 };
 
 struct deca : public Orderable<double>
 {
-    explicit constexpr deca()
-        : Orderable<double>(pow(10, 1))
-    {
-    }
+    static constexpr double value = pow(10, 1);
 };
 
 struct none : public Orderable<double>
 {
-    explicit constexpr none()
-        : Orderable<double>(1)
-    {
-    }
+    static constexpr double value = pow(10, 0);
 };
 struct deci : public Orderable<double>
 {
-    explicit constexpr deci()
-        : Orderable<double>(pow(10, -1))
-    {
-    }
+    static constexpr double value = pow(10, -1);
 };
 
 struct centi : public Orderable<double>
 {
-    explicit constexpr centi()
-        : Orderable<double>(pow(10, -2))
-    {
-    }
+    static constexpr double value = pow(10, -2);
 };
 
 struct milli : public Orderable<double>
 {
-    explicit constexpr milli()
-        : Orderable<double>(pow(10, -3))
-    {
-    }
+    static constexpr double value = pow(10, -3);
 };
 
 struct micro : public Orderable<double>
 {
-    explicit constexpr micro()
-        : Orderable<double>(pow(10, -6))
-    {
-    }
+    static constexpr double value = pow(10, -6);
 };
 
 struct nano : public Orderable<double>
 {
-    explicit constexpr nano()
-        : Orderable<double>(pow(10, -9))
-    {
-    }
+    static constexpr double value = pow(10, -9);
 };
 
 struct pico : public Orderable<double>
 {
-    explicit constexpr pico()
-        : Orderable<double>(pow(10, -12))
-    {
-    }
+    static constexpr double value = pow(10, -12);
 };
 
 struct femto : public Orderable<double>
 {
-    explicit constexpr femto()
-        : Orderable<double>(pow(10, -15))
-    {
-    }
+    static constexpr double value = pow(10, -15);
 };
 
 struct atto : public Orderable<double>
 {
-    explicit constexpr atto()
-        : Orderable<double>(pow(10, -18))
-    {
-    }
+    static constexpr double value = pow(10, -18);
 };
 
 struct zepto : public Orderable<double>
 {
-    explicit constexpr zepto()
-        : Orderable<double>(pow(10, -21))
-    {
-    }
+    static constexpr double value = pow(10, -21);
 };
 
 struct yocto : public Orderable<double>
 {
-    explicit constexpr yocto()
-        : Orderable<double>(pow(10, -24))
-    {
-    }
+    static constexpr double value = pow(10, -24);
 };
 
 }  // namespace prefix

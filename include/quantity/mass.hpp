@@ -6,24 +6,16 @@
 
 namespace q_mass
 {
-struct g : public Orderable<double>
+struct g : public prefix::none
 {
-    explicit constexpr g()
-        : Orderable<double>(none_value)
-    {
-    }
 };
 
 struct kg : public prefix::kilo
 {
 };
 
-struct mg : public Orderable<double>
+struct mg : public prefix::milli
 {
-    explicit constexpr mg()
-        : Orderable<double>(milli_value)
-    {
-    }
 };
 }
 
@@ -47,15 +39,14 @@ constexpr q_mg operator"" _q_mg(long double v)
 }
 
 // Mass conversions
-template <typename T>
-constexpr q_g to_q_g(const Quantity<TypeList<T>, TypeList<>>& v)
+template <typename Mass>
+constexpr q_g to_q_g(const Quantity<TypeList<Mass>, TypeList<>>& v)
 {
-    const T mass_unit;
-    return q_g{v.value * mass_unit.value};
+    return q_g{Mass::value * v.value};
 }
 
-template <typename T>
-constexpr q_mg to_q_mg(const Quantity<TypeList<T>, TypeList<>>& v)
+template <typename Mass>
+constexpr q_mg to_q_mg(const Quantity<TypeList<Mass>, TypeList<>>& v)
 {
     const q_g gram_unit = to_q_g(v);
     return q_mg{gram_unit.value * 1000.0};

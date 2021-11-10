@@ -26,6 +26,7 @@ struct fs : public prefix::femto
 
 struct min : public Orderable<double>
 {
+    static constexpr double value = 60;
     explicit constexpr min()
         : Orderable<double>(60.0)
     {
@@ -33,6 +34,7 @@ struct min : public Orderable<double>
 };
 struct hour : public Orderable<double>
 {
+    static constexpr double value = 3600;
     explicit constexpr hour()
         : Orderable<double>(3600)
     {
@@ -41,6 +43,7 @@ struct hour : public Orderable<double>
 
 struct day : public Orderable<double>
 {
+    static constexpr double value = 86400;
     explicit constexpr day()
         : Orderable<double>(86400)
     {
@@ -49,6 +52,7 @@ struct day : public Orderable<double>
 
 struct year : public Orderable<double>
 {
+    static constexpr double value = 31536000;
     explicit constexpr year()
         : Orderable<double>(31536000)
     {
@@ -111,25 +115,22 @@ constexpr q_year operator"" _q_year(long double v)
 }
 
 // Time conversions
-template <typename T>
-constexpr q_s to_q_s(const Quantity<TypeList<T>, TypeList<>>& v)
+template <typename Time>
+constexpr q_s to_q_s(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
-    const T time_unit;
-    return q_s{v.value * time_unit.value};
+    return q_s{v.value * Time::value};
 }
 
-template <typename T>
-constexpr q_ms to_q_ms(const Quantity<TypeList<T>, TypeList<>>& v)
+template <typename Time>
+constexpr q_ms to_q_ms(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
-    const T time_unit;
     const auto in_seconds = to_q_s(v);
     return q_ms{in_seconds.value * 1000.0};
 }
 
-template <typename T>
-constexpr q_min to_q_min(const Quantity<TypeList<T>, TypeList<>>& v)
+template <typename Time>
+constexpr q_min to_q_min(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
-    const T time_unit;
     const auto in_seconds = to_q_s(v);
     return q_min{in_seconds.value / 60.0};
 }

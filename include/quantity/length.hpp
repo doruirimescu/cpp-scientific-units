@@ -118,15 +118,14 @@ constexpr q_ym operator"" _q_ym(long double v)
 }
 
 // Length conversions
-template <typename T>
-constexpr q_m to_q_m(const Quantity<TypeList<T>, TypeList<>>& v)
+template <typename Length>
+constexpr q_m to_q_m(const Quantity<TypeList<Length>, TypeList<>>& v)
 {
-    const T length_unit;
-    return q_m{v.value * length_unit.value};
+    return q_m{v.value * Length::value};
 }
 
-template <typename T>
-constexpr q_km to_q_km(const Quantity<TypeList<T>, TypeList<>>& v)
+template <typename Length>
+constexpr q_km to_q_km(const Quantity<TypeList<Length>, TypeList<>>& v)
 {
     return q_km{to_q_m(v).value * 1000};
 }

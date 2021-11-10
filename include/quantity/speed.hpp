@@ -25,20 +25,17 @@ constexpr q_kmph operator"" _q_kmph(long double v)
 template <typename Length, typename Time>
 constexpr q_mps to_q_mps(const Quantity<TypeList<Length>, TypeList<Time>>& v)
 {
-    const Length length_unit;
-    const Time time_unit;
-    const double length_in_meters = length_unit.value;
-    const double time_in_seconds = time_unit.value;
+    const double length_in_meters = Length::value;
+    const double time_in_seconds = Time::value;
     return q_mps{v.value * length_in_meters / time_in_seconds};
 }
 
 template <typename Length, typename Time>
 constexpr q_kmph to_q_kmph(const Quantity<TypeList<Length>, TypeList<Time>>& v)
 {
-    const Length length_unit;
-    const Time time_unit;
-    const double length_in_meters = length_unit.value;
-    const double time_in_seconds = time_unit.value;
+
+    const double length_in_meters = Length::value;
+    const double time_in_seconds = Time::value;
     const double length_in_kilometers = length_in_meters / 1000.0;
     const double time_in_hours = time_in_seconds / 3600.0;
 
