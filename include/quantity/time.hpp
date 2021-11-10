@@ -109,7 +109,7 @@ template <typename Time>
 constexpr q_ms to_q_ms(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
     const auto in_seconds = to_q_s(v);
-    return q_ms{in_seconds.value * 1000.0};
+    return q_ms{in_seconds.value / q_time::ms::value};
 }
 
 template <typename Time>
@@ -124,4 +124,11 @@ constexpr q_hour to_q_hour(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
     const auto in_seconds = to_q_s(v);
     return q_hour{in_seconds.value / q_time::hour::value};
+}
+
+template <typename Time>
+constexpr q_hour to_q_day(const Quantity<TypeList<Time>, TypeList<>>& v)
+{
+    const auto in_seconds = to_q_s(v);
+    return q_hour{in_seconds.value / q_time::day::value};
 }

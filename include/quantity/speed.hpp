@@ -34,8 +34,9 @@ template <typename Length, typename Time>
 constexpr q_kmph to_q_kmph(const Quantity<TypeList<Length>, TypeList<Time>>& v)
 {
 
-    const double length_in_kilometers = to_q_km(Quantity<TypeList<Length>, TypeList<>>{}).value;
-    const double time_in_hours = to_q_hour(Quantity<TypeList<Time>, TypeList<>>{}).value;
-
+    const double length_in_meters = Length::value;
+    const double time_in_seconds = Time::value;
+    const double length_in_kilometers = length_in_meters / q_length::km::value;
+    const double time_in_hours = time_in_seconds / q_time::hour::value;
     return q_kmph{v.value * length_in_kilometers / time_in_hours};
 }

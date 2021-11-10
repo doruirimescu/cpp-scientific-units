@@ -68,6 +68,10 @@ using q_zm = Quantity<TypeList<q_length::zm>, TypeList<>>;
 using q_ym = Quantity<TypeList<q_length::ym>, TypeList<>>;
 
 // Length user-defined literals
+constexpr q_km operator"" _q_km(long double v)
+{
+    return q_km{static_cast<double>(v)};
+}
 constexpr q_dam operator"" _q_dam(long double v)
 {
     return q_dam{static_cast<double>(v)};
@@ -127,5 +131,5 @@ constexpr q_m to_q_m(const Quantity<TypeList<Length>, TypeList<>>& v)
 template <typename Length>
 constexpr q_km to_q_km(const Quantity<TypeList<Length>, TypeList<>>& v)
 {
-    return q_km{to_q_m(v).value * 1000};
+    return q_km{to_q_m(v).value / q_length::km::value};
 }

@@ -48,20 +48,29 @@ TEST(Time, to_q_x)
     static_assert(to_q_s(q_hour{1.0}).value == 3600.0);
     static_assert(to_q_hour(q_hour{1.0}).value == 1.0);
     static_assert(to_q_hour(q_hour{2.0}).value == 2.0);
-    EXPECT_FLOAT_EQ(to_q_hour(q_s{3600.0}).value, 1.0);
+    static_assert(to_q_hour(q_s{3600.0}).value == 1.0);
+    static_assert(to_q_day(q_hour{24.0}).value == 1.0);
 }
 
-// TEST(Speed, speed)
-// {
-//     constexpr q_mps speed = 1.0_q_m / 2.0_q_s;
-//     static_assert(speed.value == 0.5);
+TEST(Length, to_q_x)
+{
+    static_assert(to_q_km(1.0_q_km).value == 1.0);
+    static_assert(to_q_km(1000.0_q_m).value == 1.0);
+}
 
-//     constexpr q_mps speed_2 = speed * 2.0;
-//     static_assert(speed_2.value == 1.0);
+TEST(Speed, speed)
+{
+    static_assert(to_q_ms(1.0_q_ms).value == 1.0);
 
-//     constexpr q_mps speed3 = to_q_mps(3.6_q_kmph);
-//     EXPECT_FLOAT_EQ(speed3.value, 1.0);
+    constexpr q_mps speed = 1.0_q_m / 2.0_q_s;
+    static_assert(speed.value == 0.5);
 
-//     constexpr q_kmph speed4 = to_q_kmph(speed3);
-//     // EXPECT_FLOAT_EQ(speed4.value, 3.6);
-// }
+    constexpr q_mps speed_2 = speed * 2.0;
+    static_assert(speed_2.value == 1.0);
+
+    constexpr q_mps speed3 = to_q_mps(3.6_q_kmph);
+    EXPECT_FLOAT_EQ(speed3.value, 1.0);
+
+    constexpr q_kmph speed4 = to_q_kmph(1.0_q_mps);
+    EXPECT_FLOAT_EQ(speed4.value, 3.6);
+}
