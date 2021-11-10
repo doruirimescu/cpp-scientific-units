@@ -27,36 +27,20 @@ struct fs : public prefix::femto
 struct min : public Orderable<double>
 {
     static constexpr double value = 60;
-    explicit constexpr min()
-        : Orderable<double>(60.0)
-    {
-    }
 };
 struct hour : public Orderable<double>
 {
     static constexpr double value = 3600;
-    explicit constexpr hour()
-        : Orderable<double>(3600)
-    {
-    }
 };
 
 struct day : public Orderable<double>
 {
     static constexpr double value = 86400;
-    explicit constexpr day()
-        : Orderable<double>(86400)
-    {
-    }
 };
 
 struct year : public Orderable<double>
 {
     static constexpr double value = 31536000;
-    explicit constexpr year()
-        : Orderable<double>(31536000)
-    {
-    }
 };
 
 }  // namespace q_time
@@ -132,5 +116,12 @@ template <typename Time>
 constexpr q_min to_q_min(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
     const auto in_seconds = to_q_s(v);
-    return q_min{in_seconds.value / 60.0};
+    return q_min{in_seconds.value / q_time::min::value};
+}
+
+template <typename Time>
+constexpr q_hour to_q_hour(const Quantity<TypeList<Time>, TypeList<>>& v)
+{
+    const auto in_seconds = to_q_s(v);
+    return q_hour{in_seconds.value / q_time::hour::value};
 }

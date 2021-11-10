@@ -88,7 +88,7 @@ struct deca : public Orderable<double>
 
 struct none : public Orderable<double>
 {
-    static constexpr double value = pow(10, 0);
+    static constexpr double value = 1.0;
 };
 struct deci : public Orderable<double>
 {
