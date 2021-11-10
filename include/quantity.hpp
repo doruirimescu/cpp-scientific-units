@@ -29,6 +29,7 @@
 
 #pragma once
 #include <orderable.hpp>
+#include <are_types_same_if_instances_are_equal.hpp>
 template <class Numerator, class Denominator>
 struct Quantity : public Orderable<double>
 {
@@ -36,16 +37,35 @@ struct Quantity : public Orderable<double>
         : Orderable<double>::Orderable(value)
     {
     }
+
+    //copy constructor
+    template <typename N2, typename D2>
+    constexpr Quantity(const Quantity<N2, D2>& other)
+        : Orderable<double>::Orderable(other.value)
+    {
+        //This will throw compile-time error if the types are not the same
+        areTypesSameIfInstancesAreEqual<Numerator, N2>();
+        areTypesSameIfInstancesAreEqual<Denominator, D2>();
+    }
+
     const Numerator numerator{};
     const Denominator denominator{};
+
+    //operator ==
+    template <typename N2, typename D2>
+    constexpr bool operator==(const Quantity<N2, D2>& other) const
+    {
+        return value == other.value && numerator == other.numerator &&
+               denominator == other.denominator;
+    }
 
     template <typename N2, typename D2>
     constexpr decltype(auto) operator*(const Quantity<N2, D2>& other) const
     {
-        const auto num_sum = numerator + other.numerator;
-        const auto den_sum = denominator + other.denominator;
-        const auto num = num_sum - den_sum;
-        const auto den = den_sum - num_sum;
+        auto num_sum = numerator + other.numerator;
+        auto den_sum = denominator + other.denominator;
+        auto num = num_sum - den_sum;
+        auto den = den_sum - num_sum;
         return Quantity<decltype(num), decltype(den)>{this->value * other.value};
     }
 
@@ -59,6 +79,13 @@ struct Quantity : public Orderable<double>
     {
         auto new_quantity = *this;
         new_quantity.value = this->value + other.value;
+        return new_quantity;
+    }
+
+    constexpr Quantity<Numerator, Denominator> operator-(const Quantity<Numerator, Denominator>& other) const
+    {
+        auto new_quantity = *this;
+        new_quantity.value = this->value - other.value;
         return new_quantity;
     }
 };
