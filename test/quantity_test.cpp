@@ -1,13 +1,9 @@
 #include <gtest/gtest.h>
 #include <quantity.hpp>
 #include <test_types.hpp>
+#include <test_utils.hpp>
 
-template <typename ToCompare, typename T>
-constexpr bool compareTypes(const T& object)
-{
-    areTypesEqualIfInstancesAreEqual<ToCompare, T>();
-    return true;
-}
+
 class QuantityTest : public ::testing::Test
 {
 public:

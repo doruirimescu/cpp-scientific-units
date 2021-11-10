@@ -1,5 +1,7 @@
 #pragma once
 #include "prefix.hpp"
+#include <quantity.hpp>
+#include <type_list.hpp>
 
 enum class UnitNameLabel
 {
@@ -15,15 +17,14 @@ template <typename T, UnitNameLabel Name, typename Prefix = none_type>
 class Unit
 {
 private:
-    Prefix prefix_;
+    Prefix prefix_{};
     UnitNameLabel name_;
 
 public:
     T value_;
-    constexpr explicit Unit(T value)
-        : value_(value)
+    constexpr explicit Unit(const T value)
+        : value_(value), name_ (Name)
     {
-        name_ = Name;
     }
 
     T calculateValueNonPrefix() const
@@ -144,6 +145,19 @@ public:
         os << unit.value_;
         return os;
     }
+
+    //! Multiplication of units results in a quantity
+    template <typename T2, UnitNameLabel Name2, typename Prefix2>
+    constexpr decltype(auto) operator*(const Unit<T2, Name2, Prefix2>& other) const
+    {
+        using current_unit_type_list = TypeList<Unit<T, Name, Prefix>>;
+        using other_unit_type_list = TypeList<Unit<T2, Name2, Prefix2>>;
+
+        const auto current_quantity = Quantity<current_unit_type_list, TypeList<>>{this->value_};
+        const auto other_quantity = Quantity<other_unit_type_list, TypeList<>>{other.value_};
+
+        return current_quantity * other_quantity;
+    }
 };
 
 //Division operator double with second
@@ -168,47 +182,47 @@ using kilogram = Unit<double, UnitNameLabel::gram, kilo_type>;
 using milligram = Unit<double, UnitNameLabel::gram, milli_type>;
 
 //User-defined literals
-constexpr meter operator""_m(long double value)
+constexpr meter operator""_u_m(long double value)
 {
     return meter(value);
 }
 
-constexpr centimeter operator""_cm(long double value)
+constexpr centimeter operator""_u_cm(long double value)
 {
     return centimeter(value);
 }
 
-constexpr milimeter operator""_mm(long double value)
+constexpr milimeter operator""_u_mm(long double value)
 {
     return milimeter(value);
 }
 
-constexpr kilometer operator""_km(long double value)
+constexpr kilometer operator""_u_km(long double value)
 {
     return kilometer(value);
 }
 
-constexpr second operator""_s(long double value)
+constexpr second operator""_u_s(long double value)
 {
     return second(value);
 }
 
-constexpr ton operator""_T(long double value)
+constexpr ton operator""_u_T(long double value)
 {
     return ton(value);
 }
 
-constexpr kilogram operator""_kg(long double value)
+constexpr kilogram operator""_u_kg(long double value)
 {
     return kilogram(value);
 }
 
-constexpr gram operator""_g(long double value)
+constexpr gram operator""_u_g(long double value)
 {
     return gram(value);
 }
 
-constexpr milligram operator""_mg(long double value)
+constexpr milligram operator""_u_mg(long double value)
 {
     return milligram(value);
 }
