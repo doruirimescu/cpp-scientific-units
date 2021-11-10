@@ -82,7 +82,12 @@ struct s
 {
 };
 
-
+struct km
+{
+};
+struct h
+{
+};
 
 struct Area_m_m : public Orderable<double>
 {
