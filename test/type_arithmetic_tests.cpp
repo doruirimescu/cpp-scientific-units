@@ -2,6 +2,13 @@
 #include <test_types.hpp>
 #include <type_list.hpp>
 
+//! TYPELIST(T1) is same as TypeList<T1>{}, but is more readable. Using both here for testing.
+TEST(TypeList, check)
+{
+    //This does compile :)
+    TypeList<TypeList<TypeList<TypeList<TypeList<TypeList<TypeList<TypeList<m>>>>>>>> tl{};
+}
+
 TEST(TypeList, equality)
 {
     static_assert(TypeList<>{} == TypeList<>{}, "Empty list equality");
@@ -63,7 +70,7 @@ TEST(TypeList, subtraction)
     static_assert(TYPELIST() + TYPELIST(s) - TYPELIST() == TYPELIST(s));
     static_assert(TYPELIST() + TYPELIST(s) - TYPELIST() == TYPELIST(s));
     static_assert(TypeList<s>{} - TypeList<>{} == TYPELIST(s));
-    static_assert(TypeList<m,m>{} - TypeList<>{} == TypeList<m,m>{}, "");
+    static_assert(TypeList<m, m>{} - TypeList<>{} == TypeList<m, m>{}, "");
 }
 
 TEST(TypeList, removeType)

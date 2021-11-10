@@ -1,18 +1,18 @@
 #include <gtest/gtest.h>
 #include <test_types.hpp>
-#include <are_types_same_if_instances_are_equal.hpp>
+#include <are_types_equal_if_instances_are_equal.hpp>
 
-TEST(areTypesSameIfInstancesAreEqual, same_types)
+TEST(areTypesEqualIfInstancesAreEqual, same_types)
 {
-    areTypesSameIfInstancesAreEqual<int, int>();
+    areTypesEqualIfInstancesAreEqual<int, int>();
 }
 
-TEST(areTypesSameIfInstancesAreEqual, different_types)
+TEST(areTypesEqualIfInstancesAreEqual, different_types)
 {
-    areTypesSameIfInstancesAreEqual<TypeList<T1, T2>, TypeList<T2, T1>>();
+    areTypesEqualIfInstancesAreEqual<TypeList<T1, T2>, TypeList<T2, T1>>();
 }
 
-// TEST(areTypesSameIfInstancesAreEqual, static_assertion_fails_when_uncommented)
+// TEST(areTypesEqualIfInstancesAreEqual, static_assertion_fails_when_uncommented)
 // {
-//     areTypesSameIfInstancesAreEqual<TypeList<T1, T2>, TypeList<T2>>() ==false;
+//     areTypesEqualIfInstancesAreEqual<TypeList<T1, T2>, TypeList<T2>>() ==false;
 // }

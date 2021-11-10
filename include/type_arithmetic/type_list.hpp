@@ -128,4 +128,5 @@ struct TypeList
     }
 };
 
+//! TYPELIST(T1) is same as TypeList<T1>{}, but is more readable. Using both here for testing.
 #define TYPELIST(...) TypeList<__VA_ARGS__>{}

@@ -2,12 +2,26 @@
 #include <quantity.hpp>
 #include <test_types.hpp>
 
+class QuantityTest : public ::testing::Test
+{
+public:
+    using unitless = Quantity<TypeList<>, TypeList<>>;
+    using mass = Quantity<TypeList<kg>, TypeList<>>;
+    using acceleration = Quantity<TypeList<m>, TypeList<s, s>>;
+    using force = Quantity<TypeList<m, kg>, TypeList<s, s>>;
+    using velocity = Quantity<TypeList<m>, TypeList<s>>;
+    using time = Quantity<TypeList<s>, TypeList<>>;
+    using distance = Quantity<TypeList<m>, TypeList<>>;
+    using frequency = Quantity<TypeList<>, TypeList<s>>;
+    using energy = decltype(force{} * distance{});
+};
+
 TEST(Quantity, multiplication_1)
 {
     constexpr Quantity<TypeList<m, m>, TypeList<>> square_meter{10};
-    constexpr Quantity<TypeList<>, TypeList<s>> hertz{1};
+    constexpr Quantity<TypeList<>, TypeList<s>> frequency{1};
 
-    constexpr auto result = square_meter * hertz;
+    constexpr auto result = square_meter * frequency;
     static_assert(result.numerator == TYPELIST(m, m));
     static_assert(result.denominator == TYPELIST(s));
     EXPECT_EQ(result.value, 10);
@@ -104,31 +118,43 @@ TEST(Quantity, subtraction_2)
 }
 
 template <typename ToCompare, typename T>
-constexpr bool compareTypes(const T& t)
+constexpr bool compareTypes(const T& object)
 {
-    return std::is_same<ToCompare, T>::value;
+    areTypesEqualIfInstancesAreEqual<ToCompare, T>();
+    return true;
 }
-TEST(Quantity, general)
+TEST_F(QuantityTest, general)
 {
-    using mass = Quantity<TypeList<kg>, TypeList<>>;
-    using acceleration = Quantity<TypeList<m>, TypeList<s, s>>;
-    using force = Quantity<TypeList<m, kg>, TypeList<s, s>>;
-
     constexpr mass object_weight{1000};
     constexpr acceleration gravitational_acceleration{9.81};
-
-    std::string printout = "LAL BAL";
-
-    static_assert(compareTypes<double>(1.0));
-    static_assert(compareTypes<mass>(object_weight));
 
     constexpr auto result = object_weight * gravitational_acceleration;
     static_assert(result.numerator == TYPELIST(kg, m));
     static_assert(result.denominator == TYPELIST(s, s));
+    static_assert(compareTypes<force>(result));
+
+    velocity vel = distance{30} / time{1};
+
+    constexpr energy potential_energy = mass{10} * distance{10} * acceleration{9.81};
+    static_assert(potential_energy.value == 10 * 10 * 9.81);
+
+    constexpr energy kinetic_energy = mass{10} * velocity{10} * velocity{10} / 2.0;
+    static_assert(kinetic_energy.value == 10 * 10 * 10 / 2.0);
+
+    constexpr auto work = potential_energy + kinetic_energy + force{10} * distance{10};
+    static_assert(work.value == 10 * 10 * 9.81 + 10 * 10 * 10 / 2.0 + 10 * 10);
+    static_assert(compareTypes<energy>(work));
 
 
-    force n = object_weight* gravitational_acceleration ;
-    //static_assert(compareTypes<force>(n));
+}
 
-    //static_assert(std::is_same<decltype(object_weight * gravitational_acceleration), force>::value == true);
+TEST_F(QuantityTest, uncomment_each_to_see_compilation_error)
+{
+    //velocity vel1 = distance{30} * time{1};
+    velocity vel2 = distance{30} / time{1};
+    //velocity vel3 = time{1} / distance{1};
+
+    frequency one_hz = unitless{1} / time{1};
+
+    //frequency fail_hz = 1/time{2};
 }

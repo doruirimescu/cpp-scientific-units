@@ -29,12 +29,16 @@
 
 #pragma once
 #include <orderable.hpp>
-#include <are_types_same_if_instances_are_equal.hpp>
+#include <are_types_equal_if_instances_are_equal.hpp>
 template <class Numerator, class Denominator>
 struct Quantity : public Orderable<double>
 {
     constexpr explicit Quantity(const double value)
         : Orderable<double>::Orderable(value)
+    {
+    }
+    constexpr explicit Quantity()
+        : Orderable<double>::Orderable(0.0)
     {
     }
 
@@ -43,9 +47,9 @@ struct Quantity : public Orderable<double>
     constexpr Quantity(const Quantity<N2, D2>& other)
         : Orderable<double>::Orderable(other.value)
     {
-        //This will throw compile-time error if the types are not the same
-        areTypesSameIfInstancesAreEqual<Numerator, N2>();
-        areTypesSameIfInstancesAreEqual<Denominator, D2>();
+        //This will throw compile-time error if the types' instances are not the same
+        areTypesEqualIfInstancesAreEqual<Numerator, N2>();
+        areTypesEqualIfInstancesAreEqual<Denominator, D2>();
     }
 
     const Numerator numerator{};
@@ -55,8 +59,7 @@ struct Quantity : public Orderable<double>
     template <typename N2, typename D2>
     constexpr bool operator==(const Quantity<N2, D2>& other) const
     {
-        return value == other.value && numerator == other.numerator &&
-               denominator == other.denominator;
+        return value == other.value && numerator == other.numerator && denominator == other.denominator;
     }
 
     template <typename N2, typename D2>
@@ -69,10 +72,24 @@ struct Quantity : public Orderable<double>
         return Quantity<decltype(num), decltype(den)>{this->value * other.value};
     }
 
+    constexpr Quantity<Numerator, Denominator> operator*(const double scalar) const
+    {
+        auto new_quantity = *this;
+        new_quantity.value *= scalar;
+        return (new_quantity);
+    }
+
     template <typename N2, typename D2>
     constexpr decltype(auto) operator/(const Quantity<N2, D2>& other) const
     {
         return (*this) * Quantity<D2, N2>{1.0 / other.value};
+    }
+
+    constexpr Quantity<Numerator, Denominator> operator/(const double scalar) const
+    {
+        auto new_quantity = *this;
+        new_quantity.value /= scalar;
+        return (new_quantity);
     }
 
     constexpr Quantity<Numerator, Denominator> operator+(const Quantity<Numerator, Denominator>& other) const
