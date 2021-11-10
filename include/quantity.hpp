@@ -62,6 +62,7 @@ struct Quantity : public Orderable<double>
         return value == other.value && numerator == other.numerator && denominator == other.denominator;
     }
 
+    //Multiplication of quantities
     template <typename N2, typename D2>
     constexpr decltype(auto) operator*(const Quantity<N2, D2>& other) const
     {
@@ -72,6 +73,7 @@ struct Quantity : public Orderable<double>
         return Quantity<decltype(num), decltype(den)>{this->value * other.value};
     }
 
+    //Multiplication by scalar
     constexpr Quantity<Numerator, Denominator> operator*(const double scalar) const
     {
         auto new_quantity = *this;
@@ -85,6 +87,7 @@ struct Quantity : public Orderable<double>
         return (*this) * Quantity<D2, N2>{1.0 / other.value};
     }
 
+    //Division by scalar
     constexpr Quantity<Numerator, Denominator> operator/(const double scalar) const
     {
         auto new_quantity = *this;

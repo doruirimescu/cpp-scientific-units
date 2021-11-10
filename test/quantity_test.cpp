@@ -2,6 +2,12 @@
 #include <quantity.hpp>
 #include <test_types.hpp>
 
+template <typename ToCompare, typename T>
+constexpr bool compareTypes(const T& object)
+{
+    areTypesEqualIfInstancesAreEqual<ToCompare, T>();
+    return true;
+}
 class QuantityTest : public ::testing::Test
 {
 public:
@@ -97,6 +103,15 @@ TEST(Quantity, addition_2)
     static_assert(result.denominator == TYPELIST(m));
 }
 
+TEST_F(QuantityTest, addition_3)
+{
+    constexpr auto result = distance{5} + distance{10};
+    static_assert(result.value == 15);
+    static_assert(result.numerator == TYPELIST(m));
+    static_assert(result.denominator == TYPELIST());
+    static_assert(compareTypes<distance>(result));
+}
+
 TEST(Quantity, subtraction_1)
 {
     constexpr Quantity<TypeList<m>, TypeList<>> left{1};
@@ -117,12 +132,6 @@ TEST(Quantity, subtraction_2)
     static_assert(result.denominator == TYPELIST());
 }
 
-template <typename ToCompare, typename T>
-constexpr bool compareTypes(const T& object)
-{
-    areTypesEqualIfInstancesAreEqual<ToCompare, T>();
-    return true;
-}
 TEST_F(QuantityTest, general)
 {
     constexpr mass object_weight{1000};
@@ -144,8 +153,6 @@ TEST_F(QuantityTest, general)
     constexpr auto work = potential_energy + kinetic_energy + force{10} * distance{10};
     static_assert(work.value == 10 * 10 * 9.81 + 10 * 10 * 10 / 2.0 + 10 * 10);
     static_assert(compareTypes<energy>(work));
-
-
 }
 
 TEST_F(QuantityTest, uncomment_each_to_see_compilation_error)
@@ -157,4 +164,7 @@ TEST_F(QuantityTest, uncomment_each_to_see_compilation_error)
     frequency one_hz = unitless{1} / time{1};
 
     //frequency fail_hz = 1/time{2};
+
+    //distance{2} + time{2};
+    distance{2} + distance{3};
 }
