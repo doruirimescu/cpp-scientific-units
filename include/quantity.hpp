@@ -22,7 +22,6 @@
  *
  * @file   quantity.hpp
  * @author Doru Irimescu
- * @date   09-11-2021
  *
  * @brief
  * This file describes a quantity template.
