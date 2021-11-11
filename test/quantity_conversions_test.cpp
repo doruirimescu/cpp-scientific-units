@@ -11,7 +11,7 @@ TEST(Time, to_q_s)
     constexpr auto seconds = to_q_s(h);
     static_assert(seconds.value == 3600);
 
-    static_assert(q_ms{}.value == 0);
+    static_assert(q_ms{}.value == 1);
     static_assert(to_q_s(q_ms{100.0}).value == 0.1);
 
     static_assert(to_q_ms(q_ms{100.0}).value == 100.0);
@@ -130,6 +130,24 @@ TEST(Length, to_q_length)
     EXPECT_FLOAT_EQ(to_q_length<q_length::cm>(1.0_q_m).value, 100.0);
     EXPECT_FLOAT_EQ(to_q_length<q_length::mm>(1.0_q_cm).value, 10.0);
     EXPECT_FLOAT_EQ(to_q_length<q_length::km>(1000.0_q_m).value, 1.0);
+}
+
+TEST(ConvertToAnyQuantity, to_any_q)
+{
+    // double result = static_cast<q_m>(1.0_q_m).value;
+    // EXPECT_FLOAT_EQ(result, 1.0);
+
+    auto result = to_any_q<q_km>(1.0_q_m).value;
+    EXPECT_FLOAT_EQ(result, 0.001);
+
+    result = to_any_q<q_m>(1.0_q_km).value;
+    EXPECT_FLOAT_EQ(result, 1000.0);
+
+    // result = to_any_q<q_g>(1.0_q_kg).value;
+    // EXPECT_FLOAT_EQ(result, 1000.0);
+
+    // result = to_any_q<q_mps>(1.0_q_kmph).value;
+    // EXPECT_FLOAT_EQ(result, 1/3.6);
 }
 
 TEST(Length, to_q_mass)

@@ -43,17 +43,27 @@ struct T7
 
 struct m
 {
+    static constexpr int id = 31;
+    static constexpr double value = 1;
 };
 struct kg
 {
+    static constexpr int id = 31;
+    static constexpr double value = 1000;
 };
 struct s
 {
+    static constexpr int id = 32;
+    static constexpr double value = 1;
 };
 
 struct km
 {
+    static constexpr int id = 31;
+    static constexpr double value = 1000;
 };
 struct h
 {
+    static constexpr int id = 32;
+    static constexpr double value = 3600;
 };

@@ -30,6 +30,17 @@
 #pragma once
 #include <orderable.hpp>
 #include <are_types_equal_if_instances_are_equal.hpp>
+
+template <typename To, typename From>
+constexpr To to_any_q(const From& from)
+{
+    const double new_numerator = qConvertLists(From::numerator, To::numerator);
+    const double new_denominator = qConvertLists(From::denominator, To::denominator);
+
+    const double value = from.value * new_numerator / new_denominator;
+    return To{value};
+}
+
 template <class Numerator, class Denominator>
 struct Quantity : public Orderable<double>
 {
@@ -38,7 +49,7 @@ struct Quantity : public Orderable<double>
     {
     }
     constexpr explicit Quantity()
-        : Orderable<double>::Orderable(0.0)
+        : Orderable<double>::Orderable(1.0)
     {
     }
 
@@ -66,8 +77,8 @@ struct Quantity : public Orderable<double>
     template <typename N2, typename D2>
     constexpr decltype(auto) operator*(const Quantity<N2, D2>& other) const
     {
-        auto num_sum = numerator + other.numerator;
-        auto den_sum = denominator + other.denominator;
+        const auto num_sum = numerator + other.numerator;
+        const auto den_sum = denominator + other.denominator;
         auto num = num_sum - den_sum;
         auto den = den_sum - num_sum;
         return Quantity<decltype(num), decltype(den)>{this->value * other.value};

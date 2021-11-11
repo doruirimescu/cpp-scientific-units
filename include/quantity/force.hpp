@@ -69,26 +69,3 @@ constexpr void to_q_force(const Quantity<TypeList<FromMass, FromLength>, TypeLis
     const double new_force = mass * length / (time1 * time2);
     to.value = new_force;
 }
-
-// template <typename To, typename FromMass, typename FromLength, typename FromTime1, typename FromTime2>
-// constexpr void to_q_force(const Quantity<TypeList<FromMass, FromLength>, TypeList<FromTime1, FromTime2>>& from)
-// {
-//     const double mass = to_q_length<ToMass>(Quantity<TypeList<FromMass>, TypeList<>>{1}).value;
-//     const double length = to_q_length<ToLength>(Quantity<TypeList<FromLength>, TypeList<>>{1}).value;
-//     const double time1 = to_q_time<ToTime1>(Quantity<TypeList<FromTime1>, TypeList<>>{1}).value;
-//     const double time2 = to_q_time<ToTime2>(Quantity<TypeList<FromTime2>, TypeList<>>{1}).value;
-//     const double new_force = mass * length / (time1 * time2);
-//     to.value = new_force;
-// }
-
-template <typename Q>
-void doQuantity()
-{
-    Q::numerator;
-    Q::denominator;
-}
-
-void use()
-{
-    doQuantity<Quantity<TypeList<int>, TypeList<>>>();
-}

@@ -140,6 +140,7 @@ struct TypeList
 template <int id, typename RightArg, typename... RightArgs>
 constexpr decltype(auto) getTypeById(const TypeList<RightArg, RightArgs...>& list)
 {
+    static_assert(RightArg::id, "Type RightArg does not have an id");
     const auto selected_list = std::conditional_t<RightArg::id == id, RightArg, decltype(getTypeById<id>(TypeList<RightArgs...>{}))>{};
     return selected_list;
 }
@@ -147,6 +148,7 @@ constexpr decltype(auto) getTypeById(const TypeList<RightArg, RightArgs...>& lis
 template <int id, typename RightArg>
 constexpr decltype(auto) getTypeById(const TypeList<RightArg>& list)
 {
+    static_assert(RightArg::id, "Type RightArg does not have an id");
     const auto selected_list = std::conditional_t<RightArg::id == id, RightArg, TypeList<>>{};
     static_assert(std::is_same<decltype(selected_list), TypeList<>>::value == false);
     return selected_list;
@@ -163,7 +165,7 @@ constexpr double qConvertLists(const TypeList<LeftArgs...>& left, const TypeList
 template <typename LeftArg, typename... LeftArgs, typename RightArg, typename... RightArgs>
 constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const TypeList<RightArg, RightArgs...>& right)
 {
-
+    static_assert(LeftArg::id, "Type RightArg does not have an id");
     const auto type = getTypeById<LeftArg::id>(right);
 
     static_assert(std::is_same<decltype(type), TypeList<>>::value == false, "Conversion cannot be performed");
@@ -183,6 +185,11 @@ constexpr double convertLists(const TypeList<LeftArgs...>& left, const TypeList<
 }
 template <typename... RightArgs>
 constexpr double convertLists(const TypeList<>& left, const TypeList<RightArgs...>& right)
+{
+    return 1.0;
+}
+
+constexpr double convertLists(const TypeList<>& left, const TypeList<>& right)
 {
     return 1.0;
 }

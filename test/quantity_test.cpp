@@ -141,13 +141,13 @@ TEST_F(QuantityTest, general)
     velocity vel = distance{30} / time{1};
 
     constexpr energy potential_energy = mass{10} * distance{10} * acceleration{9.81};
-    static_assert(potential_energy.value == 10 * 10 * 9.81);
+    EXPECT_FLOAT_EQ(potential_energy.value, 10 * 10 * 9.81);
 
     constexpr energy kinetic_energy = mass{10} * velocity{10} * velocity{10} / 2.0;
-    static_assert(kinetic_energy.value == 10 * 10 * 10 / 2.0);
+    EXPECT_FLOAT_EQ(kinetic_energy.value , 10 * 10 * 10 / 2.0);
 
     constexpr auto work = potential_energy + kinetic_energy + force{10} * distance{10};
-    static_assert(work.value == 10 * 10 * 9.81 + 10 * 10 * 10 / 2.0 + 10 * 10);
+    EXPECT_FLOAT_EQ(work.value , 10 * 10 * 9.81 + 10 * 10 * 10 / 2.0 + 10 * 10);
     static_assert(compareTypes<energy>(work));
 }
 
