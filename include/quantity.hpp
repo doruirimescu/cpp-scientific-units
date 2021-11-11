@@ -52,8 +52,8 @@ struct Quantity : public Orderable<double>
         areTypesEqualIfInstancesAreEqual<Denominator, D2>();
     }
 
-    const Numerator numerator{};
-    const Denominator denominator{};
+    static const Numerator numerator;
+    static const Denominator denominator;
 
     //operator ==
     template <typename N2, typename D2>

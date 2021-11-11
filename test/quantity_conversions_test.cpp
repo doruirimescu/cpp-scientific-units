@@ -50,11 +50,16 @@ TEST(Time, to_q_x)
     static_assert(to_q_hour(q_hour{2.0}).value == 2.0);
     static_assert(to_q_hour(q_s{3600.0}).value == 1.0);
     static_assert(to_q_day(q_hour{24.0}).value == 1.0);
+
+    auto result = to_q_time<q_time::min>(q_hour{1.0}).value;
+    EXPECT_FLOAT_EQ(result, 60.0);
+
+    result = to_q_time<q_time::s>(q_min{1.0}).value;
+    EXPECT_FLOAT_EQ(result, 60.0);
 }
 
 TEST(Length, to_q_x)
 {
-
     static_assert(to_q_length<q_length::km>(1.0_q_km).value == 1.0);
     static_assert(to_q_length<q_length::km>(1000.0_q_m).value == 1.0);
 }
@@ -98,7 +103,21 @@ TEST(Force, to_q_N_2)
     constexpr auto some_value_convertible_to_force = mass * length / (time_1 * time_2);
     constexpr q_N newtons = to_q_N(some_value_convertible_to_force);
 
-    EXPECT_FLOAT_EQ(newtons.value, (to_q_mass<q_mass::kg>(mass) * to_q_length<q_length::m>(length) / (to_q_s(time_1) * to_q_s(time_2))).value) << "WDF";
+    EXPECT_FLOAT_EQ(
+        newtons.value,
+        (to_q_mass<q_mass::kg>(mass) * to_q_length<q_length::m>(length) / (to_q_s(time_1) * to_q_s(time_2))).value)
+        << "WDF";
+}
+TEST(Force, to_q_force)
+{
+    auto result = to_q_force<q_mass::kg, q_length::m, q_time::s, q_time::s>(1.0_q_N).value;
+    EXPECT_FLOAT_EQ(result, 1.0);
+    result = to_q_force<q_mass::g, q_length::m, q_time::s, q_time::s>(1.0_q_N).value;
+    EXPECT_FLOAT_EQ(result, 1000.0);
+    result = to_q_force<q_mass::kg, q_length::mm, q_time::s, q_time::s>(1.0_q_N).value;
+    EXPECT_FLOAT_EQ(result, 1000.0);
+    result = to_q_force<q_mass::kg, q_length::m, q_time::min, q_time::s>(1.0_q_N).value;
+    EXPECT_FLOAT_EQ(result, 60.0);
 }
 TEST(Conversions, uncomment_to_fail)
 {
