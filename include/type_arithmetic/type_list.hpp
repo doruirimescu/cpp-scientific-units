@@ -149,10 +149,10 @@ template <int id, typename RightArg>
 constexpr decltype(auto) getTypeById(const TypeList<RightArg>& list)
 {
     static_assert(RightArg::id, "Type RightArg does not have an id");
-    const auto selected_list = std::conditional_t<RightArg::id == id, RightArg, TypeList<>>{};
-    static_assert(std::is_same<decltype(selected_list), TypeList<>>::value == false);
+    auto selected_list = std::conditional_t<RightArg::id == id, RightArg, TypeList<>>{};
     return selected_list;
 }
+
 
 //! This works only for types which have a static int id and a double value
 template <typename...LeftArgs, typename...RightArgs>
@@ -168,8 +168,8 @@ constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const 
     static_assert(LeftArg::id, "Type RightArg does not have an id");
     auto type = getTypeById<LeftArg::id>(right);
 
+    //If the type is different than TypeList<>, it will assert as true and continue
     static_assert(std::is_same<decltype(type), TypeList<>>::value == false, "Conversion cannot be performed");
-    static_assert(std::is_same<decltype(type), const TypeList<>>::value == false, "Conversion cannot be performed");
 
     const auto right_with_type_removed = removeNthOccurenceOfTypeFromTypeList<1, decltype(type)>(right);
 
