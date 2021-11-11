@@ -11,6 +11,6 @@ constexpr Quantity<TypeList<ToType>, TypeList<>> to_q_(const Quantity<TypeList<F
     const auto from_tl = TypeList<FromType>{};
     const auto to_tl = TypeList<ToType>{};
     const double from_as_to = qConvertLists(from_tl, to_tl);
-    return Quantity<TypeList<ToType>, TypeList<>>{from.value * FromType::value / from_as_to};
+    return Quantity<TypeList<ToType>, TypeList<>>{from.value * from_as_to};
 }
 }

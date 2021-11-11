@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <test_types.hpp>
 #include <type_list.hpp>
+#include <length.hpp>
+#include <time.hpp>
 
 //! TYPELIST(T1) is same as TypeList<T1>{}, but is more readable. Using both here for testing.
 TEST(TypeList, check)
@@ -140,10 +142,15 @@ TEST(TestType, variousExpressions)
 
 TEST(TypeList, convertLists)
 {
-    EXPECT_FLOAT_EQ(qConvertLists(TYPELIST(T1), TYPELIST(T4)), 4.0);
-    EXPECT_FLOAT_EQ(qConvertLists(TypeList<T1, T2>{}, TypeList<T4, T5>{}), 20.0);
-    EXPECT_FLOAT_EQ(qConvertLists(TypeList<T2, T1>{}, TypeList<T4, T5>{}), 20.0);
+    EXPECT_FLOAT_EQ(qConvertLists(TYPELIST(T1), TYPELIST(T4)), 0.5);
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<T1, T2>{}, TypeList<T4, T5>{}), 4.0 / 20.0);
+
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<T2, T1>{}, TypeList<T4, T5>{}), 4.0 / 20.0);
+
     EXPECT_FLOAT_EQ(qConvertLists(TypeList<T1>{}, TypeList<T1>{}), 1.0);
+
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<q_time::hour>{}, TypeList<q_time::min>{}), 60.0);
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<q_time::ms>{}, TypeList<q_time::s>{}), 0.001);
 
     //Uncomment for it to fail
     // EXPECT_FLOAT_EQ(convertLists(TYPELIST(T1, T3), TYPELIST(T4)), 4.0);

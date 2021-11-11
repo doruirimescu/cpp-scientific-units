@@ -105,8 +105,7 @@ TEST(Force, to_q_N_2)
 
     EXPECT_FLOAT_EQ(
         newtons.value,
-        (to_q_mass<q_mass::kg>(mass) * to_q_length<q_length::m>(length) / (to_q_s(time_1) * to_q_s(time_2))).value)
-        << "WDF";
+        (to_q_mass<q_mass::kg>(mass) * to_q_length<q_length::m>(length) / (to_q_s(time_1) * to_q_s(time_2))).value);
 }
 TEST(Force, to_q_force)
 {

@@ -169,10 +169,11 @@ constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const 
     static_assert(std::is_same<decltype(type), TypeList<>>::value == false, "Conversion cannot be performed");
     static_assert(std::is_same<decltype(type), const TypeList<>>::value == false, "Conversion cannot be performed");
 
-    const double type_value = decltype(type)::value;
-
     const auto right_with_type_removed = removeNthOccurenceOfTypeFromTypeList<1, decltype(type)>(right);
-    return type_value * convertLists(TypeList<LeftArgs...>{}, right_with_type_removed);
+
+    const double converted_value = LeftArg::value / decltype(type)::value;
+
+    return converted_value * convertLists(TypeList<LeftArgs...>{}, right_with_type_removed);
 }
 
 template <typename... LeftArgs>
