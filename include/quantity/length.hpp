@@ -3,6 +3,7 @@
 #include <type_list.hpp>
 #include <prefix.hpp>
 #include <id.hpp>
+#include <conversion.hpp>
 
 namespace q_length
 {
@@ -145,8 +146,5 @@ constexpr q_ym operator"" _q_ym(long double v)
 template <typename ToType, typename FromType>
 constexpr Quantity<TypeList<ToType>, TypeList<>> to_q_length(const Quantity<TypeList<FromType>, TypeList<>>& from)
 {
-    const auto from_tl = TypeList<FromType>{};
-    const auto to_tl = TypeList<ToType>{};
-    const double from_as_to = qConvertLists(from_tl, to_tl);
-    return Quantity<TypeList<ToType>, TypeList<>>{from.value * FromType::value / from_as_to};
+    return conversion::to_q_<ToType>(from);
 }

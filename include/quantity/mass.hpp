@@ -2,22 +2,25 @@
 #include <quantity.hpp>
 #include <type_list.hpp>
 #include <prefix.hpp>
+#include <id.hpp>
+#include <conversion.hpp>
 
 namespace q_mass
 {
-struct g : public prefix::none
+struct mass
 {
-    static constexpr double mass = value;
+    static constexpr int id = MASS;
+};
+struct g : public prefix::none, public mass
+{
 };
 
-struct kg : public prefix::kilo
+struct kg : public prefix::kilo, public mass
 {
-    static constexpr double mass = value;
 };
 
-struct mg : public prefix::milli
+struct mg : public prefix::milli, public mass
 {
-    static constexpr double mass = value;
 };
 }  // namespace q_mass
 
@@ -41,22 +44,8 @@ constexpr q_mg operator"" _q_mg(long double v)
 }
 
 // Mass conversions
-template <typename Mass>
-constexpr q_g to_q_g(const Quantity<TypeList<Mass>, TypeList<>>& v)
+template <typename ToType, typename FromType>
+constexpr Quantity<TypeList<ToType>, TypeList<>> to_q_mass(const Quantity<TypeList<FromType>, TypeList<>>& from)
 {
-    return q_g{Mass::mass * v.value};
-}
-
-template <typename Mass>
-constexpr q_mg to_q_mg(const Quantity<TypeList<Mass>, TypeList<>>& v)
-{
-    const q_g gram_unit = to_q_g(v);
-    return q_mg{gram_unit.value * 1000.0};
-}
-
-template <typename Mass>
-constexpr q_kg to_q_kg(const Quantity<TypeList<Mass>, TypeList<>>& v)
-{
-    const double gram_unit = Mass::mass;
-    return q_kg{v.value * gram_unit / q_mass::kg::mass};
+    return conversion::to_q_<ToType>(from);
 }

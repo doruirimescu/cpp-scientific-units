@@ -36,11 +36,11 @@ TEST(Time, to_q_min)
     static_assert(to_q_min(q_ms{1000.0}).value == 1 / 60.0);
 }
 
-TEST(Mass, to_q_g)
+TEST(Mass, to_grams)
 {
-    static_assert(to_q_g(q_g{1.0}).value == 1.0);
-    static_assert(to_q_g(q_kg{1.0}).value == 1000.0);
-    static_assert(to_q_g(q_mg{1000.0}).value == 1.0);
+    static_assert(to_q_mass<q_mass::g>(q_g{1.0}).value == 1.0);
+    static_assert(to_q_mass<q_mass::g>(q_kg{1.0}).value == 1000.0);
+    static_assert(to_q_mass<q_mass::g>(q_mg{1000.0}).value == 1.0);
 }
 
 TEST(Time, to_q_x)
@@ -72,8 +72,11 @@ TEST(Speed, speed)
     constexpr q_mps speed3 = to_q_mps(3.6_q_kmph);
     EXPECT_FLOAT_EQ(speed3.value, 1.0);
 
-    constexpr q_kmph speed4 = to_q_kmph(1.0_q_mps);
+    constexpr q_kmph speed4 = to_q_speed<q_length::km, q_time::hour>(1.0_q_mps);
     EXPECT_FLOAT_EQ(speed4.value, 3.6);
+
+    auto result = to_q_speed<q_length::m, q_time::hour>(0.5_q_mps + 0.5_q_mps).value;
+    EXPECT_FLOAT_EQ(result, 3600.0);
 }
 
 TEST(Force, to_q_N_1)
@@ -95,14 +98,12 @@ TEST(Force, to_q_N_2)
     constexpr auto some_value_convertible_to_force = mass * length / (time_1 * time_2);
     constexpr q_N newtons = to_q_N(some_value_convertible_to_force);
 
-    EXPECT_FLOAT_EQ(newtons.value, (to_q_kg(mass) * to_q_length<q_length::m>(length) / (to_q_s(time_1) * to_q_s(time_2))).value) << "WDF";
+    EXPECT_FLOAT_EQ(newtons.value, (to_q_mass<q_mass::kg>(mass) * to_q_length<q_length::m>(length) / (to_q_s(time_1) * to_q_s(time_2))).value) << "WDF";
 }
 TEST(Conversions, uncomment_to_fail)
 {
-    // to_q_kg(1.0_q_s);
-    // to_q_mg(1.0_q_s);
-    // to_q_mg(1.0_q_m);
     // to_q_s(1.0_q_m);
+    // static_assert(to_q_length<q_mass::kg>(100.0_q_m).value == 100.0);
 }
 
 TEST(Length, to_q_length)
@@ -111,4 +112,9 @@ TEST(Length, to_q_length)
     EXPECT_FLOAT_EQ(to_q_length<q_length::cm>(1.0_q_m).value, 100.0);
     EXPECT_FLOAT_EQ(to_q_length<q_length::mm>(1.0_q_cm).value, 10.0);
     EXPECT_FLOAT_EQ(to_q_length<q_length::km>(1000.0_q_m).value, 1.0);
+}
+
+TEST(Length, to_q_mass)
+{
+    static_assert(to_q_length<q_mass::kg>(1000.0_q_g).value == 1.0);
 }

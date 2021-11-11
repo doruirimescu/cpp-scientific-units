@@ -3,51 +3,58 @@
 #include <type_list.hpp>
 #include <prefix.hpp>
 #include <orderable.hpp>
+#include <conversion.hpp>
+#include <id.hpp>
 namespace q_time
 {
-struct s : public prefix::none
+struct time
+{
+    static constexpr int id = TIME;
+};
+
+struct s : public prefix::none, public time
 {
     static constexpr double time = value;
 };
-struct ms : public prefix::milli
+struct ms : public prefix::milli, public time
 {
     static constexpr double time = value;
 };
-struct us : public prefix::micro
+struct us : public prefix::micro, public time
 {
     static constexpr double time = value;
 };
-struct ns : public prefix::nano
+struct ns : public prefix::nano, public time
 {
     static constexpr double time = value;
 };
-struct ps : public prefix::pico
+struct ps : public prefix::pico, public time
 {
     static constexpr double time = value;
 };
-struct fs : public prefix::femto
+struct fs : public prefix::femto, public time
 {
     static constexpr double time = value;
 };
 
-struct min : public Orderable<double>
+struct min : public time
 {
     static constexpr double value = 60;
     static constexpr double time = value;
 };
-struct hour : public Orderable<double>
+struct hour : public time
 {
     static constexpr double value = 3600;
     static constexpr double time = value;
 };
 
-struct day : public Orderable<double>
+struct day : public time
 {
     static constexpr double value = 86400;
     static constexpr double time = value;
 };
 
-struct year : public Orderable<double>
+struct year : public time
 {
     static constexpr double value = 31536000;
     static constexpr double time = value;
@@ -143,4 +150,10 @@ constexpr q_hour to_q_day(const Quantity<TypeList<Time>, TypeList<>>& v)
 {
     const auto in_seconds = to_q_s(v);
     return q_hour{in_seconds.value / q_time::day::time};
+}
+
+template <typename ToType, typename FromType>
+constexpr Quantity<TypeList<ToType>, TypeList<>> to_q_time(const Quantity<TypeList<FromType>, TypeList<>>& from)
+{
+    return conversion::to_q_<ToType>(from);
 }
