@@ -140,8 +140,11 @@ TEST_F(QuantityTest, general)
 
     velocity vel = distance{30} / time{1};
 
-    constexpr energy potential_energy = mass{10} * distance{10} * acceleration{9.81};
+    constexpr auto potential_energy = mass{10} * distance{10} * acceleration{9.81};
     EXPECT_FLOAT_EQ(potential_energy.value, 10 * 10 * 9.81);
+
+    EXPECT_FLOAT_EQ(static_cast<energy>(potential_energy).value, 10*10*9.81);
+    static_assert(compareTypes<energy>(potential_energy));
 
     constexpr energy kinetic_energy = mass{10} * velocity{10} * velocity{10} / 2.0;
     EXPECT_FLOAT_EQ(kinetic_energy.value , 10 * 10 * 10 / 2.0);
@@ -153,14 +156,11 @@ TEST_F(QuantityTest, general)
 
 TEST_F(QuantityTest, uncomment_each_to_see_compilation_error)
 {
-    //velocity vel1 = distance{30} * time{1};
+    //!velocity vel1 = distance{30} * time{1};
     velocity vel2 = distance{30} / time{1};
-    //velocity vel3 = time{1} / distance{1};
-
+    //!velocity vel3 = time{1} / distance{1};
     frequency one_hz = unitless{1} / time{1};
-
-    //frequency fail_hz = 1/time{2};
-
-    //distance{2} + time{2};
+    //!frequency fail_hz = 1/time{2};
+    //!distance{2} + time{2};
     distance{2} + distance{3};
 }

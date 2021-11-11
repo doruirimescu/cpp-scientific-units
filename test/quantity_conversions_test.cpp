@@ -132,22 +132,31 @@ TEST(Length, to_q_length)
     EXPECT_FLOAT_EQ(to_q_length<q_length::km>(1000.0_q_m).value, 1.0);
 }
 
-TEST(ConvertToAnyQuantity, to_any_q)
+TEST(ConvertToAnyQuantity, static_cast)
 {
-    // double result = static_cast<q_m>(1.0_q_m).value;
-    // EXPECT_FLOAT_EQ(result, 1.0);
+    double result = static_cast<q_m>(1.0_q_m).value;
+    EXPECT_FLOAT_EQ(result, 1.0);
 
-    auto result = to_any_q<q_km>(1.0_q_m).value;
+    constexpr auto pot_energy = 10.0_q_kg * 10.0_q_m * 9.81_q_m/(1.0_q_s * 1.0_q_s);
+    auto pot_energy_value = pot_energy.value;
+
+    using energy = Quantity<TypeList<q_length::m, q_mass::kg, q_length::m>, TypeList<q_time::s, q_time::s>>;
+
+    constexpr energy conversion = pot_energy;
+    EXPECT_FLOAT_EQ(conversion.value, pot_energy_value);
+    EXPECT_FLOAT_EQ(pot_energy_value, 10.0*10.0*9.81/(1.0*1.0));
+
+    result = static_cast<q_km>(1.0_q_m).value;
     EXPECT_FLOAT_EQ(result, 0.001);
 
-    result = to_any_q<q_m>(1.0_q_km).value;
+    result = static_cast<q_m>(1.0_q_km).value;
     EXPECT_FLOAT_EQ(result, 1000.0);
 
-    // result = to_any_q<q_g>(1.0_q_kg).value;
-    // EXPECT_FLOAT_EQ(result, 1000.0);
+    result = static_cast<q_g>(1.0_q_kg).value;
+    EXPECT_FLOAT_EQ(result, 1000.0);
 
-    // result = to_any_q<q_mps>(1.0_q_kmph).value;
-    // EXPECT_FLOAT_EQ(result, 1/3.6);
+    result = static_cast<q_mps>(1.0_q_kmph).value;
+    EXPECT_FLOAT_EQ(result, 1/3.6);
 }
 
 TEST(Length, to_q_mass)

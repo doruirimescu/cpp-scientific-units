@@ -41,19 +41,20 @@ struct T7
     int value = 7;
 };
 
-struct m
-{
-    static constexpr int id = 31;
-    static constexpr double value = 1;
-};
 struct kg
 {
-    static constexpr int id = 31;
+    static constexpr int id = 30;
     static constexpr double value = 1000;
 };
 struct s
 {
     static constexpr int id = 32;
+    static constexpr double value = 1;
+};
+
+struct m
+{
+    static constexpr int id = 31;
     static constexpr double value = 1;
 };
 

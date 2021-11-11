@@ -53,14 +53,24 @@ struct Quantity : public Orderable<double>
     {
     }
 
-    //copy constructor
+    //copy assignment
     template <typename N2, typename D2>
-    constexpr Quantity(const Quantity<N2, D2>& other)
-        : Orderable<double>::Orderable(other.value)
+    constexpr Quantity& operator=(const Quantity<N2, D2>& other)
     {
         //This will throw compile-time error if the types' instances are not the same
         areTypesEqualIfInstancesAreEqual<Numerator, N2>();
         areTypesEqualIfInstancesAreEqual<Denominator, D2>();
+
+        this->value = other.value;
+        return *this;
+    }
+
+    //conversion operator
+    template <typename N2, typename D2>
+    constexpr operator Quantity<N2, D2>() const
+    {
+        //This will throw compile-time error if the types' instances are not the same
+        return to_any_q<Quantity<N2, D2>>(*this);
     }
 
     static const Numerator numerator;
