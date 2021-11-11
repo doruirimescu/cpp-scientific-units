@@ -166,7 +166,7 @@ template <typename LeftArg, typename... LeftArgs, typename RightArg, typename...
 constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const TypeList<RightArg, RightArgs...>& right)
 {
     static_assert(LeftArg::id, "Type RightArg does not have an id");
-    const auto type = getTypeById<LeftArg::id>(right);
+    auto type = getTypeById<LeftArg::id>(right);
 
     static_assert(std::is_same<decltype(type), TypeList<>>::value == false, "Conversion cannot be performed");
     static_assert(std::is_same<decltype(type), const TypeList<>>::value == false, "Conversion cannot be performed");

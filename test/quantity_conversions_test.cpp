@@ -107,15 +107,21 @@ TEST(Force, to_q_N_2)
         newtons.value,
         (to_q_mass<q_mass::kg>(mass) * to_q_length<q_length::m>(length) / (to_q_s(time_1) * to_q_s(time_2))).value);
 }
-TEST(Force, to_q_force)
+TEST(Force, conversions)
 {
-    auto result = to_q_force<q_mass::kg, q_length::m, q_time::s, q_time::s>(1.0_q_N).value;
+    auto result = static_cast<q_N>(1.0_q_N).value;
     EXPECT_FLOAT_EQ(result, 1.0);
-    result = to_q_force<q_mass::g, q_length::m, q_time::s, q_time::s>(1.0_q_N).value;
+
+    result = static_cast<QUANTITY(NUMERATOR(q_mass::g, q_length::m), DENOMINATOR(q_time::s, q_time::s))>(1.0_q_N).value;
     EXPECT_FLOAT_EQ(result, 1000.0);
-    result = to_q_force<q_mass::kg, q_length::mm, q_time::s, q_time::s>(1.0_q_N).value;
+
+    result = static_cast<QUANTITY(NUMERATOR(q_mass::kg, q_length::mm), DENOMINATOR(q_time::s, q_time::s))>(1.0_q_N).value;
     EXPECT_FLOAT_EQ(result, 1000.0);
-    result = to_q_force<q_mass::kg, q_length::m, q_time::min, q_time::s>(1.0_q_N).value;
+
+    result = static_cast<Quantity<TypeList<q_length::m, q_mass::kg>, TypeList<q_time::s, q_time::s>>>(2.0_q_N).value;
+    EXPECT_FLOAT_EQ(result, 2.0);
+
+    result = static_cast<Quantity<TypeList<q_mass::kg, q_length::m>, TypeList<q_time::s, q_time::min>>>(1.0_q_N).value;
     EXPECT_FLOAT_EQ(result, 60.0);
 }
 TEST(Conversions, uncomment_to_fail)
@@ -137,14 +143,14 @@ TEST(ConvertToAnyQuantity, static_cast)
     double result = static_cast<q_m>(1.0_q_m).value;
     EXPECT_FLOAT_EQ(result, 1.0);
 
-    constexpr auto pot_energy = 10.0_q_kg * 10.0_q_m * 9.81_q_m/(1.0_q_s * 1.0_q_s);
+    constexpr auto pot_energy = 10.0_q_kg * 10.0_q_m * 9.81_q_m / (1.0_q_s * 1.0_q_s);
     auto pot_energy_value = pot_energy.value;
 
     using energy = Quantity<TypeList<q_length::m, q_mass::kg, q_length::m>, TypeList<q_time::s, q_time::s>>;
 
     constexpr energy conversion = pot_energy;
     EXPECT_FLOAT_EQ(conversion.value, pot_energy_value);
-    EXPECT_FLOAT_EQ(pot_energy_value, 10.0*10.0*9.81/(1.0*1.0));
+    EXPECT_FLOAT_EQ(pot_energy_value, 10.0 * 10.0 * 9.81 / (1.0 * 1.0));
 
     result = static_cast<q_km>(1.0_q_m).value;
     EXPECT_FLOAT_EQ(result, 0.001);
@@ -156,7 +162,10 @@ TEST(ConvertToAnyQuantity, static_cast)
     EXPECT_FLOAT_EQ(result, 1000.0);
 
     result = static_cast<q_mps>(1.0_q_kmph).value;
-    EXPECT_FLOAT_EQ(result, 1/3.6);
+    EXPECT_FLOAT_EQ(result, 1 / 3.6);
+
+    result = static_cast<q_kmph>(1.0_q_mps).value;
+    EXPECT_FLOAT_EQ(result, 3.6);
 }
 
 TEST(Length, to_q_mass)

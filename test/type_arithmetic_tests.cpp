@@ -151,6 +151,12 @@ TEST(TypeList, convertLists)
 
     EXPECT_FLOAT_EQ(qConvertLists(TypeList<q_time::hour>{}, TypeList<q_time::min>{}), 60.0);
     EXPECT_FLOAT_EQ(qConvertLists(TypeList<q_time::ms>{}, TypeList<q_time::s>{}), 0.001);
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<q_time::s>{}, TypeList<q_time::min>{}), 1.0/60.0);
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<q_time::min>{}, TypeList<q_time::s>{}), 60.0);
+
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<q_time::min, q_time::s>{}, TypeList<q_time::s, q_time::s>{}), 60.0);
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<q_time::s, q_time::min>{}, TypeList<q_time::s, q_time::s>{}), 60.0);
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<q_time::s, q_time::s>{}, TypeList<q_time::s, q_time::min>{}), 1.0/60.0);
 
     //Uncomment for it to fail
     // EXPECT_FLOAT_EQ(convertLists(TYPELIST(T1, T3), TYPELIST(T4)), 4.0);

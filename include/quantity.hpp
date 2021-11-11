@@ -130,3 +130,8 @@ struct Quantity : public Orderable<double>
         return new_quantity;
     }
 };
+
+#define NUMERATOR(...)  TypeList<__VA_ARGS__>
+#define DENOMINATOR(...)  TypeList<__VA_ARGS__>
+
+#define QUANTITY(...)  Quantity<__VA_ARGS__>
