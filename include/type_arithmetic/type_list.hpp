@@ -129,4 +129,70 @@ struct TypeList
 };
 
 //! TYPELIST(T1) is same as TypeList<T1>{}, but is more readable. Using both here for testing.
-#define TYPELIST(...) TypeList<__VA_ARGS__>{}
+#define TYPELIST(...)                                                                                                  \
+    TypeList<__VA_ARGS__>                                                                                              \
+    {                                                                                                                  \
+    }
+
+//Take two lists, Iterate types of first list.
+//If type is in second list, remove its first occurence from second list
+
+
+template <int id, typename RightArg, typename... RightArgs>
+constexpr decltype(auto) getTypeById(const TypeList<RightArg, RightArgs...>& list)
+{
+    const auto selected_list = std::conditional_t<RightArg::id == id, RightArg, decltype(getTypeById<id>(TypeList<RightArgs...>{}))>{};
+    return selected_list;
+}
+
+template <int id, typename RightArg>
+constexpr decltype(auto) getTypeById(const TypeList<RightArg>& list)
+{
+    const auto selected_list = std::conditional_t<RightArg::id == id, RightArg, TypeList<>>{};
+    static_assert(std::is_same<decltype(selected_list), TypeList<>>::value == false);
+    return selected_list;
+}
+
+template <typename LeftArg, typename... LeftArgs, typename RightArg, typename... RightArgs>
+constexpr int convertLists(const TypeList<LeftArg, LeftArgs...>& left, const TypeList<RightArg, RightArgs...>& right)
+{
+    // static_assert(left.getSize() != right.getSize(), "Cannot convert lists of different sizes");
+
+    const auto type = getTypeById<LeftArg::id>(right);
+
+    static_assert(std::is_same<decltype(type), TypeList<>>::value == false, "Conversion cannot be performed");
+    static_assert(std::is_same<decltype(type), const TypeList<>>::value == false, "Conversion cannot be performed");
+
+    const double type_value = decltype(type)::value;
+
+    const auto right_with_type_removed = removeNthOccurenceOfTypeFromTypeList<1, decltype(type)>(right);
+    return type_value + convertLists(TypeList<LeftArgs...>{}, right_with_type_removed);
+}
+template <typename... LeftArgs>
+constexpr int convertLists(const TypeList<LeftArgs...>& left, const TypeList<>& right)
+{
+    return 0;
+}
+template <typename... RightArgs>
+constexpr int convertLists(const TypeList<>& left, const TypeList<RightArgs...>& right)
+{
+    return 0;
+}
+
+template <typename RightArg, typename... RightArgs>
+constexpr bool isIdInList(const int id, const TypeList<RightArg, RightArgs...>& list)
+{
+    if (RightArg::id == id)
+    {
+        return true;
+    }
+    else
+    {
+        return isIdInList(id, TypeList<RightArgs...>{});
+    }
+}
+template <typename RightArg>
+constexpr bool isIdInList(const int id, const TypeList<RightArg>& list)
+{
+    return RightArg::id == id;
+}

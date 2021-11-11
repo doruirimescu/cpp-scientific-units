@@ -5,29 +5,35 @@
 #include <quantity.hpp>
 struct T1
 {
-    int value = 1;
+    static constexpr int value = 1;
+    static constexpr int id = 1;
 };
 struct T2
 {
     int value = 2;
+    static constexpr int id = 2;
 };
 struct T3
 {
     int value = 3;
+    static constexpr int id = 3;
 };
 struct T4
 {
-    int value = 4;
+    static constexpr int value = 4;
+    static constexpr int id = 1;
 };
 
 struct T5
 {
-    int value = 5;
+    static constexpr int value = 5;
+    static constexpr int id = 2;
 };
 
 struct T6
 {
     int value = 6;
+    static constexpr int id = 3;
 };
 
 struct T7
