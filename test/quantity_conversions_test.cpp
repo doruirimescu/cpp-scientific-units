@@ -54,8 +54,9 @@ TEST(Time, to_q_x)
 
 TEST(Length, to_q_x)
 {
-    static_assert(to_q_km(1.0_q_km).value == 1.0);
-    static_assert(to_q_km(1000.0_q_m).value == 1.0);
+
+    static_assert(to_q_length<q_length::km>(1.0_q_km).value == 1.0);
+    static_assert(to_q_length<q_length::km>(1000.0_q_m).value == 1.0);
 }
 
 TEST(Speed, speed)
@@ -94,7 +95,7 @@ TEST(Force, to_q_N_2)
     constexpr auto some_value_convertible_to_force = mass * length / (time_1 * time_2);
     constexpr q_N newtons = to_q_N(some_value_convertible_to_force);
 
-    EXPECT_FLOAT_EQ(newtons.value, (to_q_kg(mass) * to_q_m(length) / (to_q_s(time_1) * to_q_s(time_2))).value) << "WDF";
+    EXPECT_FLOAT_EQ(newtons.value, (to_q_kg(mass) * to_q_length<q_length::m>(length) / (to_q_s(time_1) * to_q_s(time_2))).value) << "WDF";
 }
 TEST(Conversions, uncomment_to_fail)
 {
@@ -102,4 +103,12 @@ TEST(Conversions, uncomment_to_fail)
     // to_q_mg(1.0_q_s);
     // to_q_mg(1.0_q_m);
     // to_q_s(1.0_q_m);
+}
+
+TEST(Length, to_q_length)
+{
+    static_assert(to_q_length<q_length::m>(100.0_q_m).value == 100.0);
+    EXPECT_FLOAT_EQ(to_q_length<q_length::cm>(1.0_q_m).value, 100.0);
+    EXPECT_FLOAT_EQ(to_q_length<q_length::mm>(1.0_q_cm).value, 10.0);
+    EXPECT_FLOAT_EQ(to_q_length<q_length::km>(1000.0_q_m).value, 1.0);
 }

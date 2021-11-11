@@ -10,12 +10,12 @@ struct T1
 };
 struct T2
 {
-    int value = 2;
+    static constexpr int value = 2;
     static constexpr int id = 2;
 };
 struct T3
 {
-    int value = 3;
+    static constexpr int value = 3;
     static constexpr int id = 3;
 };
 struct T4
@@ -32,7 +32,7 @@ struct T5
 
 struct T6
 {
-    int value = 6;
+    static constexpr int value = 6;
     static constexpr int id = 3;
 };
 

@@ -134,10 +134,9 @@ struct TypeList
     {                                                                                                                  \
     }
 
-//Take two lists, Iterate types of first list.
-//If type is in second list, remove its first occurence from second list
 
 
+//! This works only for types which have a static int id
 template <int id, typename RightArg, typename... RightArgs>
 constexpr decltype(auto) getTypeById(const TypeList<RightArg, RightArgs...>& list)
 {
@@ -153,10 +152,17 @@ constexpr decltype(auto) getTypeById(const TypeList<RightArg>& list)
     return selected_list;
 }
 
-template <typename LeftArg, typename... LeftArgs, typename RightArg, typename... RightArgs>
-constexpr int convertLists(const TypeList<LeftArg, LeftArgs...>& left, const TypeList<RightArg, RightArgs...>& right)
+//! This works only for types which have a static int id and a double value
+template <typename...LeftArgs, typename...RightArgs>
+constexpr double qConvertLists(const TypeList<LeftArgs...>& left, const TypeList<RightArgs...>& right)
 {
-    // static_assert(left.getSize() != right.getSize(), "Cannot convert lists of different sizes");
+    static_assert(left.getSize() == right.getSize(), "Conversion cannot be performed, sizes do not match");
+    return convertLists(left, right);
+}
+
+template <typename LeftArg, typename... LeftArgs, typename RightArg, typename... RightArgs>
+constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const TypeList<RightArg, RightArgs...>& right)
+{
 
     const auto type = getTypeById<LeftArg::id>(right);
 
@@ -166,33 +172,16 @@ constexpr int convertLists(const TypeList<LeftArg, LeftArgs...>& left, const Typ
     const double type_value = decltype(type)::value;
 
     const auto right_with_type_removed = removeNthOccurenceOfTypeFromTypeList<1, decltype(type)>(right);
-    return type_value + convertLists(TypeList<LeftArgs...>{}, right_with_type_removed);
-}
-template <typename... LeftArgs>
-constexpr int convertLists(const TypeList<LeftArgs...>& left, const TypeList<>& right)
-{
-    return 0;
-}
-template <typename... RightArgs>
-constexpr int convertLists(const TypeList<>& left, const TypeList<RightArgs...>& right)
-{
-    return 0;
+    return type_value * convertLists(TypeList<LeftArgs...>{}, right_with_type_removed);
 }
 
-template <typename RightArg, typename... RightArgs>
-constexpr bool isIdInList(const int id, const TypeList<RightArg, RightArgs...>& list)
+template <typename... LeftArgs>
+constexpr double convertLists(const TypeList<LeftArgs...>& left, const TypeList<>& right)
 {
-    if (RightArg::id == id)
-    {
-        return true;
-    }
-    else
-    {
-        return isIdInList(id, TypeList<RightArgs...>{});
-    }
+    return 1.0;
 }
-template <typename RightArg>
-constexpr bool isIdInList(const int id, const TypeList<RightArg>& list)
+template <typename... RightArgs>
+constexpr double convertLists(const TypeList<>& left, const TypeList<RightArgs...>& right)
 {
-    return RightArg::id == id;
+    return 1.0;
 }

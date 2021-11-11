@@ -77,61 +77,61 @@ struct hecto
     static constexpr double value = pow(10, 2);
 };
 
-struct deca : public Orderable<double>
+struct deca
 {
     static constexpr double value = pow(10, 1);
 };
 
-struct none : public Orderable<double>
+struct none
 {
     static constexpr double value = 1.0;
 };
-struct deci : public Orderable<double>
+struct deci
 {
     static constexpr double value = pow(10, -1);
 };
 
-struct centi : public Orderable<double>
+struct centi
 {
     static constexpr double value = pow(10, -2);
 };
 
-struct milli : public Orderable<double>
+struct milli
 {
     static constexpr double value = pow(10, -3);
 };
 
-struct micro : public Orderable<double>
+struct micro
 {
     static constexpr double value = pow(10, -6);
 };
 
-struct nano : public Orderable<double>
+struct nano
 {
     static constexpr double value = pow(10, -9);
 };
 
-struct pico : public Orderable<double>
+struct pico
 {
     static constexpr double value = pow(10, -12);
 };
 
-struct femto : public Orderable<double>
+struct femto
 {
     static constexpr double value = pow(10, -15);
 };
 
-struct atto : public Orderable<double>
+struct atto
 {
     static constexpr double value = pow(10, -18);
 };
 
-struct zepto : public Orderable<double>
+struct zepto
 {
     static constexpr double value = pow(10, -21);
 };
 
-struct yocto : public Orderable<double>
+struct yocto
 {
     static constexpr double value = pow(10, -24);
 };

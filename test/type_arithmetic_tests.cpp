@@ -138,19 +138,14 @@ TEST(TestType, variousExpressions)
     static_assert(denominator / nominator == TypeList<s, s>{});
 }
 
-TEST(TypeList, isIdInList)
-{
-    static_assert(isIdInList(15, TYPELIST(T2, T3)) == false);
-    static_assert(isIdInList(1, TYPELIST(T2, T3)) == false);
-    static_assert(isIdInList(2, TYPELIST(T2, T3)) == true);
-    static_assert(isIdInList(3, TYPELIST(T2, T3)) == true);
-}
-
 TEST(TypeList, convertLists)
 {
-    EXPECT_FLOAT_EQ(convertLists(TYPELIST(T1), TYPELIST(T4)), 4.0);
-    EXPECT_FLOAT_EQ(convertLists(TypeList<T1, T2>{},  TypeList<T4, T5>{}), 9.0);
-    EXPECT_FLOAT_EQ(convertLists(TypeList<T2, T1>{},  TypeList<T4, T5>{}), 9.0);
+    EXPECT_FLOAT_EQ(qConvertLists(TYPELIST(T1), TYPELIST(T4)), 4.0);
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<T1, T2>{}, TypeList<T4, T5>{}), 20.0);
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<T2, T1>{}, TypeList<T4, T5>{}), 20.0);
+    EXPECT_FLOAT_EQ(qConvertLists(TypeList<T1>{}, TypeList<T1>{}), 1.0);
+
     //Uncomment for it to fail
     // EXPECT_FLOAT_EQ(convertLists(TYPELIST(T1, T3), TYPELIST(T4)), 4.0);
+    // qConvertLists(TypeList<T1>{},  TypeList<T1, T1>{});
 }

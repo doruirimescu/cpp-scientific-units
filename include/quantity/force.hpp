@@ -24,7 +24,7 @@ template <typename Mass, typename Length, typename Time1, typename Time2>
 constexpr q_N to_q_N(const Quantity<TypeList<Mass, Length>, TypeList<Time1, Time2>>& v)
 {
     const double mass_kg = to_q_kg(Quantity<TypeList<Mass>, TypeList<>>{1}).value;
-    const double length_m = to_q_m(Quantity<TypeList<Length>, TypeList<>>{1}).value;
+    const double length_m = to_q_length<q_length::m>(Quantity<TypeList<Length>, TypeList<>>{1}).value;
     const double time2_s = to_q_s(Quantity<TypeList<Time1>, TypeList<>>{1}).value;
     const double time1_s = to_q_s(Quantity<TypeList<Time2>, TypeList<>>{1}).value;
 

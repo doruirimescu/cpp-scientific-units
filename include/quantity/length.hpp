@@ -2,66 +2,71 @@
 #include <quantity.hpp>
 #include <type_list.hpp>
 #include <prefix.hpp>
+#include <id.hpp>
 
 namespace q_length
 {
-struct Mm : public prefix::mega
+struct length
+{
+    constexpr static int id = LENGTH;
+};
+struct Mm : public prefix::mega, public length
 {
     static constexpr double length = value;
 };
-struct km : public prefix::kilo
+struct km : public prefix::kilo, public length
 {
     static constexpr double length = value;
 };
-struct hm : public prefix::hecto
+struct hm : public prefix::hecto, public length
 {
     static constexpr double length = value;
 };
-struct dam : public prefix::deca
+struct dam : public prefix::deca, public length
 {
     static constexpr double length = value;
 };
-struct m : public prefix::none
+struct m : public prefix::none, public length
 {
     static constexpr double length = value;
 };
-struct dm : public prefix::deci
+struct dm : public prefix::deci, public length
 {
     static constexpr double length = value;
 };
-struct cm : public prefix::centi
+struct cm : public prefix::centi, public length
 {
     static constexpr double length = value;
 };
-struct mm : public prefix::milli
+struct mm : public prefix::milli, public length
 {
     static constexpr double length = value;
 };
-struct um : public prefix::micro
+struct um : public prefix::micro, public length
 {
     static constexpr double length = value;
 };
-struct nm : public prefix::nano
+struct nm : public prefix::nano, public length
 {
     static constexpr double length = value;
 };
-struct pm : public prefix::pico
+struct pm : public prefix::pico, public length
 {
     static constexpr double length = value;
 };
-struct fm : public prefix::femto
+struct fm : public prefix::femto, public length
 {
     static constexpr double length = value;
 };
-struct am : public prefix::atto
+struct am : public prefix::atto, public length
 {
     static constexpr double length = value;
 };
-struct zm : public prefix::zepto
+struct zm : public prefix::zepto, public length
 {
     static constexpr double length = value;
 };
-struct ym : public prefix::yocto
+struct ym : public prefix::yocto, public length
 {
     static constexpr double length = value;
 };
@@ -137,14 +142,11 @@ constexpr q_ym operator"" _q_ym(long double v)
 }
 
 // Length conversions
-template <typename Length>
-constexpr q_m to_q_m(const Quantity<TypeList<Length>, TypeList<>>& v)
+template <typename ToType, typename FromType>
+constexpr Quantity<TypeList<ToType>, TypeList<>> to_q_length(const Quantity<TypeList<FromType>, TypeList<>>& from)
 {
-    return q_m{v.value * Length::length};
-}
-
-template <typename Length>
-constexpr q_km to_q_km(const Quantity<TypeList<Length>, TypeList<>>& v)
-{
-    return q_km{to_q_m(v).value / q_length::km::length};
+    const auto from_tl = TypeList<FromType>{};
+    const auto to_tl = TypeList<ToType>{};
+    const double from_as_to = qConvertLists(from_tl, to_tl);
+    return Quantity<TypeList<ToType>, TypeList<>>{from.value * FromType::value / from_as_to};
 }
