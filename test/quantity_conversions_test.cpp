@@ -85,24 +85,24 @@ TEST(Speed, speed)
     EXPECT_FLOAT_EQ(result, 3600.0);
 }
 
-TEST(Force, to_q_N_1)
+TEST(Force, cast_to_q_N_1)
 {
-    EXPECT_FLOAT_EQ(to_q_N(1.0_q_N).value, 1.0);
+    EXPECT_FLOAT_EQ(static_cast<q_N>(1.0_q_N).value, 1.0);
 
-    static_assert(to_q_N(2.0_q_kg * 1.0_q_m / (1.0_q_s * 1.0_q_s)).value == 2.0);
-    static_assert(to_q_N(1.0_q_kg * 2.0_q_m / (1.0_q_s * 1.0_q_s)).value == 2.0);
-    static_assert(to_q_N(1.0_q_kg * 2.0_q_m / (2.0_q_s * 1.0_q_s)).value == 1.0);
-    static_assert(to_q_N(1.0_q_kg * 60.0_q_m / (to_q_s(1.0_q_min) * 1.0_q_s)).value == 1.0);
+    static_assert(static_cast<q_N>(2.0_q_kg * 1.0_q_m / (1.0_q_s * 1.0_q_s)).value == 2.0);
+    static_assert(static_cast<q_N>(1.0_q_kg * 2.0_q_m / (1.0_q_s * 1.0_q_s)).value == 2.0);
+    static_assert(static_cast<q_N>(1.0_q_kg * 2.0_q_m / (2.0_q_s * 1.0_q_s)).value == 1.0);
+    static_assert(static_cast<q_N>(1.0_q_kg * 60.0_q_m / (to_q_s(1.0_q_min) * 1.0_q_s)).value == 1.0);
 }
 
-TEST(Force, to_q_N_2)
+TEST(Force, cast_to_q_N_2)
 {
     constexpr auto mass = 1000.0_q_g;
     constexpr auto length = 100.0_q_cm;
     constexpr auto time_1 = 1.0_q_s;
     constexpr auto time_2 = 1.0_q_s;
     constexpr auto some_value_convertible_to_force = mass * length / (time_1 * time_2);
-    constexpr q_N newtons = to_q_N(some_value_convertible_to_force);
+    constexpr q_N newtons = static_cast<q_N>(some_value_convertible_to_force);
 
     EXPECT_FLOAT_EQ(
         newtons.value,

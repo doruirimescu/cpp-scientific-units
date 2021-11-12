@@ -34,6 +34,7 @@
 #include <is_type_in_type_list.hpp>
 #include <are_type_lists_containing_the_same_types.hpp>
 #include <calculate_type_list_intersection.hpp>
+#include <calculate_type_by_id.hpp>
 template <typename... ThisArgs>
 struct TypeList
 {
@@ -126,6 +127,12 @@ struct TypeList
     {
         return (*this);
     }
+
+    template <int id>
+    constexpr decltype(auto) getTypeById() const
+    {
+        return calculateTypeById<id>(*this);
+    }
 };
 
 //! TYPELIST(T1) is same as TypeList<T1>{}, but is more readable. Using both here for testing.
@@ -135,26 +142,6 @@ struct TypeList
     }
 
 
-
-//! This works only for types which have a static int id
-template <int id, typename RightArg, typename... RightArgs>
-constexpr decltype(auto) getTypeById(const TypeList<RightArg, RightArgs...>& list)
-{
-    static_assert(RightArg::id, "Type RightArg does not have an id");
-    const auto selected_list = std::conditional_t<RightArg::id == id, RightArg, decltype(getTypeById<id>(TypeList<RightArgs...>{}))>{};
-    return selected_list;
-}
-
-template <int id, typename RightArg>
-constexpr decltype(auto) getTypeById(const TypeList<RightArg>& list)
-{
-    static_assert(RightArg::id, "Type RightArg does not have an id");
-    auto selected_list = std::conditional_t<RightArg::id == id, RightArg, TypeList<>>{};
-    return selected_list;
-}
-
-
-//TODO: turn this into conversion constructor
 //! This works only for types which have a static int id and a double value
 template <typename...LeftArgs, typename...RightArgs>
 constexpr double qConvertLists(const TypeList<LeftArgs...>& left, const TypeList<RightArgs...>& right)
@@ -166,15 +153,16 @@ constexpr double qConvertLists(const TypeList<LeftArgs...>& left, const TypeList
 template <typename LeftArg, typename... LeftArgs, typename RightArg, typename... RightArgs>
 constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const TypeList<RightArg, RightArgs...>& right)
 {
-    static_assert(LeftArg::id, "Type RightArg does not have an id");
-    auto type = getTypeById<LeftArg::id>(right);
+    static_assert(LeftArg::id, "Type LeftArg does not have an id");
+    auto type = right.template getTypeById<LeftArg::id>();
+    using returned_type = decltype(type);
 
-    //If the type is different than TypeList<>, it will assert as true and continue
-    static_assert(std::is_same<decltype(type), TypeList<>>::value == false, "Conversion cannot be performed");
+    //If the returned_type is different than TypeList<>, it will assert as true and continue
+    static_assert(std::is_same<returned_type, TypeList<>>::value == false, "Conversion cannot be performed");
 
-    const auto right_with_type_removed = removeNthOccurenceOfTypeFromTypeList<1, decltype(type)>(right);
+    const auto right_with_type_removed = removeNthOccurenceOfTypeFromTypeList<1, returned_type>(right);
 
-    const double converted_value = LeftArg::value / decltype(type)::value;
+    const double converted_value = LeftArg::value / returned_type::value;
 
     return converted_value * convertLists(TypeList<LeftArgs...>{}, right_with_type_removed);
 }
@@ -194,3 +182,6 @@ constexpr double convertLists(const TypeList<>& left, const TypeList<>& right)
 {
     return 1.0;
 }
+
+//TODO: find a way to return a type from a function
+//Start with a struct using the type of some argument
