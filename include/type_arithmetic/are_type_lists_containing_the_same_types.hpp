@@ -23,8 +23,6 @@
  * @file   are_type_lists_containing_the_same_type.hpp
  * @author Doru Irimescu
  *
- * @brief
- * This file defines the templates for areTypeListsContainingSameTypes.
  */
 #pragma once
 

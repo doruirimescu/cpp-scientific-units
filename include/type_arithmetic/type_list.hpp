@@ -154,6 +154,7 @@ constexpr decltype(auto) getTypeById(const TypeList<RightArg>& list)
 }
 
 
+//TODO: turn this into conversion constructor
 //! This works only for types which have a static int id and a double value
 template <typename...LeftArgs, typename...RightArgs>
 constexpr double qConvertLists(const TypeList<LeftArgs...>& left, const TypeList<RightArgs...>& right)

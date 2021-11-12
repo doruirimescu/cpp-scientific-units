@@ -1,3 +1,29 @@
+/**
+ *
+ * Copyright (c) 2021 Doru Irimescu
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * @file   speed.hpp
+ * @author Doru Irimescu
+ *
+ */
 #pragma once
 #include <quantity.hpp>
 #include <type_list.hpp>
@@ -17,34 +43,4 @@ constexpr q_mps operator"" _q_mps(long double v)
 constexpr q_kmph operator"" _q_kmph(long double v)
 {
     return q_kmph{static_cast<double>(v)};
-}
-
-// Speed conversions
-template <typename Length, typename Time>
-constexpr q_mps to_q_mps(const Quantity<TypeList<Length>, TypeList<Time>>& v)
-{
-    const double length_in_meters = Length::value;
-    const double time_in_seconds = Time::value;
-    return q_mps{v.value * length_in_meters / time_in_seconds};
-}
-
-template <typename Length, typename Time>
-constexpr q_kmph to_q_kmph(const Quantity<TypeList<Length>, TypeList<Time>>& v)
-{
-    const double length_in_meters = Length::value;
-    const double time_in_seconds = Time::value;
-    const double length_in_kilometers = length_in_meters / q_length::km::value;
-    const double time_in_hours = time_in_seconds / q_time::hour::value;
-    return q_kmph{v.value * length_in_kilometers / time_in_hours};
-}
-
-template <typename ToLength, typename ToTime, typename FromLength, typename FromTime>
-constexpr Quantity<TypeList<ToLength>, TypeList<ToTime>>
-    to_q_speed(const Quantity<TypeList<FromLength>, TypeList<FromTime>>& from)
-{
-    const double new_length = to_q_length<ToLength>(Quantity<TypeList<FromLength>, TypeList<>>{1}).value;
-    const double new_time = to_q_time<ToTime>(Quantity<TypeList<FromTime>, TypeList<>>{1}).value;
-    const double new_speed = new_length / new_time;
-
-    return Quantity<TypeList<ToLength>, TypeList<ToTime>>{from.value * new_speed};
 }

@@ -53,6 +53,9 @@ struct Quantity : public Orderable<double>
     {
     }
 
+    Quantity (const Quantity&) = default;
+    Quantity(Quantity&&) = default;
+
     //copy assignment
     template <typename N2, typename D2>
     constexpr Quantity& operator=(const Quantity<N2, D2>& other)

@@ -1,3 +1,31 @@
+/**
+ *
+ * Copyright (c) 2021 Doru Irimescu
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * @file   force.hpp
+ * @author Doru Irimescu
+ * @date   09-11-2021
+ *
+ */
+
 #pragma once
 #include <mass.hpp>
 #include <length.hpp>
@@ -24,48 +52,9 @@ template <typename Mass, typename Length, typename Time1, typename Time2>
 constexpr q_N to_q_N(const Quantity<TypeList<Mass, Length>, TypeList<Time1, Time2>>& v)
 {
     const double mass_kg = to_q_mass<q_mass::kg>(Quantity<TypeList<Mass>, TypeList<>>{1}).value;
-    const double length_m = to_q_length<q_length::m>(Quantity<TypeList<Length>, TypeList<>>{1}).value;
-    const double time2_s = to_q_s(Quantity<TypeList<Time1>, TypeList<>>{1}).value;
-    const double time1_s = to_q_s(Quantity<TypeList<Time2>, TypeList<>>{1}).value;
+    const double length_m = static_cast<q_m>(Quantity<TypeList<Length>, TypeList<>>{1}).value;
+    const double time2_s = static_cast<q_s>(Quantity<TypeList<Time1>, TypeList<>>{1}).value;
+    const double time1_s = static_cast<q_s>(Quantity<TypeList<Time2>, TypeList<>>{1}).value;
 
     return q_N{v.value * mass_kg * length_m / (time1_s * time2_s)};
-}
-
-template <typename ToMass,
-          typename ToLength,
-          typename ToTime1,
-          typename ToTime2,
-          typename FromMass,
-          typename FromLength,
-          typename FromTime1,
-          typename FromTime2>
-constexpr q_N to_q_force(const Quantity<TypeList<FromMass, FromLength>, TypeList<FromTime1, FromTime2>>& v)
-{
-    const double mass = to_q_length<ToMass>(Quantity<TypeList<FromMass>, TypeList<>>{1}).value;
-    const double length = to_q_length<ToLength>(Quantity<TypeList<FromLength>, TypeList<>>{1}).value;
-    const double time1 = to_q_time<ToTime1>(Quantity<TypeList<FromTime1>, TypeList<>>{1}).value;
-    const double time2 = to_q_time<ToTime2>(Quantity<TypeList<FromTime2>, TypeList<>>{1}).value;
-
-    const double new_force = mass * length / (time1 * time2);
-
-    return q_N{v.value * new_force};
-}
-
-template <typename ToMass,
-          typename ToLength,
-          typename ToTime1,
-          typename ToTime2,
-          typename FromMass,
-          typename FromLength,
-          typename FromTime1,
-          typename FromTime2>
-constexpr void to_q_force(const Quantity<TypeList<FromMass, FromLength>, TypeList<FromTime1, FromTime2>>& from,
-                          Quantity<TypeList<ToMass, ToLength>, TypeList<ToTime1, ToTime2>>& to)
-{
-    const double mass = to_q_length<ToMass>(Quantity<TypeList<FromMass>, TypeList<>>{1}).value;
-    const double length = to_q_length<ToLength>(Quantity<TypeList<FromLength>, TypeList<>>{1}).value;
-    const double time1 = to_q_time<ToTime1>(Quantity<TypeList<FromTime1>, TypeList<>>{1}).value;
-    const double time2 = to_q_time<ToTime2>(Quantity<TypeList<FromTime2>, TypeList<>>{1}).value;
-    const double new_force = mass * length / (time1 * time2);
-    to.value = new_force;
 }
