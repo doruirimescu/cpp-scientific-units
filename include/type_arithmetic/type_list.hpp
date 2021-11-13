@@ -35,10 +35,10 @@
 #include <are_type_lists_containing_the_same_types.hpp>
 #include <calculate_type_list_intersection.hpp>
 #include <calculate_type_by_id.hpp>
-#include <metaprogramming.hpp>
+#include <variadic.hpp>
 
 template <typename... ThisArgs>
-struct TypeList
+struct TypeList : Variadic<ThisArgs...>
 {
     /**
      * @brief Returns a new TypeList containing the types of the current TypeList and the types of the given TypeList.

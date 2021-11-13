@@ -82,4 +82,5 @@ struct getNthType<1, V>
     typedef typename V::first_type result;
 };
 
+
 typedef Variadic<> EMPTY_VARIADIC;
