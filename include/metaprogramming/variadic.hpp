@@ -50,12 +50,14 @@ template <typename... T>
 struct Variadic : public split::Split<T...>
 {
     constexpr static bool is_variadic = true;
+    constexpr static unsigned int argument_count = sizeof...(T);
 };
 
 template <>
 struct Variadic<>
 {
     constexpr static bool is_variadic = true;
+    constexpr static unsigned int argument_count = 0;
     typedef Variadic<> first_type;
     typedef Variadic<> rest_type;
 };
@@ -79,3 +81,5 @@ struct getNthType<1, V>
     static_assert(V::is_variadic == true, "V is not variadic");
     typedef typename V::first_type result;
 };
+
+typedef Variadic<> EMPTY_VARIADIC;
