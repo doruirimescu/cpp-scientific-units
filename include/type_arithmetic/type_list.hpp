@@ -35,6 +35,8 @@
 #include <are_type_lists_containing_the_same_types.hpp>
 #include <calculate_type_list_intersection.hpp>
 #include <calculate_type_by_id.hpp>
+#include <metaprogramming.hpp>
+
 template <typename... ThisArgs>
 struct TypeList
 {

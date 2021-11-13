@@ -37,8 +37,7 @@ template <typename... T>
 struct Variadic;
 
 namespace split
-{
-//Hide this beautiful helper, which allows us to conveniently
+{  //Hide this beautiful helper, which allows us to conveniently
 // access the types of any variadic struct
 template <typename First, typename... Rest>
 struct Split
@@ -47,14 +46,36 @@ struct Split
     typedef Variadic<Rest...> rest_type;
 };
 }  // namespace split
-
 template <typename... T>
 struct Variadic : public split::Split<T...>
 {
+    constexpr static bool is_variadic = true;
 };
 
 template <>
 struct Variadic<>
 {
+    constexpr static bool is_variadic = true;
     typedef Variadic<> first_type;
+    typedef Variadic<> rest_type;
+};
+
+/**
+ * @brief  Gets the nth type of the variadic template
+ *
+ * @tparam N : Nth type to get
+ * @tparam V : The variadic template
+ */
+template <int N, typename V>
+struct getNthType
+{
+    static_assert(V::is_variadic == true, "V is not variadic");
+    typedef typename getNthType<N-1, typename V::rest_type>::result result;
+};
+
+template<typename V>
+struct getNthType<1, V>
+{
+    static_assert(V::is_variadic == true, "V is not variadic");
+    typedef typename V::first_type result;
 };
