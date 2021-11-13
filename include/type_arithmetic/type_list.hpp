@@ -111,7 +111,7 @@ struct TypeList : Variadic<ThisArgs...>
 
     constexpr std::size_t getSize() const
     {
-        return sizeof...(ThisArgs);
+        return this->argument_count;
     }
 
     template <typename... OtherArgs>

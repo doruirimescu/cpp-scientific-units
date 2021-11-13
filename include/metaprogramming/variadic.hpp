@@ -72,14 +72,32 @@ template <int N, typename V>
 struct getNthType
 {
     static_assert(V::is_variadic == true, "V is not variadic");
-    typedef typename getNthType<N-1, typename V::rest_type>::result result;
+    typedef typename getNthType<N - 1, typename V::rest_type>::result result;
 };
 
-template<typename V>
+template <typename V>
 struct getNthType<1, V>
 {
     static_assert(V::is_variadic == true, "V is not variadic");
     typedef typename V::first_type result;
+};
+
+template <typename Type, typename V, unsigned int Position = 1>
+struct hasType
+{
+    static_assert(V::is_variadic == true, "V is not variadic");
+    static constexpr unsigned int position = std::is_same<Type, typename V::first_type>::value
+                                                 ? Position
+                                                 : hasType<Type, typename V::rest_type, Position + 1>::position;
+    static constexpr bool result =
+        std::is_same<Type, typename V::first_type>::value || hasType<Type, typename V::rest_type, Position + 1>::result;
+};
+
+template <typename Type, unsigned int Position>
+struct hasType<Type, Variadic<>, Position>
+{
+    static const bool result = false;
+    static constexpr unsigned int position = 0;
 };
 
 
