@@ -152,8 +152,8 @@ constexpr double qConvertLists(const TypeList<LeftArgs...>& left, const TypeList
     return convertLists(left, right);
 }
 
-template <typename LeftArg, typename... LeftArgs, typename RightArg, typename... RightArgs>
-constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const TypeList<RightArg, RightArgs...>& right)
+template <typename LeftArg, typename... LeftArgs, typename... RightArgs>
+constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const TypeList<RightArgs...>& right)
 {
     static_assert(LeftArg::id, "Type LeftArg does not have an id");
     auto type = right.template getTypeById<LeftArg::id>();
@@ -162,8 +162,7 @@ constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const 
     //If the returned_type is different than TypeList<>, it will assert as true and continue
     static_assert(std::is_same<returned_type, TypeList<>>::value == false, "Conversion cannot be performed");
 
-    const removeNthOccurrenceOfType_t<1, returned_type, TypeList<RightArg, RightArgs...>> right_with_type_removed{};
-
+    const removeNthOccurrenceOfType_t<1, returned_type, TypeList<RightArgs...>> right_with_type_removed{};
 
     const double converted_value = LeftArg::value / returned_type::value;
 
