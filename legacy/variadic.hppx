@@ -74,13 +74,13 @@ struct hasType
     static constexpr unsigned int position = std::is_same<Type, typename V::first_type>::value
                                                  ? Position
                                                  : hasType<Type, typename V::rest_type, Position + 1>::position;
-    static constexpr bool result =
-        std::is_same<Type, typename V::first_type>::value || hasType<Type, typename V::rest_type, Position + 1>::result;
+    static constexpr bool value =
+        std::is_same<Type, typename V::first_type>::value || hasType<Type, typename V::rest_type, Position + 1>::value;
 };
 
 template <typename Type, unsigned int Position>
 struct hasType<Type, Variadic<>, Position>
 {
-    static const bool result = false;
+    static const bool value = false;
     static constexpr unsigned int position = 0;
 };

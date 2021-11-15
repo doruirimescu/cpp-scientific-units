@@ -31,15 +31,16 @@
 #include <remove_nth_occurrence_of_type.hpp>
 #include <calculate_type_list_intersection.hpp>
 #include <calculate_type_by_id.hpp>
-#include <metaprogramming/variadic.hpp>
 #include <metaprogramming/remove_types.hpp>
 #include <metaprogramming/remove_type.hpp>
 #include <metaprogramming/is_type_in_variadic.hpp>
 #include <metaprogramming/are_variadics_containing_the_same_types.hpp>
 
 template <typename... ThisArgs>
-struct TypeList : Variadic<ThisArgs...>
+struct TypeList
 {
+    constexpr static unsigned int argument_count = sizeof...(ThisArgs);
+
     /**
      * @brief Returns a new TypeList containing the types of the current TypeList and the types of the given TypeList.
      *

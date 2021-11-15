@@ -1,108 +1,76 @@
+/**
+ *
+ * Copyright (c) 2021 Doru Irimescu
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * @file   metaprogramming_test.hpp
+ * @author Doru Irimescu
+ *
+ * @brief
+ * One test per file form metaprogramming folder
+ */
+
 #include <gtest/gtest.h>
-#include <conditional.hpp>
-#include <are_types_equal.hpp>
-#include <metaprogramming/variadic.hpp>
-#include <get_nth_type.hpp>
-#include <remove_type.hpp>
+#include <metaprogramming/are_types_equal.hpp>
+#include <metaprogramming/are_variadics_containing_the_same_types.hpp>
+
+#include <metaprogramming/conditional.hpp>
+
+#include <metaprogramming/get_nth_type.hpp>
+#include <metaprogramming/remove_type.hpp>
 #include <metaprogramming/remove_types.hpp>
-
-TEST(Conditional, areTypesEqual_true)
-{
-    static_assert(areTypesEqual<int, int>());
-}
-
-TEST(Conditional, areTypesEqual_false)
-{
-    static_assert(areTypesEqual<int, double>() == false);
-}
-
-TEST(Conditional, conditional_true)
-{
-    static_assert(areTypesEqual<conditional_t<true, int, double>, int>());
-}
-
-TEST(Conditional, conditional_false)
-{
-    static_assert(areTypesEqual<conditional_t<false, const int, double>, double>());
-}
-
-TEST(Conditional, conditional)
-{
-    static_assert(areTypesEqual<conditional_t<false, int, double>, double>());
-}
-
-TEST(Variadic, first_type_empty_variadic)
-{
-    typedef Variadic<>::first_type type;
-    static_assert(areTypesEqual<type, Variadic<>>());
-}
-
-TEST(Variadic, first_type)
-{
-    typedef Variadic<int>::first_type type;
-    static_assert(areTypesEqual<type, int>());
-}
-
-TEST(Variadic, rest_type_empty)
-{
-    static_assert(areTypesEqual<Variadic<>::rest_type, EMPTY_VARIADIC>());
-    static_assert(areTypesEqual<Variadic<int>::rest_type, EMPTY_VARIADIC>());
-}
-
-TEST(Variadic, rest_type)
-{
-    static_assert(areTypesEqual<Variadic<int, double>::rest_type, Variadic<double>>());
-    static_assert(areTypesEqual<Variadic<int, double, char, EMPTY_VARIADIC>::rest_type,
-                                Variadic<double, char, EMPTY_VARIADIC>>());
-}
-
-TEST(Variadic, argument_count)
-{
-    static_assert(EMPTY_VARIADIC::argument_count == 0);
-    static_assert(Variadic<int>::argument_count == 1);
-    static_assert(Variadic<int, double>::argument_count == 2);
-}
-
-TEST(Variadic, is_variadic)
-{
-    static_assert(EMPTY_VARIADIC::is_variadic);
-    static_assert(Variadic<int, double>::is_variadic);
-}
-
+#include <metaprogramming/is_type_in_variadic.hpp>
+#include <metaprogramming/is_variadic.hpp>
 template <typename... T>
-struct TestStruct : public Variadic<T...>
+struct Variadic
 {
 };
 
-TEST(Variadic, inheritance)
-{
-    TestStruct<int, double> test;
-    static_assert(TestStruct<int, double>::argument_count == 2);
-    static_assert(test.argument_count == 2);
-}
+using EMPTY_VARIADIC = Variadic<>;
 
-TEST(Variadic, hasType)
+TEST(Metaprogramming, is_type_in_variadic)
 {
-    typedef TestStruct<int, double> test_1;
+    typedef Variadic<int, double> test_1;
     typedef Variadic<char, double, int, char> test_2;
-    static_assert(hasType<int, test_1>::result && hasType<int, test_1>::position == 1);
-    static_assert(hasType<double, test_1>::result && hasType<double, test_1>::position == 2);
-    static_assert(hasType<EMPTY_VARIADIC, test_1>::result == false);
-
-    static_assert(hasType<char, test_2>::result && hasType<char, test_2>::position == 1);
-    static_assert(hasType<EMPTY_VARIADIC, test_2>::result == false && hasType<EMPTY_VARIADIC, test_2>::position == 0);
+    static_assert(IsTypeInVariadic<int, test_1>::value);
+    static_assert(IsTypeInVariadic<double, test_1>::value);
+    static_assert(!IsTypeInVariadic<EMPTY_VARIADIC, test_1>::value);
+    static_assert(!IsTypeInVariadic<EMPTY_VARIADIC, EMPTY_VARIADIC>::value);
 }
 
-TEST(combineVariadics, combineVariadics)
+TEST(Metaprogramming, combine_variadics)
 {
-    typedef combineVariadics<Variadic<>, Variadic<>>::result test_1;
+    typedef combineVariadics_t<Variadic<>, Variadic<>> test_1;
     static_assert(areTypesEqual<Variadic<>, test_1>());
 
-    typedef combineVariadics<Variadic<int, int>, Variadic<double, double>>::result test_2;
-    static_assert(areTypesEqual<Variadic<int, int, double, double>, test_2>());
+    typedef combineVariadics_t<Variadic<int>, Variadic<>> test_2;
+    static_assert(areTypesEqual<Variadic<int>, test_2>());
+
+    typedef combineVariadics_t<Variadic<>, Variadic<int>> test_3;
+    static_assert(areTypesEqual<Variadic<int>, test_3>());
+
+    typedef combineVariadics_t<Variadic<int, int>, Variadic<double, double>> test_4;
+    static_assert(areTypesEqual<Variadic<int, int, double, double>, test_4>());
 }
 
-TEST(removeTypeFromVariadic, removeTypeFromVariadic)
+TEST(Metaprogramming, remove_nth_occurrence_of_type)
 {
     typedef removeNthOccurrenceOfType_t<1, int, Variadic<double>> test_;
     static_assert(areTypesEqual<Variadic<double>, test_>());
@@ -122,17 +90,15 @@ TEST(removeTypeFromVariadic, removeTypeFromVariadic)
     static_assert(areTypesEqual<Variadic<double, int, double, int>, test_3>());
 }
 
-TEST(getNthType, getNthType_Variadic)
+TEST(Metaprogramming, get_nth_type)
 {
+    static_assert(areTypesEqual<Variadic<>, getNthType_t<0, Variadic<char, int, double>>>());
     static_assert(areTypesEqual<char, getNthType_t<1, Variadic<char, int, double>>>());
     static_assert(areTypesEqual<int, getNthType_t<2, Variadic<char, int, double>>>());
     static_assert(areTypesEqual<double, getNthType_t<3, Variadic<char, int, double>>>());
     static_assert(areTypesEqual<Variadic<>, getNthType_t<4, Variadic<char, int, double>>>());
     static_assert(areTypesEqual<Variadic<>, getNthType_t<5, Variadic<char, int, double>>>());
-}
 
-TEST(getNthType, getNthType_Tuple)
-{
     static_assert(areTypesEqual<char, getNthType_t<1, std::tuple<char, int, double>>>());
     static_assert(areTypesEqual<int, getNthType_t<2, std::tuple<char, int, double>>>());
     static_assert(areTypesEqual<double, getNthType_t<3, std::tuple<char, int, double>>>());
@@ -140,16 +106,18 @@ TEST(getNthType, getNthType_Tuple)
     static_assert(areTypesEqual<std::tuple<>, getNthType_t<5, std::tuple<char, int, double>>>());
 }
 
-TEST(RemoveType, removeType_Variadic)
+TEST(Metaprogramming, remove_type)
 {
     typedef removeType_t<double, Variadic<double, int, double, int>> test_1;
     static_assert(areTypesEqual<Variadic<int, int>, test_1>());
 
     typedef RemoveType<double, Variadic<double, double>>::type test_2;
     static_assert(areTypesEqual<Variadic<>, test_2>());
+
+    static_assert(areTypesEqual<Variadic<>, removeType_t<double, Variadic<double, double>>>());
 }
 
-TEST(RemoveTypes, RemoveTypes)
+TEST(Metaprogramming, remove_types)
 {
     typedef RemoveTypes_t<Variadic<int, int, double>, Variadic<int, int, double>> test_1;
     static_assert(areTypesEqual<Variadic<>, test_1>());
@@ -162,4 +130,21 @@ TEST(RemoveTypes, RemoveTypes)
 
     typedef RemoveTypes_t<Variadic<double>, Variadic<int, int, double>> test_4;
     static_assert(areTypesEqual<Variadic<int, int>, test_4>());
+}
+
+TEST(Metaprogramming, is_variadic)
+{
+    static_assert(IsVariadic<Variadic<>>::value);
+    static_assert(IsVariadic<Variadic<int, double>>::value);
+    static_assert(!IsVariadic<int>::value);
+    static_assert(!IsVariadic<double>::value);
+}
+
+TEST(Metaprogramming, are_variadics_containing_the_same_types)
+{
+    static_assert(AreVariadicsContainingTheSameTypes<Variadic<>, Variadic<>>::value);
+    static_assert(!AreVariadicsContainingTheSameTypes<Variadic<int>, Variadic<>>::value);
+    static_assert(!AreVariadicsContainingTheSameTypes<Variadic<>, Variadic<int>>::value);
+    static_assert(AreVariadicsContainingTheSameTypes<Variadic<int, double>, Variadic<double, int>>::value);
+    static_assert(AreVariadicsContainingTheSameTypes<Variadic<char, int, double>, Variadic<double, int, char>>::value);
 }

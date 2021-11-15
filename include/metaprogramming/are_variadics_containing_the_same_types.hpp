@@ -23,3 +23,9 @@ struct AreVariadicsContainingTheSameTypes<Variadic<LeftArgs...>, Variadic<>>
 {
     static constexpr bool value = false;
 };
+
+template <template <class...> class Variadic>
+struct AreVariadicsContainingTheSameTypes<Variadic<>, Variadic<>>
+{
+    static constexpr bool value = true;
+};

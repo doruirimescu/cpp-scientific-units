@@ -1,4 +1,9 @@
 #pragma once
+
+//Forward declarations.
+template <typename... ThisArgs>
+struct TypeList;
+
 template <int id, typename RightArg, typename... RightArgs>
 constexpr decltype(auto) calculateTypeById(const TypeList<RightArg, RightArgs...>& list)
 {

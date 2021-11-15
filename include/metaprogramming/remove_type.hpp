@@ -1,5 +1,5 @@
 #pragma once
-
+#include <metaprogramming/combine_variadics.hpp>
 template <typename... Args>
 struct RemoveType;
 
@@ -15,7 +15,7 @@ struct RemoveType<ToRemove, V<FirstArg, RestArgs...>>
     static constexpr bool are_same = std::is_same<ToRemove, FirstArg>::value;
     typedef removeType_t<ToRemove, rest_type> removed;
     typedef combineVariadics_t<first_type, removed> combined;
-    typedef conditional_t<are_same, removed, combined> type;
+    typedef std::conditional_t<are_same, removed, combined> type;
 };
 
 template <typename ToRemove, template <class...> typename V>

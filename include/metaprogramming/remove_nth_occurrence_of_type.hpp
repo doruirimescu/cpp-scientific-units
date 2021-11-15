@@ -18,14 +18,14 @@ struct RemoveNthOccurrenceOfType<N, ToRemove, V<FirstArg, RestArgs...>>
     typedef V<FirstArg> first_type;
     typedef V<RestArgs...> rest_type;
 
-    static constexpr bool are_same = std::is_same<ToRemove, FirstArg>::value;
-    static constexpr int n_update = are_same ? N - 1 : N;
+    static constexpr bool should_remove_first_arg = std::is_same<ToRemove, FirstArg>::value;
+    static constexpr int n_updated = should_remove_first_arg ? N - 1 : N;
 
-    typedef typename RemoveNthOccurrenceOfType<n_update, ToRemove, rest_type>::type removed;
+    typedef typename RemoveNthOccurrenceOfType<n_updated, ToRemove, rest_type>::type removed;
 
     typedef combineVariadics_t<first_type, removed> combined;
 
-    typedef typename std::conditional_t<are_same && N == 1, rest_type, combined> type;
+    typedef typename std::conditional_t<should_remove_first_arg && N == 1, rest_type, combined> type;
 };
 
 template <int N, typename ToRemove, template <class...> typename V>

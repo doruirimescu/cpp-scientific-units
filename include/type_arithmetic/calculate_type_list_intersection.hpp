@@ -1,5 +1,9 @@
 #pragma once
 
+//Forward declarations.
+template <typename... ThisArgs>
+struct TypeList;
+
 template <typename... LeftArgs, typename RightArg, typename... RightArgs>
 constexpr decltype(auto) calculateTypeListIntersection(const TypeList<LeftArgs...>& left_list,
                                                        const TypeList<RightArg, RightArgs...>& right_list)

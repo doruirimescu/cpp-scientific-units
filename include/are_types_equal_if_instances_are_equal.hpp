@@ -29,6 +29,10 @@
 
 #pragma once
 
+//Forward declarations.
+template <typename... ThisArgs>
+struct TypeList;
+
 /**
  * @brief  Assert type equality based on instance equality
  *
