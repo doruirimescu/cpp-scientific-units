@@ -28,7 +28,7 @@
  */
 
 #pragma once
-#include <remove_nth_occurrence_of_type_from_list.hpp>
+#include <remove_nth_occurrence_of_type.hpp>
 #include <remove_type_from_type_list.hpp>
 #include <is_type_in_type_list.hpp>
 #include <are_type_lists_containing_the_same_types.hpp>
@@ -162,7 +162,8 @@ constexpr double convertLists(const TypeList<LeftArg, LeftArgs...>& left, const 
     //If the returned_type is different than TypeList<>, it will assert as true and continue
     static_assert(std::is_same<returned_type, TypeList<>>::value == false, "Conversion cannot be performed");
 
-    const auto right_with_type_removed = removeNthOccurenceOfTypeFromTypeList<1, returned_type>(right);
+    const removeNthOccurrenceOfType_t<1, returned_type, TypeList<RightArg, RightArgs...>> right_with_type_removed{};
+
 
     const double converted_value = LeftArg::value / returned_type::value;
 

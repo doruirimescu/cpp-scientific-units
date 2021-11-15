@@ -28,6 +28,10 @@
  */
 #pragma once
 
+//Forward declarations.
+template <typename... ThisArgs>
+struct TypeList;
+
 /**
  * @brief  Removes all occurrences of TypeToRemove from a TypeList.
  *

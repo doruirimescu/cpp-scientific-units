@@ -1,5 +1,5 @@
 #pragma once
-
+#include <metaprogramming/combine_variadics.hpp>
 template <int N, typename... Args>
 struct RemoveNthOccurrenceOfType;
 
