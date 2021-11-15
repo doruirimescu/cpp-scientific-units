@@ -54,4 +54,4 @@ struct RemoveTypes<WhatToRemove<>, WhereToRemove>
 };
 
 template <typename ToRemove, typename WhereToRemove>
-using RemoveTypes_t = typename RemoveTypes<ToRemove, WhereToRemove>::result;
+using removeTypes_t = typename RemoveTypes<ToRemove, WhereToRemove>::result;

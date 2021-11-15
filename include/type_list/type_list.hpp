@@ -59,7 +59,7 @@ struct TypeList
     template <typename... OtherArgs>
     constexpr decltype(auto) operator-(const TypeList<OtherArgs...>& other) const
     {
-        return RemoveTypes_t<TypeList<OtherArgs...>, TypeList<ThisArgs...>>{};
+        return removeTypes_t<TypeList<OtherArgs...>, TypeList<ThisArgs...>>{};
     }
 
     /**
@@ -69,7 +69,7 @@ struct TypeList
     template <typename... OtherArgs>
     constexpr decltype(auto) operator/(const TypeList<OtherArgs...>& other) const
     {
-        return RemoveTypes_t<TypeList<OtherArgs...>, TypeList<ThisArgs...>>{};
+        return removeTypes_t<TypeList<OtherArgs...>, TypeList<ThisArgs...>>{};
     }
 
     /**

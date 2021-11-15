@@ -133,15 +133,15 @@ TEST(Metaprogramming, remove_type)
 
 TEST(Metaprogramming, remove_types)
 {
-    typedef RemoveTypes_t<Variadic<int, int, double>, Variadic<int, int, double>> test_1;
+    typedef removeTypes_t<Variadic<int, int, double>, Variadic<int, int, double>> test_1;
     static_assert(areTypesEqual<Variadic<>, test_1>());
 
-    typedef RemoveTypes_t<Variadic<int, int>, Variadic<int, int, double>> test_2;
+    typedef removeTypes_t<Variadic<int, int>, Variadic<int, int, double>> test_2;
     static_assert(areTypesEqual<Variadic<double>, test_2>());
 
-    typedef RemoveTypes_t<Variadic<int>, Variadic<int, int, double>> test_3;
+    typedef removeTypes_t<Variadic<int>, Variadic<int, int, double>> test_3;
     static_assert(areTypesEqual<Variadic<int, double>, test_3>());
 
-    typedef RemoveTypes_t<Variadic<double>, Variadic<int, int, double>> test_4;
+    typedef removeTypes_t<Variadic<double>, Variadic<int, int, double>> test_4;
     static_assert(areTypesEqual<Variadic<int, int>, test_4>());
 }
