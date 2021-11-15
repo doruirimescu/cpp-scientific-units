@@ -46,4 +46,5 @@ struct conditional<true, T, F>
     typedef T type;
 };
 
-#define CONDITIONAL(cond, T, F) typedef typename conditional<cond, T, F>::type conditional_type;
+template<bool B, typename T, typename F>
+using conditional_t = typename conditional<B, T, F>::type;

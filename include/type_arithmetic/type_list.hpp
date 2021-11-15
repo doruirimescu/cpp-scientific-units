@@ -29,13 +29,13 @@
 
 #pragma once
 #include <remove_nth_occurrence_of_type_from_list.hpp>
-#include <remove_type_list_from_type_list.hpp>
 #include <remove_type_from_type_list.hpp>
 #include <is_type_in_type_list.hpp>
 #include <are_type_lists_containing_the_same_types.hpp>
 #include <calculate_type_list_intersection.hpp>
 #include <calculate_type_by_id.hpp>
-#include <variadic.hpp>
+#include <metaprogramming/variadic.hpp>
+#include <metaprogramming/remove_types.hpp>
 
 template <typename... ThisArgs>
 struct TypeList : Variadic<ThisArgs...>
@@ -58,7 +58,7 @@ struct TypeList : Variadic<ThisArgs...>
     template <typename... OtherArgs>
     constexpr decltype(auto) operator-(const TypeList<OtherArgs...>& other) const
     {
-        return removeTypeListFromTypeList(*this, other);
+        return RemoveTypes_t<TypeList<OtherArgs...>, TypeList<ThisArgs...>>{};
     }
 
     /**
@@ -68,7 +68,7 @@ struct TypeList : Variadic<ThisArgs...>
     template <typename... OtherArgs>
     constexpr decltype(auto) operator/(const TypeList<OtherArgs...>& other) const
     {
-        return *this - this->calculateIntersection(other);
+        return RemoveTypes_t<TypeList<OtherArgs...>, TypeList<ThisArgs...>>{};
     }
 
     /**
@@ -121,11 +121,11 @@ struct TypeList : Variadic<ThisArgs...>
     }
 
     template <typename T>
-    constexpr decltype(auto) removeType() const
+    constexpr decltype(auto) RemoveType() const
     {
         return removeTypeFromTypeList<T>(*this);
     }
-    constexpr decltype(auto) removeType() const
+    constexpr decltype(auto) RemoveType() const
     {
         return (*this);
     }

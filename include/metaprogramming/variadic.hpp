@@ -32,7 +32,10 @@
  */
 
 #pragma once
-
+#include <conditional.hpp>
+#include <type_traits>
+#include <combine_variadics.hpp>
+#include <remove_nth_occurrence_of_type.hpp>
 template <typename... T>
 struct Variadic;
 
@@ -61,26 +64,8 @@ struct Variadic<>
     typedef Variadic<> first_type;
     typedef Variadic<> rest_type;
 };
+typedef Variadic<> EMPTY_VARIADIC;
 
-/**
- * @brief  Gets the nth type of the variadic template
- *
- * @tparam N : Nth type to get
- * @tparam V : The variadic template
- */
-template <int N, typename V>
-struct getNthType
-{
-    static_assert(V::is_variadic == true, "V is not variadic");
-    typedef typename getNthType<N - 1, typename V::rest_type>::result result;
-};
-
-template <typename V>
-struct getNthType<1, V>
-{
-    static_assert(V::is_variadic == true, "V is not variadic");
-    typedef typename V::first_type result;
-};
 
 template <typename Type, typename V, unsigned int Position = 1>
 struct hasType
@@ -99,6 +84,3 @@ struct hasType<Type, Variadic<>, Position>
     static const bool result = false;
     static constexpr unsigned int position = 0;
 };
-
-
-typedef Variadic<> EMPTY_VARIADIC;

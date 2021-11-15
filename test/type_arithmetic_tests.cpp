@@ -77,13 +77,13 @@ TEST(TypeList, subtraction)
     static_assert(TypeList<m, m>{} - TypeList<>{} == TypeList<m, m>{}, "");
 }
 
-TEST(TypeList, removeType)
+TEST(TypeList, RemoveType)
 {
-    static_assert(TypeList<T1>{}.removeType<T1>() == TypeList<>{}, "");
-    static_assert(TypeList<>{}.removeType<T1>() == TypeList<>{}, "");
-    static_assert(TypeList<T1>{}.removeType() == TypeList<T1>{}, "");
-    static_assert(TypeList<T1, T1, T1>{}.removeType<T1>() == TypeList<>{}, "");
-    static_assert(TypeList<T2, T1, T1, T1, T2>{}.removeType<T1>() == TypeList<T2, T2>{}, "");
+    static_assert(TypeList<T1>{}.RemoveType<T1>() == TypeList<>{}, "");
+    static_assert(TypeList<>{}.RemoveType<T1>() == TypeList<>{}, "");
+    static_assert(TypeList<T1>{}.RemoveType() == TypeList<T1>{}, "");
+    static_assert(TypeList<T1, T1, T1>{}.RemoveType<T1>() == TypeList<>{}, "");
+    static_assert(TypeList<T2, T1, T1, T1, T2>{}.RemoveType<T1>() == TypeList<T2, T2>{}, "");
 }
 
 TEST(TypeList, test_aliases)
@@ -119,9 +119,9 @@ TEST(TestType, variousExpressions)
     static_assert(t1.calculateIntersection(t2) == TypeList<>{});
     static_assert(t1.calculateIntersection(t3) == t1);
     static_assert(TypeList<T1, T2, T3, T3>{}.calculateIntersection(TypeList<T1, T3, T3>{}) == TypeList<T3, T1, T3>{});
-    static_assert(TypeList<T1, T2, T3, T3>{}.removeType<T3>() == TypeList<T1, T2>{});
-    static_assert(TypeList<T1, T1, T1, T1>{}.removeType<T1>() == TypeList<>{});
-    static_assert(TypeList<T1, T2>{}.removeType<T1>() == TypeList<T2>{});
+    static_assert(TypeList<T1, T2, T3, T3>{}.RemoveType<T3>() == TypeList<T1, T2>{});
+    static_assert(TypeList<T1, T1, T1, T1>{}.RemoveType<T1>() == TypeList<>{});
+    static_assert(TypeList<T1, T2>{}.RemoveType<T1>() == TypeList<T2>{});
 
     static_assert(TypeList<T1, T2, T3, T4>{} - TypeList<T1, T2>{} == TypeList<T3, T4>{});
     static_assert(TypeList<T1, T2>{} - TypeList<T1, T2>{} == TypeList<>{});
