@@ -25,6 +25,9 @@
  *
  */
 #pragma once
+//Forward declarations.
+template <typename... ThisArgs>
+struct TypeList;
 
 /**
  * @brief For each element in right list, check if it is contained in left list.

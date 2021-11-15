@@ -142,10 +142,10 @@ TEST(getNthType, getNthType_Tuple)
 
 TEST(RemoveType, removeType_Variadic)
 {
-    typedef RemoveType<double, Variadic<double, int, double, int>>::result test_1;
+    typedef removeType_t<double, Variadic<double, int, double, int>> test_1;
     static_assert(areTypesEqual<Variadic<int, int>, test_1>());
 
-    typedef RemoveType<double, Variadic<double, double>>::result test_2;
+    typedef RemoveType<double, Variadic<double, double>>::type test_2;
     static_assert(areTypesEqual<Variadic<>, test_2>());
 }
 

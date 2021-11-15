@@ -29,13 +29,13 @@
 
 #pragma once
 #include <remove_nth_occurrence_of_type.hpp>
-#include <remove_type_from_type_list.hpp>
-#include <is_type_in_type_list.hpp>
-#include <are_type_lists_containing_the_same_types.hpp>
 #include <calculate_type_list_intersection.hpp>
 #include <calculate_type_by_id.hpp>
 #include <metaprogramming/variadic.hpp>
 #include <metaprogramming/remove_types.hpp>
+#include <metaprogramming/remove_type.hpp>
+#include <metaprogramming/is_type_in_variadic.hpp>
+#include <metaprogramming/are_variadics_containing_the_same_types.hpp>
 
 template <typename... ThisArgs>
 struct TypeList : Variadic<ThisArgs...>
@@ -89,7 +89,9 @@ struct TypeList : Variadic<ThisArgs...>
         }
         else
         {
-            return areTypeListsContainingSameTypes(*this, other) and areTypeListsContainingSameTypes(other, *this);
+            const bool is_this_in_other = AreVariadicsContainingTheSameTypes<TypeList<ThisArgs...>, TypeList<OtherArgs...>>::value;
+            const bool is_other_in_this = AreVariadicsContainingTheSameTypes<TypeList<OtherArgs...>, TypeList<ThisArgs...>>::value;
+            return is_this_in_other and is_other_in_this;
         }
     }
 
@@ -102,7 +104,7 @@ struct TypeList : Variadic<ThisArgs...>
     template <typename T>
     constexpr bool hasType() const
     {
-        return isTypeInTypeList<T>(*this);
+        return IsTypeInVariadic<T, TypeList<ThisArgs...>>::value;
     }
     constexpr bool hasType() const
     {
@@ -123,7 +125,7 @@ struct TypeList : Variadic<ThisArgs...>
     template <typename T>
     constexpr decltype(auto) RemoveType() const
     {
-        return removeTypeFromTypeList<T>(*this);
+        return removeType_t<T, TypeList<ThisArgs...>>{};
     }
     constexpr decltype(auto) RemoveType() const
     {

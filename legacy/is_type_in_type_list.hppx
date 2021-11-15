@@ -29,6 +29,9 @@
 
 #pragma once
 
+template<typename...T>
+struct TypeList;
+
 /**
  * @brief Checks if type is present in given TypeList.
  *
