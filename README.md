@@ -1,4 +1,6 @@
 ## Header-only framework which allows using different units and quantities as types
+![C++](https://img.shields.io/badge/-C++-05122A?style=flat&logo=cplusplus&logoColor=00599C)
+[![GitHub license](https://img.shields.io/github/license/mpusz/units?cacheSeconds=3600&color=informational&label=License)](./LICENSE.md)
 
 ## How to use
 
