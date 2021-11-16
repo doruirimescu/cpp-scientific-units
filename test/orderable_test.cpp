@@ -10,51 +10,51 @@ public:
     }
 };
 
-TEST(Orderable, equality)
+TEST(orderable, equality)
 {
     OrderableTest a{10.0};
-    Orderable b{10.0};
+    Orderable<double> b{10.0};
     ASSERT_TRUE(a == b);
-    static_assert(Orderable{1} == Orderable{1});
+    static_assert(Orderable<double>{1} == Orderable<double>{1});
 }
 
-TEST(Orderable, inequality)
+TEST(orderable, inequality)
 {
     OrderableTest a{10.0};
-    Orderable b{10.1};
+    Orderable<double> b{10.1};
     ASSERT_TRUE(a != b);
-    static_assert(Orderable{2} != Orderable{1});
+    static_assert(Orderable<double>{2} != Orderable<double>{1});
 }
 
-TEST(Orderable, less_than)
+TEST(orderable, less_than)
 {
     OrderableTest a{10.5};
-    Orderable b{10.9};
+    Orderable<double> b{10.9};
     ASSERT_TRUE(a < b);
-    static_assert(Orderable{2} < Orderable{13});
+    static_assert(Orderable<double>{2} < Orderable<double>{13});
 }
 
-TEST(Orderable, less_than_or_equal)
+TEST(orderable, less_than_or_equal)
 {
     OrderableTest a{10.5};
-    Orderable b{10.9};
+    Orderable<double> b{10.9};
     ASSERT_TRUE(a <= b);
-    static_assert(Orderable{3} <= Orderable{13});
+    static_assert(Orderable<double>{3} <= Orderable<double>{13});
 }
 
-TEST(Orderable, greater_than)
+TEST(orderable, greater_than)
 {
     OrderableTest a{39};
-    Orderable b{7};
+    Orderable<double> b{7};
     ASSERT_TRUE(a > b);
-    static_assert(Orderable{3} > Orderable{1});
+    static_assert(Orderable<double>{3} > Orderable<double>{1});
 }
 
-TEST(Orderable, greater_than_or_equal)
+TEST(orderable, greater_than_or_equal)
 {
     constexpr OrderableTest a{39};
-    constexpr Orderable b{7};
+    constexpr Orderable<double> b{7};
     static_assert(a >= b);
-    static_assert(Orderable{0} >= Orderable{0});
-    static_assert(Orderable{3}.value * Orderable{5}.value == 15);
+    static_assert(Orderable<double>{0} >= Orderable<double>{0});
+    static_assert(Orderable<double>{3}.value * Orderable<double>{5}.value == 15);
 }

@@ -209,4 +209,5 @@ TEST(energy, conversions)
     static_assert(static_cast<q_kJ>(1000.0 * 1.0_q_J + 1.0_q_kJ).value == 2.0);
 
     static_assert(static_cast<q_kJ>(1.0_q_MJ).value == 1000.0);
+
 }
