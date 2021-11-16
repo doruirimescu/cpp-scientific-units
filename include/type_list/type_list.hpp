@@ -187,6 +187,3 @@ constexpr double convertLists(const TypeList<>& left, const TypeList<>& right)
 {
     return 1.0;
 }
-
-//TODO: find a way to return a type from a function
-//Start with a struct using the type of some argument

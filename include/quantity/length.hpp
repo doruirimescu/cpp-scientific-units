@@ -29,7 +29,6 @@
 #include <type_list.hpp>
 #include <prefix.hpp>
 #include <id.hpp>
-#include <conversion.hpp>
 
 namespace q_length
 {
@@ -39,63 +38,48 @@ struct length
 };
 struct Mm : public prefix::mega, public length
 {
-    static constexpr double length = value;
 };
 struct km : public prefix::kilo, public length
 {
-    static constexpr double length = value;
 };
 struct hm : public prefix::hecto, public length
 {
-    static constexpr double length = value;
 };
 struct dam : public prefix::deca, public length
 {
-    static constexpr double length = value;
 };
 struct m : public prefix::none, public length
 {
-    static constexpr double length = value;
 };
 struct dm : public prefix::deci, public length
 {
-    static constexpr double length = value;
 };
 struct cm : public prefix::centi, public length
 {
-    static constexpr double length = value;
 };
 struct mm : public prefix::milli, public length
 {
-    static constexpr double length = value;
 };
 struct um : public prefix::micro, public length
 {
-    static constexpr double length = value;
 };
 struct nm : public prefix::nano, public length
 {
-    static constexpr double length = value;
 };
 struct pm : public prefix::pico, public length
 {
-    static constexpr double length = value;
 };
 struct fm : public prefix::femto, public length
 {
-    static constexpr double length = value;
 };
 struct am : public prefix::atto, public length
 {
-    static constexpr double length = value;
 };
 struct zm : public prefix::zepto, public length
 {
-    static constexpr double length = value;
 };
 struct ym : public prefix::yocto, public length
 {
-    static constexpr double length = value;
 };
 }  // namespace q_length
 

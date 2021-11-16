@@ -29,7 +29,6 @@
 #include <type_list.hpp>
 #include <prefix.hpp>
 #include <orderable.hpp>
-#include <conversion.hpp>
 #include <id.hpp>
 namespace q_time
 {
@@ -139,48 +138,4 @@ constexpr q_day operator"" _q_day(long double v)
 constexpr q_year operator"" _q_year(long double v)
 {
     return q_year{static_cast<double>(v)};
-}
-
-//TODO: This stuff is actually very unsafe, because Time can be any value and it will still work !
-
-// Time conversions
-//TODO: remove all those and use static casts
-template <typename Time>
-constexpr q_s to_q_s(const Quantity<TypeList<Time>, TypeList<>>& v)
-{
-    return q_s{v.value * Time::time};
-}
-
-template <typename Time>
-constexpr q_ms to_q_ms(const Quantity<TypeList<Time>, TypeList<>>& v)
-{
-    const auto in_seconds = to_q_s(v);
-    return q_ms{in_seconds.value / q_time::ms::time};
-}
-
-template <typename Time>
-constexpr q_min to_q_min(const Quantity<TypeList<Time>, TypeList<>>& v)
-{
-    const auto in_seconds = to_q_s(v);
-    return q_min{in_seconds.value / q_time::min::time};
-}
-
-template <typename Time>
-constexpr q_hour to_q_hour(const Quantity<TypeList<Time>, TypeList<>>& v)
-{
-    const auto in_seconds = to_q_s(v);
-    return q_hour{in_seconds.value / q_time::hour::time};
-}
-
-template <typename Time>
-constexpr q_hour to_q_day(const Quantity<TypeList<Time>, TypeList<>>& v)
-{
-    const auto in_seconds = to_q_s(v);
-    return q_hour{in_seconds.value / q_time::day::time};
-}
-
-template <typename ToType, typename FromType>
-constexpr Quantity<TypeList<ToType>, TypeList<>> to_q_time(const Quantity<TypeList<FromType>, TypeList<>>& from)
-{
-    return conversion::to_q_<ToType>(from);
 }

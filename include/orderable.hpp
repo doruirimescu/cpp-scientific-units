@@ -26,6 +26,7 @@
  *
  * @brief
  * This file describes a generic interface for orderable objects.
+ * Inherit from this and your class will be orderable.
  */
 
 #pragma once
