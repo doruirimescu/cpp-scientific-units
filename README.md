@@ -20,3 +20,8 @@ This, using the helper ```IsVariadic<ExampleVariadic<int, double>>::value``` wil
 ```IsVariadic<int>::value``` will return ```false```.
 
 The usage of the metaprogramming library can be easily understood from the [unit tests](https://github.com/doruirimescu/cpp-scientific-units/blob/master/test/metaprogramming/metaprogramming_test.cpp).
+
+### Type lists
+[Type lists](https://github.com/doruirimescu/cpp-scientific-units/tree/master/include/type_list) are built from putting all together the metaprogramming helpers into one class. Type lists are the building blocks of quantities. For example, ```TypeList<kg, m>``` could represent a type of "kilogram times meter". ```TypeList<s, s>``` could represent a type of "second square". Thus, a quantity will be represented by two type lists, one for the numerator and one for the denominator.
+
+The metaprogramming helpers are used to define basic algebraic operations with TypeLists.
