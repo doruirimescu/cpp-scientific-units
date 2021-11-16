@@ -11,7 +11,7 @@ static_assert(static_cast<q_J>(1.0_q_J).value == 1.0);
 constexpr auto grav_acc = 10.0_q_mps / 1.0_q_s;
 constexpr auto height = 10.0_q_m;
 constexpr auto mass = 10.0_q_g;
-static_assert(static_cast<q_J>(1.0_q_J + 2.0_q_N * 2.5_q_m - grav_acc*height* mass).value == 5.0);
+static_assert(static_cast<q_J>(1.0_q_J + 2.0_q_N * 2.5_q_m - grav_acc * height * mass).value == 5.0);
 ```
 
 As you note, all types are starting with ```q_``` and all user-defined type literals start with ```_q_```. Conversion between equivalent types happen implicitly. 
