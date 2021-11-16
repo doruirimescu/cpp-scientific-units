@@ -5,6 +5,7 @@
 #include <mass.hpp>
 #include <speed.hpp>
 #include <force.hpp>
+#include <energy.hpp>
 
 /**
  * Naming convention
@@ -92,6 +93,9 @@ TEST(Length, static_cast)
     static_assert(static_cast<q_m>(100.0_q_m).value == 100.0);
     EXPECT_FLOAT_EQ(static_cast<q_cm>(1.0_q_m).value, 100.0);
     EXPECT_FLOAT_EQ(static_cast<q_mm>(1.0_q_cm).value, 10.0);
+    EXPECT_FLOAT_EQ(static_cast<q_mm>(1.0_q_in).value, 25.4);
+    EXPECT_FLOAT_EQ(static_cast<q_cm>(1.0_q_in).value, 2.54);
+    EXPECT_FLOAT_EQ(static_cast<q_mil>(1.0_q_in).value, 1000.0);
 }
 
 TEST(Speed, speed)
@@ -190,4 +194,14 @@ TEST(ConvertToAnyQuantity, static_cast)
 
     result = static_cast<q_kmph>(1.0_q_mps).value;
     EXPECT_FLOAT_EQ(result, 3.6);
+}
+
+TEST(energy, conversions)
+{
+    static_assert(static_cast<q_J>(1.0_q_J).value == 1.0);
+    constexpr auto grav_acc = 10.0_q_mps / 1.0_q_s;
+    constexpr auto height = 10.0_q_m;
+    constexpr auto mass = 10.0_q_g;
+    static_assert(static_cast<q_J>(1.0_q_J + 2.0_q_N * 2.5_q_m - grav_acc*height* mass).value == 5.0);
+
 }

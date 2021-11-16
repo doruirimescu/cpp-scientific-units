@@ -30,13 +30,8 @@
 #include <mass.hpp>
 #include <length.hpp>
 #include <time.hpp>
+#include <unit.hpp>
 
-namespace q_force
-{
-struct N : public prefix::none
-{
-};
-}  // namespace q_force
 
 // Force types
 using q_N = Quantity<TypeList<q_mass::kg, q_length::m>, TypeList<q_time::s, q_time::s>>;

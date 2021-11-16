@@ -20,19 +20,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   id.hpp
+ * @file   unit.hpp
  * @author Doru Irimescu
  *
  */
+
 #pragma once
 
-enum Q_ID
+//Unit takes a prefix and an id
+template<typename Prefix, typename ScalingToStandard, Q_ID ID>
+struct Unit
 {
-    //No Q_ID can be 0, otherwise it will trigger static asserts
-    MASS = 1,
-    LENGTH,
-    SPEED,
-    TIME,
-    ENERGY,
-    FORCE
+    static constexpr double value = Prefix::value * ScalingToStandard::value;
+    static constexpr int id = ID;
 };
