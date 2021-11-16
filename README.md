@@ -1,5 +1,27 @@
 ## Header-only framework which allows using different units and quantities as types
 
+## How to use
+
+Example usage:
+
+```cpp
+static_assert(static_cast<q_J>(1.0_q_J).value == 1.0);
+constexpr auto grav_acc = 10.0_q_mps / 1.0_q_s;
+constexpr auto height = 10.0_q_m;
+constexpr auto mass = 10.0_q_g;
+static_assert(static_cast<q_J>(1.0_q_J + 2.0_q_N * 2.5_q_m - grav_acc*height* mass).value == 5.0);
+```
+
+As you note, all types are starting with ```q_``` and all user-defined type literals start with ```_q_```. Conversion between equivalent types happen implicitly. 
+
+This code will generate a compile-time error.
+```cpp
+q_g grams{10.0};
+q_J energy = 2.0 * grams;
+```
+
+## How it works
+
 The framework consists of 3 building blocks:
 - metaprogramming
 - type_list
