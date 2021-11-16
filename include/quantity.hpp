@@ -97,7 +97,7 @@ struct Quantity : public Orderable<double>
         return Quantity<decltype(num), decltype(den)>{this->value * other.value};
     }
 
-    //Multiplication by scalar
+    //Multiplication by scalar on right
     constexpr Quantity<Numerator, Denominator> operator*(const double scalar) const
     {
         auto new_quantity = *this;
@@ -133,6 +133,13 @@ struct Quantity : public Orderable<double>
         return new_quantity;
     }
 };
+
+//operator* for double and quantity (multiplication from left)
+template <class Numerator, class Denominator>
+constexpr Quantity<Numerator, Denominator> operator*(const double scalar, const Quantity<Numerator, Denominator>& quantity)
+{
+    return quantity * scalar;
+}
 
 #define NUMERATOR(...)  TypeList<__VA_ARGS__>
 #define DENOMINATOR(...)  TypeList<__VA_ARGS__>

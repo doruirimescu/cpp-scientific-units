@@ -38,6 +38,8 @@ struct gram
     static constexpr double value = 1.0;
 };
 
+using Mg = Unit<prefix::mega, gram, MASS>;
+
 using hg = Unit<prefix::hecto, gram, MASS>;
 using dag = Unit<prefix::deca, gram, MASS>;
 using g = Unit<prefix::none, gram, MASS>;
