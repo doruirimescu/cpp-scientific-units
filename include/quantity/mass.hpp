@@ -59,13 +59,13 @@ using yg = Unit<prefix::yocto, gram, MASS>;
 
 // Mass types
 
-using q_kg = Quantity<Numerator<q_mass::kg>, Denominator<>>;
-using q_hg = Quantity<Numerator<q_mass::hg>, Denominator<>>;
-using q_dag = Quantity<Numerator<q_mass::dag>, Denominator<>>;
-using q_g = Quantity<Numerator<q_mass::g>, Denominator<>>;
-using q_dg = Quantity<Numerator<q_mass::dg>, Denominator<>>;
-using q_cg = Quantity<Numerator<q_mass::cg>, Denominator<>>;
-using q_mg = Quantity<Numerator<q_mass::mg>, Denominator<>>;
+using q_kg =    Quantity<TypeList<q_mass::kg>, TypeList<>>;
+using q_hg =    Quantity<TypeList<q_mass::hg>, TypeList<>>;
+using q_dag =   Quantity<TypeList<q_mass::dag>,TypeList<>>;
+using q_g =     Quantity<TypeList<q_mass::g>,  TypeList<>>;
+using q_dg =    Quantity<TypeList<q_mass::dg>, TypeList<>>;
+using q_cg =    Quantity<TypeList<q_mass::cg>, TypeList<>>;
+using q_mg =    Quantity<TypeList<q_mass::mg>, TypeList<>>;
 
 // Mass user-defined literals
 constexpr q_g operator"" _q_g(long double v)

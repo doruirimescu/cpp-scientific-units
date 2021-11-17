@@ -26,7 +26,7 @@
  */
 
 #pragma once
-
+#include <id.hpp>
 //Unit takes a prefix and an id
 template<typename Prefix, typename ScalingToStandard, Q_ID ID>
 struct Unit
