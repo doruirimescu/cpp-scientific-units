@@ -35,6 +35,7 @@
 #include <metaprogramming/remove_types.hpp>
 #include <metaprogramming/is_type_in_variadic.hpp>
 #include <metaprogramming/is_variadic.hpp>
+#include <metaprogramming/skip_first_type.hpp>
 template <typename... T>
 struct Variadic
 {
@@ -144,4 +145,12 @@ TEST(Metaprogramming, remove_types)
 
     typedef removeTypes_t<Variadic<double>, Variadic<int, int, double>> test_4;
     static_assert(areTypesEqual<Variadic<int, int>, test_4>());
+}
+
+TEST(Metaprogramming, skip_first_type)
+{
+    static_assert(areTypesEqual<skipFirstType_t<Variadic<>>, Variadic<>>());
+    static_assert(areTypesEqual<skipFirstType_t<Variadic<int>>, Variadic<>>());
+    static_assert(areTypesEqual<skipFirstType_t<Variadic<int, double>>, Variadic<double>>());
+    static_assert(areTypesEqual<skipFirstType_t<Variadic<int, double, int>>, Variadic<double, int>>());
 }
