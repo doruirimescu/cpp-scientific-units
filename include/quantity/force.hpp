@@ -34,7 +34,7 @@
 
 
 // Force types
-using q_N = Quantity<TypeList<q_mass::kg, q_length::m>, TypeList<q_time::s, q_time::s>>;
+using q_N = Quantity<Numerator<q_mass::kg, q_length::m>, Denominator<q_time::s, q_time::s>>;
 
 // Force user-defined literals
 constexpr q_N operator"" _q_N(long double v)

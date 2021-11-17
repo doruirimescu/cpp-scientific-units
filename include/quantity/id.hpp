@@ -34,5 +34,6 @@ enum Q_ID
     SPEED,
     TIME,
     ENERGY,
-    FORCE
+    FORCE,
+    SCALAR
 };

@@ -87,16 +87,16 @@ struct year : public time
 
 }  // namespace q_time
 
-using q_s = Quantity<TypeList<q_time::s>, TypeList<>>;
-using q_ms = Quantity<TypeList<q_time::ms>, TypeList<>>;
-using q_us = Quantity<TypeList<q_time::us>, TypeList<>>;
-using q_ns = Quantity<TypeList<q_time::ns>, TypeList<>>;
-using q_ps = Quantity<TypeList<q_time::ps>, TypeList<>>;
-using q_fs = Quantity<TypeList<q_time::fs>, TypeList<>>;
-using q_min = Quantity<TypeList<q_time::min>, TypeList<>>;
-using q_hour = Quantity<TypeList<q_time::hour>, TypeList<>>;
-using q_day = Quantity<TypeList<q_time::day>, TypeList<>>;
-using q_year = Quantity<TypeList<q_time::year>, TypeList<>>;
+using q_s = Quantity<Numerator<q_time::s>, Denominator<>>;
+using q_ms = Quantity<Numerator<q_time::ms>, Denominator<>>;
+using q_us = Quantity<Numerator<q_time::us>, Denominator<>>;
+using q_ns = Quantity<Numerator<q_time::ns>, Denominator<>>;
+using q_ps = Quantity<Numerator<q_time::ps>, Denominator<>>;
+using q_fs = Quantity<Numerator<q_time::fs>, Denominator<>>;
+using q_min = Quantity<Numerator<q_time::min>, Denominator<>>;
+using q_hour = Quantity<Numerator<q_time::hour>, Denominator<>>;
+using q_day = Quantity<Numerator<q_time::day>, Denominator<>>;
+using q_year = Quantity<Numerator<q_time::year>, Denominator<>>;
 
 // Time user-defined literal
 constexpr q_s operator"" _q_s(long double v)

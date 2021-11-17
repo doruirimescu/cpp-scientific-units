@@ -145,7 +145,15 @@ struct TypeList
     TypeList<__VA_ARGS__>                                                                                              \
     {                                                                                                                  \
     }
+template <typename... ThisArgs>
+struct Numerator: TypeList<ThisArgs...>
+{
+};
 
+template <typename... ThisArgs>
+struct Denominator: TypeList<ThisArgs...>
+{
+};
 
 //! This works only for types which have a static int id and a double value
 template <typename...LeftArgs, typename...RightArgs>
