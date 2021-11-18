@@ -5,10 +5,10 @@
 #include <unit.hpp>
 #include <scalar.hpp>
 
-using q_J = Quantity<TypeList <q_mass::kg, q_length::m, q_length::m>, TypeList<q_time::s, q_time::s>>;
-using q_kJ = Quantity<TypeList<q_scalar::ks, q_mass::kg, q_length::m, q_length::m>, TypeList<q_time::s, q_time::s>>;
-using q_MJ = Quantity<TypeList<q_scalar::Ms, q_mass::kg, q_length::m, q_length::m>, TypeList<q_time::s, q_time::s>>;
-using q_GJ = Quantity<TypeList<q_scalar::Gs, q_mass::kg, q_length::m, q_length::m>, TypeList<q_time::s, q_time::s>>;
+using q_J =  Quantity<TypeList <q_scalar::none, q_mass::kg, q_length::m, q_length::m>,  TypeList<q_scalar::none, q_time::s, q_time::s>>;
+using q_kJ = Quantity<TypeList<q_scalar::k, q_mass::kg, q_length::m, q_length::m>, TypeList<q_scalar::none, q_time::s, q_time::s>>;
+using q_MJ = Quantity<TypeList<q_scalar::M, q_mass::kg, q_length::m, q_length::m>, TypeList<q_scalar::none, q_time::s, q_time::s>>;
+using q_GJ = Quantity<TypeList<q_scalar::G, q_mass::kg, q_length::m, q_length::m>, TypeList<q_scalar::none, q_time::s, q_time::s>>;
 
 //TODO: add q_scalar:: to all other quantities..
 

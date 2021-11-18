@@ -30,7 +30,7 @@
 #include <prefix.hpp>
 #include <id.hpp>
 #include <unit.hpp>
-
+#include <scalar.hpp>
 namespace q_mass
 {
 struct gram
@@ -59,13 +59,13 @@ using yg = Unit<prefix::yocto, gram, MASS>;
 
 // Mass types
 
-using q_kg =    Quantity<TypeList<q_mass::kg>, TypeList<>>;
-using q_hg =    Quantity<TypeList<q_mass::hg>, TypeList<>>;
-using q_dag =   Quantity<TypeList<q_mass::dag>,TypeList<>>;
-using q_g =     Quantity<TypeList<q_mass::g>,  TypeList<>>;
-using q_dg =    Quantity<TypeList<q_mass::dg>, TypeList<>>;
-using q_cg =    Quantity<TypeList<q_mass::cg>, TypeList<>>;
-using q_mg =    Quantity<TypeList<q_mass::mg>, TypeList<>>;
+using q_kg =    Quantity<TypeList<q_scalar::k, q_mass::g>,  TypeList<q_scalar::none>>;
+using q_hg =    Quantity<TypeList<q_scalar::none, q_mass::hg>, TypeList<q_scalar::none>>;
+using q_dag =   Quantity<TypeList<q_scalar::none, q_mass::dag>,TypeList<q_scalar::none>>;
+using q_g =     Quantity<TypeList<q_scalar::none, q_mass::g>,  TypeList<q_scalar::none>>;
+using q_dg =    Quantity<TypeList<q_scalar::none, q_mass::dg>, TypeList<q_scalar::none>>;
+using q_cg =    Quantity<TypeList<q_scalar::none, q_mass::cg>, TypeList<q_scalar::none>>;
+using q_mg =    Quantity<TypeList<q_scalar::none, q_mass::mg>, TypeList<q_scalar::none>>;
 
 // Mass user-defined literals
 constexpr q_g operator"" _q_g(long double v)

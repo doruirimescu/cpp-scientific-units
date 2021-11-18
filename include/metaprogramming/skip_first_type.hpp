@@ -15,5 +15,23 @@ struct SkipFirstType<Variadic<>>
     typedef Variadic<> type;
 };
 
+/*************************************************/
+template<typename...T>
+struct GetFirstType;
+
+template<template<class...> typename Variadic, typename First, typename...Rest>
+struct GetFirstType<Variadic<First, Rest...>>
+{
+    typedef Variadic<First> type;
+};
+
+template<template<class...> typename Variadic>
+struct GetFirstType<Variadic<>>
+{
+    typedef Variadic<> type;
+};
+
+template<typename T>
+using getFirstType_t = typename GetFirstType<T>::type;
 template<typename T>
 using skipFirstType_t = typename SkipFirstType<T>::type;

@@ -35,7 +35,8 @@
 #include <metaprogramming/remove_type.hpp>
 #include <metaprogramming/is_type_in_variadic.hpp>
 #include <metaprogramming/are_variadics_containing_the_same_types.hpp>
-
+#include <metaprogramming/skip_first_type.hpp>
+#include <type_traits>
 template <typename... ThisArgs>
 struct TypeList
 {
@@ -49,6 +50,16 @@ struct TypeList
     constexpr TypeList<ThisArgs..., OtherArgs...> operator+(const TypeList<OtherArgs...>& other) const
     {
         return TypeList<ThisArgs..., OtherArgs...>{};
+    }
+
+    constexpr decltype(auto) skipFirstType() const
+    {
+        return skipFirstType_t<TypeList<ThisArgs...>>{};
+    }
+
+    constexpr decltype(auto) getFirstType() const
+    {
+        return getFirstType_t<TypeList<ThisArgs...>>{};
     }
 
     /**

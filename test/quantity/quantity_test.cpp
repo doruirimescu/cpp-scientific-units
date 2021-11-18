@@ -7,125 +7,126 @@
 class QuantityTest : public ::testing::Test
 {
 public:
-    using unitless = Quantity<TypeList<>, TypeList<>>;
-    using mass = Quantity<TypeList<kg>, TypeList<>>;
-    using acceleration = Quantity<TypeList<m>, TypeList<s, s>>;
-    using force = Quantity<TypeList<m, kg>, TypeList<s, s>>;
-    using velocity = Quantity<TypeList<m>, TypeList<s>>;
-    using time = Quantity<TypeList<s>, TypeList<>>;
-    using distance = Quantity<TypeList<m>, TypeList<>>;
-    using frequency = Quantity<TypeList<>, TypeList<s>>;
+    using unitless = Quantity<TypeList<scalar>, TypeList<scalar>>;
+    using mass = Quantity<TypeList<scalar, kg>, TypeList<scalar>>;
+    using acceleration = Quantity<TypeList<scalar, m>, TypeList<scalar, s, s>>;
+    using force = Quantity<TypeList<scalar, m, kg>, TypeList<scalar, s, s>>;
+    using velocity = Quantity<TypeList<scalar, m>, TypeList<scalar, s>>;
+    using time = Quantity<TypeList<scalar, s>, TypeList<scalar>>;
+    using distance = Quantity<TypeList<scalar, m>, TypeList<scalar>>;
+    using frequency = Quantity<TypeList<scalar>, TypeList<scalar, s>>;
     using energy = decltype(force{} * distance{});
 };
 
 TEST(Quantity, multiplication_1)
 {
-    constexpr Quantity<TypeList<m, m>, TypeList<>> square_meter{10};
-    constexpr Quantity<TypeList<>, TypeList<s>> frequency{1};
+    constexpr Quantity<TypeList<scalar, m, m>, TypeList<scalar>> square_meter{10};
+    constexpr Quantity<TypeList<scalar>, TypeList<scalar, s>> frequency{1};
 
     constexpr auto result = square_meter * frequency;
-    static_assert(result.numerator == TYPELIST(m, m));
-    static_assert(result.denominator == TYPELIST(s));
+    static_assert(result.numerator == TYPELIST(scalar,m, m));
+    static_assert(result.denominator == TYPELIST(scalar,s));
     EXPECT_EQ(result.value, 10);
 }
 
 TEST(Quantity, multiplication_2)
 {
-    constexpr Quantity<TypeList<m, kg>, TypeList<>> q1{10};
-    constexpr Quantity<TypeList<>, TypeList<s, s, kg>> q2{5};
+    constexpr Quantity<TypeList<scalar, m, kg>, TypeList<scalar>> q1{10};
+    constexpr Quantity<TypeList<scalar>, TypeList<scalar, s, s, kg>> q2{5};
     constexpr auto newton = q1 * q2;
-    static_assert(newton.numerator == TYPELIST(m));
-    static_assert(newton.denominator == TYPELIST(s, s));
+    static_assert(newton.numerator == TYPELIST(scalar,m));
+    static_assert(newton.denominator == TYPELIST(scalar,s, s));
     static_assert(newton.value == 50);
 }
 
 TEST(Quantity, multiplication_3)
 {
-    constexpr Quantity<TypeList<>, TypeList<>> unitless_1{1};
-    constexpr Quantity<TypeList<>, TypeList<>> unitless_2{2};
+    constexpr Quantity<TypeList<scalar>, TypeList<scalar>> unitless_1{1};
+    constexpr Quantity<TypeList<scalar>, TypeList<scalar>> unitless_2{2};
     constexpr auto result = unitless_1 * unitless_2;
-    static_assert(result.numerator == TYPELIST());
-    static_assert(result.denominator == TYPELIST());
+    static_assert(result.numerator == TYPELIST(scalar));
+    static_assert(result.denominator == TYPELIST(scalar));
     static_assert(result.value == 2);
 }
 
 TEST(Quantity, multiplication_4)
 {
-    constexpr Quantity<TypeList<m>, TypeList<>> left{1};
-    constexpr Quantity<TypeList<m>, TypeList<>> right{2};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> left{1};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> right{2};
     constexpr auto result = left * right;
     static_assert(result.value == 2);
-    static_assert(result.numerator == TYPELIST(m, m));
-    static_assert(result.denominator == TYPELIST());
+
+    static_assert(result.numerator == TYPELIST(scalar,m, m));
+    static_assert(result.denominator == TYPELIST(scalar));
 }
 
 TEST(Quantity, multiplication_5)
 {
-    constexpr Quantity<TypeList<m>, TypeList<>> left{2};
-    constexpr Quantity<TypeList<>, TypeList<m>> right{2};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> left{2};
+    constexpr Quantity<TypeList<scalar>, TypeList<scalar, m>> right{2};
     constexpr auto result = left * right;
     static_assert(result.value == 4);
-    static_assert(result.numerator == TYPELIST());
-    static_assert(result.denominator == TYPELIST());
+    static_assert(result.numerator == TYPELIST(scalar));
+    static_assert(result.denominator == TYPELIST(scalar));
 }
 
 TEST(Quantity, multiplication_6)
 {
-    constexpr Quantity<TypeList<m>, TypeList<m>> left{2};
-    constexpr Quantity<TypeList<m>, TypeList<m>> right{2};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar, m>> left{2};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar, m>> right{2};
     constexpr auto result = left * right;
     static_assert(result.value == 4);
-    static_assert(result.numerator == TYPELIST());
-    static_assert(result.denominator == TYPELIST());
+    static_assert(result.numerator == TYPELIST(scalar));
+    static_assert(result.denominator == TYPELIST(scalar));
 }
 
 TEST(Quantity, addition_1)
 {
-    constexpr Quantity<TypeList<m>, TypeList<>> left{1};
-    constexpr Quantity<TypeList<m>, TypeList<>> right{2};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> left{1};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> right{2};
     constexpr auto result = left + right;
     static_assert(result.value == 3);
-    static_assert(result.numerator == TYPELIST(m));
-    static_assert(result.denominator == TYPELIST());
+    static_assert(result.numerator == TYPELIST(scalar,m));
+    static_assert(result.denominator == TYPELIST(scalar));
 }
 
 TEST(Quantity, addition_2)
 {
-    constexpr Quantity<TypeList<m>, TypeList<m>> left{1};
-    constexpr Quantity<TypeList<m>, TypeList<m>> right{20};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar, m>> left{1};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar, m>> right{20};
     constexpr auto result = left + right;
     static_assert(result.value == 21);
-    static_assert(result.numerator == TYPELIST(m));
-    static_assert(result.denominator == TYPELIST(m));
+    static_assert(result.numerator == TYPELIST(scalar,m));
+    static_assert(result.denominator == TYPELIST(scalar,m));
 }
 
 TEST_F(QuantityTest, addition_3)
 {
     constexpr auto result = distance{5} + distance{10};
     static_assert(result.value == 15);
-    static_assert(result.numerator == TYPELIST(m));
-    static_assert(result.denominator == TYPELIST());
+    static_assert(result.numerator == TYPELIST(scalar,m));
+    static_assert(result.denominator == TYPELIST(scalar));
     static_assert(compareTypes<distance>(result));
 }
 
 TEST(Quantity, subtraction_1)
 {
-    constexpr Quantity<TypeList<m>, TypeList<>> left{1};
-    constexpr Quantity<TypeList<m>, TypeList<>> right{2};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> left{1};
+    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> right{2};
     constexpr auto result = left - right;
     static_assert(result.value == -1);
-    static_assert(result.numerator == TYPELIST(m));
-    static_assert(result.denominator == TYPELIST());
+    static_assert(result.numerator == TYPELIST(scalar,m));
+    static_assert(result.denominator == TYPELIST(scalar));
 }
 
 TEST(Quantity, subtraction_2)
 {
-    constexpr Quantity<TypeList<>, TypeList<>> left{1};
-    constexpr Quantity<TypeList<>, TypeList<>> right{2};
+    constexpr Quantity<TypeList<scalar>, TypeList<scalar>> left{1};
+    constexpr Quantity<TypeList<scalar>, TypeList<scalar>> right{2};
     constexpr auto result = left - right;
     static_assert(result.value == -1);
-    static_assert(result.numerator == TYPELIST());
-    static_assert(result.denominator == TYPELIST());
+    static_assert(result.numerator == TYPELIST(scalar));
+    static_assert(result.denominator == TYPELIST(scalar));
 }
 
 TEST_F(QuantityTest, general)
@@ -134,8 +135,8 @@ TEST_F(QuantityTest, general)
     constexpr acceleration gravitational_acceleration{9.81};
 
     constexpr auto result = object_weight * gravitational_acceleration;
-    static_assert(result.numerator == TYPELIST(kg, m));
-    static_assert(result.denominator == TYPELIST(s, s));
+    static_assert(result.numerator == TYPELIST(scalar,kg, m));
+    static_assert(result.denominator == TYPELIST(scalar,s, s));
     static_assert(compareTypes<force>(result));
 
     velocity vel = distance{30} / time{1};

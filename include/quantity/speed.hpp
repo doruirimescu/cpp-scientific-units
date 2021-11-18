@@ -30,10 +30,11 @@
 #include <prefix.hpp>
 #include <time.hpp>
 #include <length.hpp>
+#include <scalar.hpp>
 
 // Speed types
-using q_mps = Quantity<TypeList<q_length::m>, TypeList<q_time::s>>;
-using q_kmph = Quantity<TypeList<q_length::km>, TypeList<q_time::hour>>;
+using q_mps = Quantity<TypeList<q_scalar::none, q_length::m>,  TypeList<q_scalar::none, q_time::s>>;
+using q_kmph = Quantity<TypeList<q_scalar::none, q_length::km>,TypeList<q_scalar::none, q_time::hour>>;
 
 // Mass user-defined literals
 constexpr q_mps operator"" _q_mps(long double v)

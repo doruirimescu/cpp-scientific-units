@@ -30,6 +30,7 @@
 #pragma once
 #include <orderable.hpp>
 #include <are_types_equal_if_instances_are_equal.hpp>
+#include <skip_first_type.hpp>
 
 template <typename To, typename From>
 constexpr To to_any_q(const From& from)
@@ -42,18 +43,19 @@ constexpr To to_any_q(const From& from)
 }
 
 template <class Numerator, class Denominator>
-struct Quantity : public Orderable<double>
+struct Quantity
 {
     constexpr explicit Quantity(const double value)
-        : Orderable<double>::Orderable(value)
     {
+        this->value = value;
     }
     constexpr explicit Quantity()
-        : Orderable<double>::Orderable(1.0)
     {
+        this->value = 1.0;
     }
 
-    Quantity (const Quantity&) = default;
+    double value = 0.0;
+    Quantity(const Quantity&) = default;
     Quantity(Quantity&&) = default;
 
     //copy assignment
@@ -90,11 +92,12 @@ struct Quantity : public Orderable<double>
     template <typename N2, typename D2>
     constexpr decltype(auto) operator*(const Quantity<N2, D2>& other) const
     {
-        const auto num_sum = numerator + other.numerator;
-        const auto den_sum = denominator + other.denominator;
+        const auto num_sum = numerator.skipFirstType() + other.numerator.skipFirstType();
+        const auto den_sum = denominator.skipFirstType() + other.denominator.skipFirstType();
         auto num = num_sum - den_sum;
         auto den = den_sum - num_sum;
-        return Quantity<decltype(num), decltype(den)>{this->value * other.value};
+        return Quantity<decltype(numerator.getFirstType() + num), decltype(denominator.getFirstType() + den)>{
+            this->value * other.value};
     }
 
     //Multiplication by scalar on right
@@ -136,12 +139,13 @@ struct Quantity : public Orderable<double>
 
 //operator* for double and quantity (multiplication from left)
 template <class Numerator, class Denominator>
-constexpr Quantity<Numerator, Denominator> operator*(const double scalar, const Quantity<Numerator, Denominator>& quantity)
+constexpr Quantity<Numerator, Denominator> operator*(const double scalar,
+                                                     const Quantity<Numerator, Denominator>& quantity)
 {
     return quantity * scalar;
 }
 
-#define NUMERATOR(...)  TypeList<__VA_ARGS__>
-#define DENOMINATOR(...)  TypeList<__VA_ARGS__>
+#define NUMERATOR(...) TypeList<__VA_ARGS__>
+#define DENOMINATOR(...) TypeList<__VA_ARGS__>
 
-#define QUANTITY(...)  Quantity<__VA_ARGS__>
+#define QUANTITY(...) Quantity<__VA_ARGS__>

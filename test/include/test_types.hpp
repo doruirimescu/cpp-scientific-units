@@ -68,3 +68,9 @@ struct h
     static constexpr int id = 32;
     static constexpr double value = 3600;
 };
+
+struct scalar
+{
+    static constexpr int id = -1;
+    static constexpr double value = 1.0;
+};

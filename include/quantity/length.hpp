@@ -30,7 +30,7 @@
 #include <prefix.hpp>
 #include <id.hpp>
 #include <unit.hpp>
-
+#include <scalar.hpp>
 namespace q_length
 {
 
@@ -77,28 +77,28 @@ using mil = Unit<prefix::milli, inch, LENGTH>;
 }  // namespace q_length
 
 // Length types
-using q_Ym =    Quantity<TypeList<q_length::Ym>, TypeList<>>;
-using q_Zm =    Quantity<TypeList<q_length::Zm>, TypeList<>>;
-using q_Em =    Quantity<TypeList<q_length::Em>, TypeList<>>;
-using q_Pm =    Quantity<TypeList<q_length::Pm>, TypeList<>>;
-using q_Tm =    Quantity<TypeList<q_length::Tm>, TypeList<>>;
-using q_Gm =    Quantity<TypeList<q_length::Gm>, TypeList<>>;
-using q_Mm =    Quantity<TypeList<q_length::Mm>, TypeList<>>;
-using q_km =    Quantity<TypeList<q_length::km>, TypeList<>>;
-using q_dam =   Quantity<TypeList<q_length::dam>,TypeList<>>;
-using q_m =     Quantity<TypeList<q_length::m>,  TypeList<>>;
-using q_dm =    Quantity<TypeList<q_length::dm>, TypeList<>>;
-using q_cm =    Quantity<TypeList<q_length::cm>, TypeList<>>;
-using q_mm =    Quantity<TypeList<q_length::mm>, TypeList<>>;
-using q_um =    Quantity<TypeList<q_length::um>, TypeList<>>;
-using q_nm =    Quantity<TypeList<q_length::nm>, TypeList<>>;
-using q_pm =    Quantity<TypeList<q_length::pm>, TypeList<>>;
-using q_fm =    Quantity<TypeList<q_length::fm>, TypeList<>>;
-using q_am =    Quantity<TypeList<q_length::am>, TypeList<>>;
-using q_zm =    Quantity<TypeList<q_length::zm>, TypeList<>>;
-using q_ym =    Quantity<TypeList<q_length::ym>, TypeList<>>;
-using q_in =    Quantity<TypeList<q_length::in>, TypeList<>>;
-using q_mil =   Quantity<TypeList<q_length::mil>,TypeList<>>;
+using q_Ym =    Quantity<TypeList<q_scalar::none, q_length::Ym>, TypeList<q_scalar::none>>;
+using q_Zm =    Quantity<TypeList<q_scalar::none, q_length::Zm>, TypeList<q_scalar::none>>;
+using q_Em =    Quantity<TypeList<q_scalar::none, q_length::Em>, TypeList<q_scalar::none>>;
+using q_Pm =    Quantity<TypeList<q_scalar::none, q_length::Pm>, TypeList<q_scalar::none>>;
+using q_Tm =    Quantity<TypeList<q_scalar::none, q_length::Tm>, TypeList<q_scalar::none>>;
+using q_Gm =    Quantity<TypeList<q_scalar::none, q_length::Gm>, TypeList<q_scalar::none>>;
+using q_Mm =    Quantity<TypeList<q_scalar::none, q_length::Mm>, TypeList<q_scalar::none>>;
+using q_km =    Quantity<TypeList<q_scalar::none, q_length::km>, TypeList<q_scalar::none>>;
+using q_dam =   Quantity<TypeList<q_scalar::none, q_length::dam>,TypeList<q_scalar::none>>;
+using q_m =     Quantity<TypeList<q_scalar::none, q_length::m>,  TypeList<q_scalar::none>>;
+using q_dm =    Quantity<TypeList<q_scalar::none, q_length::dm>, TypeList<q_scalar::none>>;
+using q_cm =    Quantity<TypeList<q_scalar::none, q_length::cm>, TypeList<q_scalar::none>>;
+using q_mm =    Quantity<TypeList<q_scalar::none, q_length::mm>, TypeList<q_scalar::none>>;
+using q_um =    Quantity<TypeList<q_scalar::none, q_length::um>, TypeList<q_scalar::none>>;
+using q_nm =    Quantity<TypeList<q_scalar::none, q_length::nm>, TypeList<q_scalar::none>>;
+using q_pm =    Quantity<TypeList<q_scalar::none, q_length::pm>, TypeList<q_scalar::none>>;
+using q_fm =    Quantity<TypeList<q_scalar::none, q_length::fm>, TypeList<q_scalar::none>>;
+using q_am =    Quantity<TypeList<q_scalar::none, q_length::am>, TypeList<q_scalar::none>>;
+using q_zm =    Quantity<TypeList<q_scalar::none, q_length::zm>, TypeList<q_scalar::none>>;
+using q_ym =    Quantity<TypeList<q_scalar::none, q_length::ym>, TypeList<q_scalar::none>>;
+using q_in =    Quantity<TypeList<q_scalar::none, q_length::in>, TypeList<q_scalar::none>>;
+using q_mil =   Quantity<TypeList<q_scalar::none, q_length::mil>,TypeList<q_scalar::none>>;
 
 // Length user-defined literals
 constexpr q_Ym operator"" _q_Ym(long double v)
