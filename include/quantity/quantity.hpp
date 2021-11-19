@@ -30,7 +30,7 @@
 #pragma once
 #include <quantity/orderable.hpp>
 #include <metaprogramming/are_types_equal_if_instances_are_equal.hpp>
-#include <skip_first_type.hpp>
+#include <metaprogramming/skip_first_type.hpp>
 
 template <typename To, typename From>
 constexpr To to_any_q(const From& from)

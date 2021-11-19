@@ -25,7 +25,7 @@
  *
  */
 #pragma once
-#include <remove_nth_occurrence_of_type.hpp>
+#include <metaprogramming/remove_nth_occurrence_of_type.hpp>
 
 template<typename...Args>
 struct RemoveTypes

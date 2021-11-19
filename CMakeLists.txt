@@ -27,9 +27,6 @@ target_set_warnings(${LIBRARY_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying)
 target_include_directories(${LIBRARY_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include/)
 
 include_directories(${PROJECT_SOURCE_DIR}/include/)
-include_directories(${PROJECT_SOURCE_DIR}/include/type_list)
-include_directories(${PROJECT_SOURCE_DIR}/include/quantity)
-include_directories(${PROJECT_SOURCE_DIR}/include/metaprogramming)
 
 include_directories(${PROJECT_SOURCE_DIR}/test/include)
 

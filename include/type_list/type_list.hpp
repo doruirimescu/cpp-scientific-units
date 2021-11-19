@@ -28,15 +28,16 @@
  */
 
 #pragma once
-#include <remove_nth_occurrence_of_type.hpp>
-#include <calculate_type_list_intersection.hpp>
-#include <calculate_type_by_id.hpp>
+#include <metaprogramming/remove_nth_occurrence_of_type.hpp>
+#include <type_list/calculate_type_list_intersection.hpp>
+#include <type_list/calculate_type_list_intersection.hpp>
 #include <metaprogramming/remove_types.hpp>
 #include <metaprogramming/remove_type.hpp>
 #include <metaprogramming/is_type_in_variadic.hpp>
 #include <metaprogramming/are_variadics_containing_the_same_types.hpp>
 #include <metaprogramming/skip_first_type.hpp>
 #include <metaprogramming/get_first_type.hpp>
+#include <type_list/calculate_type_by_id.hpp>
 #include <unit/unit.hpp>
 #include <unit/id.hpp>
 #include <q/scalar.hpp>

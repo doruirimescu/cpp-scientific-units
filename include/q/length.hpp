@@ -39,11 +39,17 @@ struct meter_t
     static constexpr double value = 1.0;
 };
 
+struct foot_t
+{
+    static constexpr double value = 0.3048;
+};
+
 struct inch_t
 {
     static constexpr double value = 0.0254;
 };
 
+using unit_ft = Unit<prefix::none, foot_t, LENGTH>;
 using unit_m = Unit<prefix::none, meter_t, LENGTH>;
 using unit_in = Unit<prefix::none, inch_t, LENGTH>;
 using unit_mil = Unit<prefix::milli, inch_t, LENGTH>;
@@ -75,7 +81,7 @@ using q_ym  =    Quantity<Numerator<q_scalar::unit_y, q_length::unit_m>,     Den
 
 using q_in =    Quantity<Numerator<q_scalar::unit_none, q_length::unit_in>, Denominator<q_scalar::unit_none>>;
 using q_mil =   Quantity<Numerator<q_scalar::unit_none, q_length::unit_mil>,TypeList<q_scalar::unit_none>>;
-
+using q_ft =   Quantity<Numerator<q_scalar::unit_none, q_length::unit_ft>, Denominator<q_scalar::unit_none>>;
 // Length user-defined literals
 constexpr q_Ym operator"" _q_Ym(long double v)
 {
