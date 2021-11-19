@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
 #include <test_utils.hpp>
-#include <quantity.hpp>
-#include <time.hpp>
-#include <mass.hpp>
-#include <speed.hpp>
-#include <force.hpp>
-#include <energy.hpp>
-#include <scalar.hpp>
-#include <acceleration.hpp>
+#include <quantity/quantity.hpp>
+#include <q/time.hpp>
+#include <q/mass.hpp>
+#include <q/speed.hpp>
+#include <q/force.hpp>
+#include <q/energy.hpp>
+#include <q/scalar.hpp>
+#include <q/acceleration.hpp>
 
 // /**
 //  * Naming convention

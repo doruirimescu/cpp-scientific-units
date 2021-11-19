@@ -25,7 +25,7 @@
  *
  */
 #pragma once
-#include <force.hpp>
+#include <q/force.hpp>
 
 using q_J =  decltype(1.0_q_N * 1.0_q_m);
 using q_kJ = decltype(1.0_q_kilo * 1.0_q_N * 1.0_q_m);

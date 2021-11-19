@@ -25,9 +25,9 @@
  *
  */
 #pragma once
-#include <quantity.hpp>
+#include <quantity/quantity.hpp>
 #include <type_list/type_list.hpp>
-#include <scalar.hpp>
+#include <q/scalar.hpp>
 namespace q_time
 {
 

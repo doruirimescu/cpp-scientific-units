@@ -27,11 +27,11 @@
  */
 
 #pragma once
-#include <mass.hpp>
-#include <length.hpp>
-#include <time.hpp>
+#include <q/mass.hpp>
+#include <q/length.hpp>
+#include <q/time.hpp>
 #include <unit/unit.hpp>
-#include <scalar.hpp>
+#include <q/scalar.hpp>
 
 // Force types
 using q_N = decltype(1.0_q_kg * 1.0_q_m / (1.0_q_s * 1.0_q_s));

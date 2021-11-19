@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include <test_types.hpp>
 #include <type_list/type_list.hpp>
-#include <length.hpp>
-#include <time.hpp>
-#include <scalar.hpp>
+#include <q/length.hpp>
+#include <q/time.hpp>
+#include <q/scalar.hpp>
 
 //! TYPELIST(T1) is same as TypeList<T1>{}, but is more readable. Using both here for testing.
 TEST(TypeList, check)

@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
-#include <quantity.hpp>
+#include <quantity/quantity.hpp>
 #include <test_types.hpp>
 #include <test_utils.hpp>
-#include <scalar.hpp>
+#include <q/scalar.hpp>
 
-#include <length.hpp>
+#include <q/length.hpp>
 
 class QuantityTest : public ::testing::Test
 {

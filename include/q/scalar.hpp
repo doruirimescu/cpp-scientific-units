@@ -29,7 +29,7 @@
 #include <unit/unit.hpp>
 #include <unit/prefix.hpp>
 #include <unit/id.hpp>
-#include <quantity.hpp>
+#include <quantity/quantity.hpp>
 namespace q_scalar
 {
 struct scalar_t

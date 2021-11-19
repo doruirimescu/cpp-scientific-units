@@ -25,12 +25,12 @@
  *
  */
 #pragma once
-#include <quantity.hpp>
+#include <quantity/quantity.hpp>
 #include <type_list/type_list.hpp>
 #include <unit/prefix.hpp>
-#include <time.hpp>
-#include <length.hpp>
-#include <scalar.hpp>
+#include <q/time.hpp>
+#include <q/length.hpp>
+#include <q/scalar.hpp>
 
 using q_mps = decltype(1.0_q_m / 1.0_q_s);
 using q_kmph = decltype(1.0_q_km / 1.0_q_hour);

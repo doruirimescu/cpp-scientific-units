@@ -25,12 +25,12 @@
  *
  */
 #pragma once
-#include <quantity.hpp>
+#include <quantity/quantity.hpp>
 #include <type_list/type_list.hpp>
 #include <unit/prefix.hpp>
 #include <unit/id.hpp>
 #include <unit/unit.hpp>
-#include <scalar.hpp>
+#include <q/scalar.hpp>
 namespace q_mass
 {
 struct gram_t

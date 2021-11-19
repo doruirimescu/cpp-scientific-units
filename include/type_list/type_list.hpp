@@ -39,7 +39,7 @@
 #include <metaprogramming/get_first_type.hpp>
 #include <unit/unit.hpp>
 #include <unit/id.hpp>
-#include <quantity/scalar.hpp>
+#include <q/scalar.hpp>
 #include <type_traits>
 
 template <typename... ThisArgs>
