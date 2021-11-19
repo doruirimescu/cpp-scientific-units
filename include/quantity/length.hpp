@@ -27,7 +27,7 @@
 #pragma once
 #include <quantity.hpp>
 #include <type_list.hpp>
-#include <prefix.hpp>
+#include <unit/prefix.hpp>
 #include <unit/id.hpp>
 #include <unit/unit.hpp>
 #include <scalar.hpp>

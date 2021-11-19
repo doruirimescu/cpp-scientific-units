@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unit/unit.hpp>
-#include <prefix.hpp>
+#include <unit/prefix.hpp>
 #include <unit/id.hpp>
 #include <quantity.hpp>
 namespace q_scalar
