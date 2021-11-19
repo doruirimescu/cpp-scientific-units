@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <test_types.hpp>
-#include <unit.hpp>
+#include <unit/unit.hpp>
 #include <prefix.hpp>
-#include <id.hpp>
+#include <unit/id.hpp>
 
 struct value_type
 {

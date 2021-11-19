@@ -1,8 +1,8 @@
 #pragma once
 
-#include <unit.hpp>
+#include <unit/unit.hpp>
 #include <prefix.hpp>
-#include <id.hpp>
+#include <unit/id.hpp>
 #include <quantity.hpp>
 namespace q_scalar
 {

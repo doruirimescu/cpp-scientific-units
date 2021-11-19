@@ -28,8 +28,8 @@
 #include <quantity.hpp>
 #include <type_list.hpp>
 #include <prefix.hpp>
-#include <id.hpp>
-#include <unit.hpp>
+#include <unit/id.hpp>
+#include <unit/unit.hpp>
 #include <scalar.hpp>
 namespace q_length
 {

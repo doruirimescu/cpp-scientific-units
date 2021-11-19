@@ -32,11 +32,9 @@
 #include <length.hpp>
 #include <scalar.hpp>
 
-// Speed types
 using q_mps = decltype(1.0_q_m / 1.0_q_s);
 using q_kmph = decltype(1.0_q_km / 1.0_q_hour);
 
-// Mass user-defined literals
 constexpr q_mps operator"" _q_mps(long double v)
 {
     return q_mps{static_cast<double>(v)};
