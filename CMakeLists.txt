@@ -20,11 +20,11 @@ FILE(GLOB SOURCES src/*.cpp)
 
 set(LIBRARY_NAME scientific_units)  # Default name for the library built from src/*.cpp (change if you wish)
 
-add_library(${LIBRARY_NAME} OBJECT ${SOURCES})
+add_library(${LIBRARY_NAME} INTERFACE)
 
 target_set_warnings(${LIBRARY_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying)
 
-target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include/)
+target_include_directories(${LIBRARY_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include/)
 
 include_directories(${PROJECT_SOURCE_DIR}/include/)
 include_directories(${PROJECT_SOURCE_DIR}/include/type_list)
