@@ -27,10 +27,39 @@
 
 #pragma once
 #include <id.hpp>
+#include <math.h>
 //Unit takes a prefix and an id
-template<typename Prefix, typename ScalingToStandard, Q_ID ID>
+template<int Prefix, typename ScalingToStandard, Q_ID ID>
 struct Unit
 {
-    static constexpr double value = Prefix::value * ScalingToStandard::value;
+    static constexpr double value = pow(10, Prefix) * ScalingToStandard::value;
     static constexpr int id = ID;
+};
+
+//operator * for scalar
+template<int Prefix1, int Prefix2, typename ScalingToStandard>
+constexpr Unit<Prefix1 + Prefix2, ScalingToStandard, SCALAR>
+operator*(const Unit<Prefix1, ScalingToStandard, SCALAR>&, const Unit<Prefix2, ScalingToStandard, SCALAR>&)
+{
+    return Unit<Prefix1 + Prefix2, ScalingToStandard, SCALAR>{};
+}
+
+//operator / for scalar
+template<int Prefix1, int Prefix2, typename ScalingToStandard>
+constexpr Unit<Prefix1 - Prefix2, ScalingToStandard, SCALAR>
+operator/(const Unit<Prefix1, ScalingToStandard, SCALAR>&, const Unit<Prefix2, ScalingToStandard, SCALAR>&)
+{
+    return Unit<Prefix1 - Prefix2, ScalingToStandard, SCALAR>{};
+}
+
+
+template<typename...T>
+struct IsUnit
+{
+    static constexpr bool value = false;
+};
+template<int Prefix, typename ScalingToStandard, Q_ID ID>
+struct IsUnit<Unit<Prefix, ScalingToStandard, ID>>
+{
+    static constexpr bool value = true;
 };

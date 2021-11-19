@@ -2,131 +2,133 @@
 #include <quantity.hpp>
 #include <test_types.hpp>
 #include <test_utils.hpp>
+#include <scalar.hpp>
 
+#include <length.hpp>
 
 class QuantityTest : public ::testing::Test
 {
 public:
-    using unitless = Quantity<TypeList<scalar>, TypeList<scalar>>;
-    using mass = Quantity<TypeList<scalar, kg>, TypeList<scalar>>;
-    using acceleration = Quantity<TypeList<scalar, m>, TypeList<scalar, s, s>>;
-    using force = Quantity<TypeList<scalar, m, kg>, TypeList<scalar, s, s>>;
-    using velocity = Quantity<TypeList<scalar, m>, TypeList<scalar, s>>;
-    using time = Quantity<TypeList<scalar, s>, TypeList<scalar>>;
-    using distance = Quantity<TypeList<scalar, m>, TypeList<scalar>>;
-    using frequency = Quantity<TypeList<scalar>, TypeList<scalar, s>>;
+    using unitless = Quantity<TypeList<q_scalar::unit_none>, TypeList<q_scalar::unit_none>>;
+    using mass = Quantity<TypeList<q_scalar::unit_none, kg>, TypeList<q_scalar::unit_none>>;
+    using acceleration = Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none, s, s>>;
+    using force = Quantity<TypeList<q_scalar::unit_none, m, kg>, TypeList<q_scalar::unit_none, s, s>>;
+    using velocity = Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none, s>>;
+    using time = Quantity<TypeList<q_scalar::unit_none, s>, TypeList<q_scalar::unit_none>>;
+    using distance = Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none>>;
+    using frequency = Quantity<TypeList<q_scalar::unit_none>, TypeList<q_scalar::unit_none, s>>;
     using energy = decltype(force{} * distance{});
 };
 
 TEST(Quantity, multiplication_1)
 {
-    constexpr Quantity<TypeList<scalar, m, m>, TypeList<scalar>> square_meter{10};
-    constexpr Quantity<TypeList<scalar>, TypeList<scalar, s>> frequency{1};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m, m>, TypeList<q_scalar::unit_none>> square_meter{10};
+    constexpr Quantity<TypeList<q_scalar::unit_none>, TypeList<q_scalar::unit_none, s>> frequency{1};
 
     constexpr auto result = square_meter * frequency;
-    static_assert(result.numerator == TYPELIST(scalar,m, m));
-    static_assert(result.denominator == TYPELIST(scalar,s));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none,m, m));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none,s));
     EXPECT_EQ(result.value, 10);
 }
 
 TEST(Quantity, multiplication_2)
 {
-    constexpr Quantity<TypeList<scalar, m, kg>, TypeList<scalar>> q1{10};
-    constexpr Quantity<TypeList<scalar>, TypeList<scalar, s, s, kg>> q2{5};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m, kg>, TypeList<q_scalar::unit_none>> q1{10};
+    constexpr Quantity<TypeList<q_scalar::unit_none>, TypeList<q_scalar::unit_none, s, s, kg>> q2{5};
     constexpr auto newton = q1 * q2;
-    static_assert(newton.numerator == TYPELIST(scalar,m));
-    static_assert(newton.denominator == TYPELIST(scalar,s, s));
+    static_assert(newton.numerator == TYPELIST(q_scalar::unit_none,m));
+    static_assert(newton.denominator == TYPELIST(q_scalar::unit_none,s, s));
     static_assert(newton.value == 50);
 }
 
 TEST(Quantity, multiplication_3)
 {
-    constexpr Quantity<TypeList<scalar>, TypeList<scalar>> unitless_1{1};
-    constexpr Quantity<TypeList<scalar>, TypeList<scalar>> unitless_2{2};
+    constexpr Quantity<TypeList<q_scalar::unit_none>, TypeList<q_scalar::unit_none>> unitless_1{1};
+    constexpr Quantity<TypeList<q_scalar::unit_none>, TypeList<q_scalar::unit_none>> unitless_2{2};
     constexpr auto result = unitless_1 * unitless_2;
-    static_assert(result.numerator == TYPELIST(scalar));
-    static_assert(result.denominator == TYPELIST(scalar));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none));
     static_assert(result.value == 2);
 }
 
 TEST(Quantity, multiplication_4)
 {
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> left{1};
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> right{2};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none>> left{1};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none>> right{2};
     constexpr auto result = left * right;
     static_assert(result.value == 2);
 
-    static_assert(result.numerator == TYPELIST(scalar,m, m));
-    static_assert(result.denominator == TYPELIST(scalar));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none,m, m));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none));
 }
 
 TEST(Quantity, multiplication_5)
 {
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> left{2};
-    constexpr Quantity<TypeList<scalar>, TypeList<scalar, m>> right{2};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none>> left{2};
+    constexpr Quantity<TypeList<q_scalar::unit_none>, TypeList<q_scalar::unit_none, m>> right{2};
     constexpr auto result = left * right;
     static_assert(result.value == 4);
-    static_assert(result.numerator == TYPELIST(scalar));
-    static_assert(result.denominator == TYPELIST(scalar));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none));
 }
 
 TEST(Quantity, multiplication_6)
 {
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar, m>> left{2};
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar, m>> right{2};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none, m>> left{2};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none, m>> right{2};
     constexpr auto result = left * right;
     static_assert(result.value == 4);
-    static_assert(result.numerator == TYPELIST(scalar));
-    static_assert(result.denominator == TYPELIST(scalar));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none));
 }
 
 TEST(Quantity, addition_1)
 {
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> left{1};
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> right{2};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none>> left{1};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none>> right{2};
     constexpr auto result = left + right;
     static_assert(result.value == 3);
-    static_assert(result.numerator == TYPELIST(scalar,m));
-    static_assert(result.denominator == TYPELIST(scalar));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none,m));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none));
 }
 
 TEST(Quantity, addition_2)
 {
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar, m>> left{1};
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar, m>> right{20};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none, m>> left{1};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none, m>> right{20};
     constexpr auto result = left + right;
     static_assert(result.value == 21);
-    static_assert(result.numerator == TYPELIST(scalar,m));
-    static_assert(result.denominator == TYPELIST(scalar,m));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none,m));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none,m));
 }
 
 TEST_F(QuantityTest, addition_3)
 {
     constexpr auto result = distance{5} + distance{10};
     static_assert(result.value == 15);
-    static_assert(result.numerator == TYPELIST(scalar,m));
-    static_assert(result.denominator == TYPELIST(scalar));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none,m));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none));
     static_assert(compareTypes<distance>(result));
 }
 
 TEST(Quantity, subtraction_1)
 {
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> left{1};
-    constexpr Quantity<TypeList<scalar, m>, TypeList<scalar>> right{2};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none>> left{1};
+    constexpr Quantity<TypeList<q_scalar::unit_none, m>, TypeList<q_scalar::unit_none>> right{2};
     constexpr auto result = left - right;
     static_assert(result.value == -1);
-    static_assert(result.numerator == TYPELIST(scalar,m));
-    static_assert(result.denominator == TYPELIST(scalar));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none,m));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none));
 }
 
 TEST(Quantity, subtraction_2)
 {
-    constexpr Quantity<TypeList<scalar>, TypeList<scalar>> left{1};
-    constexpr Quantity<TypeList<scalar>, TypeList<scalar>> right{2};
+    constexpr Quantity<TypeList<q_scalar::unit_none>, TypeList<q_scalar::unit_none>> left{1};
+    constexpr Quantity<TypeList<q_scalar::unit_none>, TypeList<q_scalar::unit_none>> right{2};
     constexpr auto result = left - right;
     static_assert(result.value == -1);
-    static_assert(result.numerator == TYPELIST(scalar));
-    static_assert(result.denominator == TYPELIST(scalar));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none));
 }
 
 TEST_F(QuantityTest, general)
@@ -135,8 +137,8 @@ TEST_F(QuantityTest, general)
     constexpr acceleration gravitational_acceleration{9.81};
 
     constexpr auto result = object_weight * gravitational_acceleration;
-    static_assert(result.numerator == TYPELIST(scalar,kg, m));
-    static_assert(result.denominator == TYPELIST(scalar,s, s));
+    static_assert(result.numerator == TYPELIST(q_scalar::unit_none,kg, m));
+    static_assert(result.denominator == TYPELIST(q_scalar::unit_none,s, s));
     static_assert(compareTypes<force>(result));
 
     velocity vel = distance{30} / time{1};
@@ -157,11 +159,32 @@ TEST_F(QuantityTest, general)
 
 TEST_F(QuantityTest, uncomment_each_to_see_compilation_error)
 {
-    //!velocity vel1 = distance{30} * time{1};
-    velocity vel2 = distance{30} / time{1};
-    //!velocity vel3 = time{1} / distance{1};
-    frequency one_hz = unitless{1} / time{1};
-    //!frequency fail_hz = 1/time{2};
-    //!distance{2} + time{2};
-    distance{2} + distance{3};
+//     //!velocity vel1 = distance{30} * time{1};
+//     velocity vel2 = distance{30} / time{1};
+//     //!velocity vel3 = time{1} / distance{1};
+//     frequency one_hz = unitless{1} / time{1};
+//     //!frequency fail_hz = 1/time{2};
+//     //!distance{2} + time{2};
+//     distance{2} + distance{3};
+}
+
+TEST_F(QuantityTest, multiplication_of_scalars)
+{
+    using namespace q_scalar;
+    constexpr auto res = 1.0_q_milli * 1.0_q_kilo * 1.0_q_nano;
+    typedef Quantity<TypeList<Unit<-9, q_scalar::scalar_t, (Q_ID)7> >, TypeList<Unit<0, q_scalar::scalar_t, (Q_ID)7> > > expected;
+    static_assert(compareTypes<expected>(res));
+}
+TEST_F(QuantityTest, multiplication_of_units)
+{
+    constexpr auto result = 1.0_q_m * 1.0_q_km * 1.0_q_km;
+    typedef const struct Quantity<TypeList<Unit<6, q_scalar::scalar_t, (Q_ID)7>, Unit<0, q_length::meter_t, (Q_ID)2>, Unit<0, q_length::meter_t, (Q_ID)2>, Unit<0, q_length::meter_t, (Q_ID)2> >, TypeList<Unit<0, q_scalar::scalar_t, (Q_ID)7> > > expected;
+    static_assert(compareTypes<expected>(result));
+}
+
+TEST_F(QuantityTest, division_of_units)
+{
+    constexpr auto result = 1.0_q_m / 1.0_q_km;
+    typedef const struct Quantity<TypeList<Unit<-3, q_scalar::scalar_t, (Q_ID)7> >, TypeList<Unit<0, q_scalar::scalar_t, (Q_ID)7> > > expected;
+    static_assert(compareTypes<expected>(result));
 }

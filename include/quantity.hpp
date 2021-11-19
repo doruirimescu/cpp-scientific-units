@@ -81,13 +81,6 @@ struct Quantity
     static const Numerator numerator;
     static const Denominator denominator;
 
-    //operator ==
-    template <typename N2, typename D2>
-    constexpr bool operator==(const Quantity<N2, D2>& other) const
-    {
-        return value == other.value && numerator == other.numerator && denominator == other.denominator;
-    }
-
     //Multiplication of quantities
     template <typename N2, typename D2>
     constexpr decltype(auto) operator*(const Quantity<N2, D2>& other) const
@@ -96,7 +89,7 @@ struct Quantity
         const auto den_sum = denominator.skipFirstType() + other.denominator.skipFirstType();
         auto num = num_sum - den_sum;
         auto den = den_sum - num_sum;
-        return Quantity<decltype(numerator.getFirstType() + num), decltype(denominator.getFirstType() + den)>{
+        return Quantity<decltype(numerator.getFirstType() +  other.numerator.getFirstType() - (denominator.getFirstType() + other.denominator.getFirstType()) + num), decltype(denominator.getFirstType() + den)>{
             this->value * other.value};
     }
 

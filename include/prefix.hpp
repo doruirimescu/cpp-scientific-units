@@ -34,107 +34,46 @@
 #include <orderable.hpp>
 namespace prefix
 {
+constexpr int yotta = 24;
 
-struct yotta
-{
-    static constexpr double value = pow(10, 24);
-};
+constexpr int zetta = 21;
 
-struct zetta
-{
-    static constexpr double value = pow(10, 21);
-};
+constexpr int exa = 18;
 
-struct exa
-{
-    static constexpr double value = pow(10, 18);
-};
+constexpr int peta = 15;
 
-struct peta
-{
-    static constexpr double value = pow(10, 15);
-};
+constexpr int tera = 12;
 
-struct tera
-{
-    static constexpr double value = pow(10, 12);
-};
-struct giga
-{
-    static constexpr double value = pow(10, 9);
-};
-struct mega
-{
-    static constexpr double value = pow(10, 6);
-};
-struct kilo
-{
-    static constexpr double value = pow(10, 3);
-};
+constexpr int giga = 9;
 
-struct hecto
-{
-    static constexpr double value = pow(10, 2);
-};
+constexpr int mega = 6;
 
-struct deca
-{
-    static constexpr double value = pow(10, 1);
-};
+constexpr int kilo = 3;
 
-struct none
-{
-    static constexpr double value = 1.0;
-};
-struct deci
-{
-    static constexpr double value = pow(10, -1);
-};
+constexpr int hecto = 2;
 
-struct centi
-{
-    static constexpr double value = pow(10, -2);
-};
+constexpr int deca = 1;
 
-struct milli
-{
-    static constexpr double value = pow(10, -3);
-};
+constexpr int none = 0;
 
-struct micro
-{
-    static constexpr double value = pow(10, -6);
-};
+constexpr int deci = -1;
 
-struct nano
-{
-    static constexpr double value = pow(10, -9);
-};
+constexpr int centi = -2;
 
-struct pico
-{
-    static constexpr double value = pow(10, -12);
-};
+constexpr int milli = -3;
 
-struct femto
-{
-    static constexpr double value = pow(10, -15);
-};
+constexpr int micro = -6;
 
-struct atto
-{
-    static constexpr double value = pow(10, -18);
-};
+constexpr int nano = -9;
 
-struct zepto
-{
-    static constexpr double value = pow(10, -21);
-};
+constexpr int pico = -12;
 
-struct yocto
-{
-    static constexpr double value = pow(10, -24);
-};
+constexpr int femto = -15;
 
+constexpr int atto = -18;
+
+constexpr int zepto = -21;
+
+constexpr int yocto = -24;
 
 }  // namespace prefix

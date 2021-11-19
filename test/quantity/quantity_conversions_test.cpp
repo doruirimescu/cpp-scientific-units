@@ -7,11 +7,13 @@
 #include <force.hpp>
 #include <energy.hpp>
 #include <scalar.hpp>
-/**
- * Naming convention
- * TEST(Quantity, static_cast_to)
- * ex: TEST(Time, static_cast_q_h)
- */
+#include <acceleration.hpp>
+
+// /**
+//  * Naming convention
+//  * TEST(Quantity, static_cast_to)
+//  * ex: TEST(Time, static_cast_q_h)
+//  */
 
 TEST(Time, static_cast_q_s)
 {
@@ -51,7 +53,7 @@ TEST(Time, static_cast_q_hour)
     static_assert(static_cast<q_hour>(q_min{60.0}).value == 1.0);
     static_assert(static_cast<q_hour>(q_s{3600.0}).value == 1.0);
 }
-//*********************************MASS******************************************
+// //*********************************MASS******************************************
 
 TEST(Mass, to_q_kg)
 {
@@ -63,6 +65,28 @@ TEST(Mass, static_cast_q_g)
     static_assert(static_cast<q_g>(q_g{1.0}).value == 1.0);
     static_assert(static_cast<q_g>(q_kg{1.0}).value == 1000.0);
     static_assert(static_cast<q_g>(q_mg{1000.0}).value == 1.0);
+}
+
+TEST(Mass, addition_of_quantities_with_same_id)
+{
+    constexpr auto result = 1.0_q_kg + 1000.0_q_g;
+    static_assert(result.value == 2.0);
+}
+
+TEST(Mass, subtraction_of_quantities_with_same_id)
+{
+    constexpr auto result = 1.0_q_kg - 1000.0_q_g;
+    static_assert(result.value == 0.0);
+}
+
+TEST(Mass, comparison_of_quantities_with_same_id)
+{
+    static_assert(1.0_q_kg == 1000.0_q_g);
+    static_assert(1.0_q_kg <= 1000.0_q_g);
+    static_assert(1.0_q_kg >= 1000.0_q_g);
+    static_assert(1.0_q_kg != 100.0_q_g);
+    static_assert(1.0_q_kg < 10000.0_q_g);
+    static_assert(1.0_q_kg > 100.0_q_g);
 }
 
 // TEST(Time, to_q_x)
@@ -89,12 +113,37 @@ TEST(Length, static_cast_q_km)
 }
 TEST(Length, static_cast)
 {
+    EXPECT_FLOAT_EQ(static_cast<q_m>(1.0_q_m).value, 1.0);
+    EXPECT_FLOAT_EQ(static_cast<q_km>(1.0_q_m).value, 0.001);
+    EXPECT_FLOAT_EQ(static_cast<q_m>(1.0_q_km).value, 1000.0);
     static_assert(static_cast<q_m>(100.0_q_m).value == 100.0);
+    EXPECT_FLOAT_EQ(static_cast<q_cm>(1.0_q_dm).value, 10.0);
     EXPECT_FLOAT_EQ(static_cast<q_cm>(1.0_q_m).value, 100.0);
     EXPECT_FLOAT_EQ(static_cast<q_mm>(1.0_q_cm).value, 10.0);
     EXPECT_FLOAT_EQ(static_cast<q_mm>(1.0_q_in).value, 25.4);
     EXPECT_FLOAT_EQ(static_cast<q_cm>(1.0_q_in).value, 2.54);
     EXPECT_FLOAT_EQ(static_cast<q_mil>(1.0_q_in).value, 1000.0);
+
+    EXPECT_FLOAT_EQ(static_cast<q_Zm>(1.0_q_Ym).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_Em>(1.0_q_Zm).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_Pm>(1.0_q_Em).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_Tm>(1.0_q_Pm).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_Gm>(1.0_q_Tm).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_Mm>(1.0_q_Gm).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_km>(1.0_q_Mm).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_hm>(1.0_q_km).value, 10.0);
+    EXPECT_FLOAT_EQ(static_cast<q_dam>(1.0_q_hm).value, 10.0);
+    EXPECT_FLOAT_EQ(static_cast<q_m>(1.0_q_dam).value, 10.0);
+    EXPECT_FLOAT_EQ(static_cast<q_dm>(1.0_q_m).value, 10.0);
+    EXPECT_FLOAT_EQ(static_cast<q_cm>(1.0_q_dm).value, 10.0);
+    EXPECT_FLOAT_EQ(static_cast<q_mm>(1.0_q_cm).value, 10.0);
+    EXPECT_FLOAT_EQ(static_cast<q_um>(1.0_q_mm).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_nm>(1.0_q_um).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_pm>(1.0_q_nm).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_fm>(1.0_q_pm).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_am>(1.0_q_fm).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_zm>(1.0_q_am).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_ym>(1.0_q_zm).value, 1000.0);
 }
 
 TEST(Speed, speed)
@@ -111,20 +160,20 @@ TEST(Speed, speed)
     constexpr q_kmph speed4 = static_cast<q_kmph>(1.0_q_mps);
     EXPECT_FLOAT_EQ(speed4.value, 3.6);
 
-    auto result =
-        static_cast<QUANTITY(NUMERATOR(q_scalar::none, q_length::m), DENOMINATOR(q_scalar::none, q_time::hour))>(
-            0.5_q_mps + 0.5_q_mps)
-            .value;
+    auto result = static_cast<QUANTITY(NUMERATOR(q_scalar::unit_none, q_length::unit_m),
+                                       DENOMINATOR(q_scalar::unit_none, q_time::hour))>(0.5_q_mps + 0.5_q_mps)
+                      .value;
     EXPECT_FLOAT_EQ(result, 3600.0);
 }
 
-// //*********************************FORCE****************************************
+//*********************************FORCE****************************************
 TEST(Force, cast_to_q_N_1)
 {
     EXPECT_FLOAT_EQ(static_cast<q_N>(1.0_q_N).value, 1.0);
 
     constexpr auto f1 = 2.0_q_kg * 1.0_q_m / (1.0_q_s * 1.0_q_s);
-    constexpr Quantity<TypeList<q_scalar::k, q_mass::g, q_length::m>, TypeList<q_scalar::none, q_time::s, q_time::s>>
+    constexpr Quantity<TypeList<q_scalar::unit_k, q_mass::g, q_length::unit_m>,
+                       TypeList<q_scalar::unit_none, q_time::s, q_time::s>>
         f2{2.0};
     static_assert(f1 == f2);
     EXPECT_FLOAT_EQ(static_cast<q_N>(2.0_q_kg * 1.0_q_m / (1.0_q_s * 1.0_q_s)).value, 2.0);
@@ -153,24 +202,16 @@ TEST(Force, conversions)
     auto result = static_cast<q_N>(1.0_q_N).value;
     EXPECT_FLOAT_EQ(result, 1.0);
 
-    result = static_cast<QUANTITY(NUMERATOR(q_scalar::none, q_mass::g, q_length::m),
-                                  DENOMINATOR(q_scalar::none, q_time::s, q_time::s))>(1.0_q_N)
-                 .value;
+    result = static_cast<decltype(1.0_q_g * 1.0_q_m / (1.0_q_s * 1.0_q_s))>(1.0_q_N).value;
     EXPECT_FLOAT_EQ(result, 1000.0);
 
-    result = static_cast<QUANTITY(NUMERATOR(q_scalar::none, q_mass::kg, q_length::mm),
-                                  DENOMINATOR(q_scalar::none, q_time::s, q_time::s))>(1.0_q_N)
-                 .value;
+    result = static_cast<decltype(1.0_q_kg * 1.0_q_mm / (1.0_q_s * 1.0_q_s))>(1.0_q_N).value;
     EXPECT_FLOAT_EQ(result, 1000.0);
 
-    result = static_cast<QUANTITY(NUMERATOR(q_scalar::none, q_length::m, q_mass::kg),
-                                  DENOMINATOR(q_scalar::none, q_time::s, q_time::s))>(2.0_q_N)
-                 .value;
+    result = static_cast<decltype(1.0_q_m * 1.0_q_kg / (1.0_q_s * 1.0_q_s))>(2.0_q_N).value;
     EXPECT_FLOAT_EQ(result, 2.0);
 
-    result = static_cast<QUANTITY(NUMERATOR(q_scalar::none, q_mass::kg, q_length::m),
-                                  DENOMINATOR(q_scalar::none, q_time::s, q_time::min))>(1.0_q_N)
-                 .value;
+    result = static_cast<decltype(1.0_q_m * 1.0_q_kg / (1.0_q_s * 1.0_q_min))>(1.0_q_N).value;
     EXPECT_FLOAT_EQ(result, 60.0);
 }
 
@@ -178,47 +219,35 @@ TEST(Conversions, uncomment_to_fail)
 {
     // to_q_s(1.0_q_m);
     // static_assert(static_cast<q_mass::kg>(100.0_q_m).value == 100.0);
+    //1.0_q_m + 1.0_q_J;
+    //1.0_q_m - 1.0_q_J;
+    //static_assert(1.0_q_kg == 1000.0_q_m);
+    // static_assert(1.0_q_kg <= 1000.0_q_m);
+    // static_assert(1.0_q_kg != 1000.0_q_m);
+    // static_assert(1.0_q_kg < 1000.0_q_m);
+    // static_assert(1.0_q_kg > 1000.0_q_m);
+    // static_assert(1.0_q_kg >= 1000.0_q_m);
 }
 
 TEST(ConvertToAnyQuantity, static_cast)
 {
-    double result = static_cast<q_m>(1.0_q_m).value;
-    EXPECT_FLOAT_EQ(result, 1.0);
 
+
+    EXPECT_FLOAT_EQ(static_cast<q_g>(1.0_q_kg).value, 1000.0);
+
+    EXPECT_FLOAT_EQ(static_cast<q_mps>(1.0_q_kmph).value, 1 / 3.6);
+
+    EXPECT_FLOAT_EQ(static_cast<q_kmph>(1.0_q_mps).value, 3.6);
+}
+
+TEST(energy, conversions)
+{
     constexpr auto pot_energy = 10.0_q_kg * 10.0_q_m * 9.81_q_m / (1.0_q_s * 1.0_q_s);
     auto pot_energy_value = pot_energy.value;
 
     constexpr q_J conversion = pot_energy;
 
-    using e1 = Quantity<TypeList<q_scalar::k, q_mass::g, q_length::m>, TypeList<q_scalar::none, q_time::s, q_time::s>>;
-    using e2 =
-        Quantity<TypeList<q_scalar::none, q_mass::kg, q_length::m>, TypeList<q_scalar::none, q_time::s, q_time::s>>;
-    EXPECT_FLOAT_EQ(static_cast<e2>(e1{1.0}).value, 1.0);
-    EXPECT_FLOAT_EQ(static_cast<e1>(e2{1.0}).value, 1.0);
-
     EXPECT_FLOAT_EQ(pot_energy_value, 10.0 * 10.0 * 9.81 / (1.0 * 1.0));
-
-    result = static_cast<q_km>(1.0_q_m).value;
-    EXPECT_FLOAT_EQ(result, 0.001);
-
-    result = static_cast<q_m>(1.0_q_km).value;
-    EXPECT_FLOAT_EQ(result, 1000.0);
-
-    result = static_cast<q_g>(1.0_q_kg).value;
-    EXPECT_FLOAT_EQ(result, 1000.0);
-
-    result = static_cast<q_mps>(1.0_q_kmph).value;
-    EXPECT_FLOAT_EQ(result, 1 / 3.6);
-
-    result = static_cast<q_kmph>(1.0_q_mps).value;
-    EXPECT_FLOAT_EQ(result, 3.6);
-}
-
-TEST(energy, conversions)
-{
-    using sc = Quantity<TypeList<q_scalar::none, q_mass::g>, TypeList<q_scalar::none>>;
-    using ksc = Quantity<TypeList<q_scalar::k, q_mass::g>, TypeList<q_scalar::none>>;
-    EXPECT_FLOAT_EQ(static_cast<sc>(ksc{}).value, 1000.0);
 
     static_assert(static_cast<q_J>(1.0_q_J).value == 1.0);
     constexpr auto grav_acc = 10.0_q_mps / 1.0_q_s;
@@ -232,12 +261,32 @@ TEST(energy, conversions)
 
     EXPECT_FLOAT_EQ(static_cast<q_kJ>(1.0_q_J * 1000.0 + 1.0_q_kJ).value, 2.0);
     EXPECT_FLOAT_EQ(static_cast<q_kJ>(1000.0 * 1.0_q_J + 1.0_q_kJ).value, 2.0);
-    EXPECT_FLOAT_EQ(static_cast<q_MJ>(1.0_q_GJ).value , 1000.0);
-    EXPECT_FLOAT_EQ(static_cast<q_GJ>(1000.0_q_MJ).value , 1.0);
-    EXPECT_FLOAT_EQ(static_cast<q_MJ>(1.0_q_MJ).value , 1.0);
+    EXPECT_FLOAT_EQ(static_cast<q_MJ>(1.0_q_GJ).value, 1000.0);
+    EXPECT_FLOAT_EQ(static_cast<q_GJ>(1000.0_q_MJ).value, 1.0);
+    EXPECT_FLOAT_EQ(static_cast<q_MJ>(1.0_q_MJ).value, 1.0);
     EXPECT_FLOAT_EQ(static_cast<q_J>(1.0_q_MJ).value, 1000000.0);
 
     static_assert(1.0_q_kJ + 1000.0_q_J == 2.0_q_kJ);
-    static_assert(1000.0_q_J + 1.0_q_kJ  == 2000.0_q_J);
+    static_assert(1000.0_q_J + 1.0_q_kJ == 2000.0_q_J);
     static_assert(1000.0 * 1.0_q_kJ <= 1.0_q_MJ);
+
+    static_assert(static_cast<q_scalar::q_none>(1.0_q_MJ / 1.0_q_kJ).value == 1000.0);
+}
+
+TEST(energy, comparisons)
+{
+    static_assert(1.0_q_MJ == 1000.0_q_kJ);
+    static_assert(1.0_q_MJ != 1000.1_q_MJ);
+    static_assert(1.0_q_kJ < 1.0_q_MJ);
+    static_assert(1.0_q_kJ > 1.0_q_J);
+}
+
+TEST(energy, energy_to_force)
+{
+    static_assert(1.0_q_N == 1.0_q_J / 1.0_q_m);
+}
+
+TEST(energy, energy_to_mass)
+{
+    static_assert(1.0_q_kg == 1.0_q_J / (1.0_q_m * 1.0_q_mps2));
 }

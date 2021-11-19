@@ -20,24 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   force.hpp
+ * @file   get_first_type.hpp
  * @author Doru Irimescu
- * @date   09-11-2021
  *
  */
 
 #pragma once
-#include <mass.hpp>
-#include <length.hpp>
-#include <time.hpp>
-#include <unit.hpp>
-#include <scalar.hpp>
 
-// Force types
-using q_N = decltype(1.0_q_kg * 1.0_q_m / (1.0_q_s * 1.0_q_s));
+template<typename...T>
+struct GetFirstType;
 
-// Force user-defined literals
-constexpr q_N operator"" _q_N(long double v)
+template<template<class...> typename Variadic, typename First, typename...Rest>
+struct GetFirstType<Variadic<First, Rest...>>
 {
-    return q_N{static_cast<double>(v)};
-}
+    typedef Variadic<First> type;
+};
+
+template<template<class...> typename Variadic>
+struct GetFirstType<Variadic<>>
+{
+    typedef Variadic<> type;
+};
+
+template<typename T>
+using getFirstType_t = typename GetFirstType<T>::type;

@@ -4,15 +4,13 @@
 #include <time.hpp>
 #include <unit.hpp>
 #include <scalar.hpp>
+#include <force.hpp>
 
-using q_J =  Quantity<TypeList <q_scalar::none, q_mass::kg, q_length::m, q_length::m>,  TypeList<q_scalar::none, q_time::s, q_time::s>>;
-using q_kJ = Quantity<TypeList<q_scalar::k, q_mass::kg, q_length::m, q_length::m>, TypeList<q_scalar::none, q_time::s, q_time::s>>;
-using q_MJ = Quantity<TypeList<q_scalar::M, q_mass::kg, q_length::m, q_length::m>, TypeList<q_scalar::none, q_time::s, q_time::s>>;
-using q_GJ = Quantity<TypeList<q_scalar::G, q_mass::kg, q_length::m, q_length::m>, TypeList<q_scalar::none, q_time::s, q_time::s>>;
+using q_J =  decltype(1.0_q_N * 1.0_q_m);
+using q_kJ = decltype(1.0_q_kilo * 1.0_q_N * 1.0_q_m);
+using q_MJ = decltype(1.0_q_mega * 1.0_q_N * 1.0_q_m);
+using q_GJ = decltype(1.0_q_giga * 1.0_q_N * 1.0_q_m);
 
-//TODO: add q_scalar:: to all other quantities..
-
-// Force user-defined literals
 constexpr q_J operator"" _q_J(long double v)
 {
     return q_J{static_cast<double>(v)};

@@ -33,71 +33,54 @@
 #include <scalar.hpp>
 namespace q_time
 {
-struct time
+
+struct second_t
 {
-    static constexpr int id = TIME;
+    static constexpr double value = 1.0;
 };
 
-struct s : public prefix::none, public time
-{
-    static constexpr double time = value;
-};
-struct ms : public prefix::milli, public time
-{
-    static constexpr double time = value;
-};
-struct us : public prefix::micro, public time
-{
-    static constexpr double time = value;
-};
-struct ns : public prefix::nano, public time
-{
-    static constexpr double time = value;
-};
-struct ps : public prefix::pico, public time
-{
-    static constexpr double time = value;
-};
-struct fs : public prefix::femto, public time
-{
-    static constexpr double time = value;
-};
-
-struct min : public time
+struct minute_t
 {
     static constexpr double value = 60;
-    static constexpr double time = value;
 };
-struct hour : public time
+struct hour_t
 {
     static constexpr double value = 3600;
-    static constexpr double time = value;
 };
 
-struct day : public time
+struct day_t
 {
     static constexpr double value = 86400;
-    static constexpr double time = value;
 };
 
-struct year : public time
+struct year_t
 {
     static constexpr double value = 31536000;
-    static constexpr double time = value;
 };
+
+using s = Unit<prefix::none, second_t, TIME>;
+using ms = Unit<prefix::milli, second_t, TIME>;
+using us = Unit<prefix::micro, second_t, TIME>;
+using ns = Unit<prefix::nano, second_t, TIME>;
+using ps = Unit<prefix::pico, second_t, TIME>;
+using fs = Unit<prefix::femto, second_t, TIME>;
+using min = Unit<prefix::none, minute_t, TIME>;
+using hour = Unit<prefix::none, hour_t, TIME>;
+using day = Unit<prefix::none, day_t, TIME>;
+using year = Unit<prefix::none, year_t, TIME>;
 
 }  // namespace q_time
 
-using q_s =     Quantity<TypeList<q_scalar::none, q_time::s>,   TypeList<q_scalar::none>>;
-using q_ms =    Quantity<TypeList<q_scalar::none, q_time::ms>,  TypeList<q_scalar::none>>;
-using q_us =    Quantity<TypeList<q_scalar::none, q_time::us>,  TypeList<q_scalar::none>>;
-using q_ns =    Quantity<TypeList<q_scalar::none, q_time::ns>,  TypeList<q_scalar::none>>;
-using q_ps =    Quantity<TypeList<q_scalar::none, q_time::ps>,  TypeList<q_scalar::none>>;
-using q_fs =    Quantity<TypeList<q_scalar::none, q_time::fs>,  TypeList<q_scalar::none>>;
-using q_min =   Quantity<TypeList<q_scalar::none, q_time::min>, TypeList<q_scalar::none>>;
-using q_hour =  Quantity<TypeList<q_scalar::none, q_time::hour>,TypeList<q_scalar::none>>;
-using q_day =   Quantity<TypeList<q_scalar::none, q_time::day>, TypeList<q_scalar::none>>;
-using q_year =  Quantity<TypeList<q_scalar::none, q_time::year>,TypeList<q_scalar::none>>;
+using q_s =     Quantity<TypeList<q_scalar::unit_none, q_time::s>,   TypeList<q_scalar::unit_none>>;
+using q_ms =    Quantity<TypeList<q_scalar::unit_none, q_time::ms>,  TypeList<q_scalar::unit_none>>;
+using q_us =    Quantity<TypeList<q_scalar::unit_none, q_time::us>,  TypeList<q_scalar::unit_none>>;
+using q_ns =    Quantity<TypeList<q_scalar::unit_none, q_time::ns>,  TypeList<q_scalar::unit_none>>;
+using q_ps =    Quantity<TypeList<q_scalar::unit_none, q_time::ps>,  TypeList<q_scalar::unit_none>>;
+using q_fs =    Quantity<TypeList<q_scalar::unit_none, q_time::fs>,  TypeList<q_scalar::unit_none>>;
+using q_min =   Quantity<TypeList<q_scalar::unit_none, q_time::min>, TypeList<q_scalar::unit_none>>;
+using q_hour =  Quantity<TypeList<q_scalar::unit_none, q_time::hour>,TypeList<q_scalar::unit_none>>;
+using q_day =   Quantity<TypeList<q_scalar::unit_none, q_time::day>, TypeList<q_scalar::unit_none>>;
+using q_year =  Quantity<TypeList<q_scalar::unit_none, q_time::year>,TypeList<q_scalar::unit_none>>;
 
 // Time user-defined literal
 constexpr q_s operator"" _q_s(long double v)

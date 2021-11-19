@@ -36,7 +36,12 @@
 #include <metaprogramming/is_type_in_variadic.hpp>
 #include <metaprogramming/are_variadics_containing_the_same_types.hpp>
 #include <metaprogramming/skip_first_type.hpp>
+#include <metaprogramming/get_first_type.hpp>
+#include <unit.hpp>
+#include <quantity/id.hpp>
+#include <quantity/scalar.hpp>
 #include <type_traits>
+
 template <typename... ThisArgs>
 struct TypeList
 {
@@ -47,7 +52,7 @@ struct TypeList
      *
      */
     template <typename... OtherArgs>
-    constexpr TypeList<ThisArgs..., OtherArgs...> operator+(const TypeList<OtherArgs...>& other) const
+    constexpr decltype(auto) operator+(const TypeList<OtherArgs...>& other) const
     {
         return TypeList<ThisArgs..., OtherArgs...>{};
     }
@@ -101,8 +106,10 @@ struct TypeList
         }
         else
         {
-            const bool is_this_in_other = AreVariadicsContainingTheSameTypes<TypeList<ThisArgs...>, TypeList<OtherArgs...>>::value;
-            const bool is_other_in_this = AreVariadicsContainingTheSameTypes<TypeList<OtherArgs...>, TypeList<ThisArgs...>>::value;
+            const bool is_this_in_other =
+                AreVariadicsContainingTheSameTypes<TypeList<ThisArgs...>, TypeList<OtherArgs...>>::value;
+            const bool is_other_in_this =
+                AreVariadicsContainingTheSameTypes<TypeList<OtherArgs...>, TypeList<ThisArgs...>>::value;
             return is_this_in_other and is_other_in_this;
         }
     }
@@ -157,17 +164,17 @@ struct TypeList
     {                                                                                                                  \
     }
 template <typename... ThisArgs>
-struct Numerator: TypeList<ThisArgs...>
+struct Numerator : TypeList<ThisArgs...>
 {
 };
 
 template <typename... ThisArgs>
-struct Denominator: TypeList<ThisArgs...>
+struct Denominator : TypeList<ThisArgs...>
 {
 };
 
 //! This works only for types which have a static int id and a double value
-template <typename...LeftArgs, typename...RightArgs>
+template <typename... LeftArgs, typename... RightArgs>
 constexpr double qConvertLists(const TypeList<LeftArgs...>& left, const TypeList<RightArgs...>& right)
 {
     static_assert(left.getSize() == right.getSize(), "Conversion cannot be performed, sizes do not match");
@@ -205,4 +212,24 @@ constexpr double convertLists(const TypeList<>& left, const TypeList<RightArgs..
 constexpr double convertLists(const TypeList<>& left, const TypeList<>& right)
 {
     return 1.0;
+}
+
+//Add scalar units
+template <int Prefix1, int Prefix2, typename... Args1, typename... Args2>
+constexpr decltype(auto) operator+(const TypeList<Unit<Prefix1, q_scalar::scalar_t, SCALAR>, Args1...>&,
+                         const TypeList<Unit<Prefix2, q_scalar::scalar_t, SCALAR>, Args2...>&)
+{
+    typedef decltype(Unit<Prefix1, q_scalar::scalar_t, SCALAR>{} * Unit<Prefix2, q_scalar::scalar_t, SCALAR>{}) result_type;
+
+    return TypeList<result_type>{} + TypeList<Args1...>{} + TypeList<Args2...>{};
+}
+
+//Subtract scalar units
+template <int Prefix1, int Prefix2, typename... Args1, typename... Args2>
+constexpr decltype(auto) operator-(const TypeList<Unit<Prefix1, q_scalar::scalar_t, SCALAR>, Args1...>&,
+                         const TypeList<Unit<Prefix2, q_scalar::scalar_t, SCALAR>, Args2...>&)
+{
+    typedef decltype(Unit<Prefix1, q_scalar::scalar_t, SCALAR>{} / Unit<Prefix2, q_scalar::scalar_t, SCALAR>{}) result_type;
+
+    return TypeList<result_type>{} + skipFirstType_t<TypeList<Args1...>>{};
 }

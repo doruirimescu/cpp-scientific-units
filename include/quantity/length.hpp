@@ -34,71 +34,47 @@
 namespace q_length
 {
 
-struct meter
+struct meter_t
 {
     static constexpr double value = 1.0;
 };
 
-struct inch
+struct inch_t
 {
     static constexpr double value = 0.0254;
 };
 
-struct scalar
-{
-    static constexpr double value = 1.0;
-};
-
-using Ym =  Unit<prefix::yotta, meter, LENGTH>;
-using Zm =  Unit<prefix::zetta, meter, LENGTH>;
-using Em =  Unit<prefix::exa, meter, LENGTH>;
-using Pm =  Unit<prefix::peta, meter, LENGTH>;
-using Tm =  Unit<prefix::tera, meter, LENGTH>;
-using Gm =  Unit<prefix::giga, meter, LENGTH>;
-using Mm =  Unit<prefix::mega, meter, LENGTH>;
-using km =  Unit<prefix::kilo, meter, LENGTH>;
-using hm =  Unit<prefix::hecto, meter, LENGTH>;
-using dam = Unit<prefix::deca, meter, LENGTH>;
-using m =   Unit<prefix::none, meter, LENGTH>;
-using dm =  Unit<prefix::deci, meter, LENGTH>;
-using cm =  Unit<prefix::centi, meter, LENGTH>;
-using mm =  Unit<prefix::milli, meter, LENGTH>;
-using um =  Unit<prefix::micro, meter, LENGTH>;
-using nm =  Unit<prefix::nano, meter, LENGTH>;
-using pm =  Unit<prefix::pico, meter, LENGTH>;
-using fm =  Unit<prefix::femto, meter, LENGTH>;
-using am =  Unit<prefix::atto, meter, LENGTH>;
-using zm =  Unit<prefix::zepto, meter, LENGTH>;
-using ym =  Unit<prefix::yocto, meter, LENGTH>;
-
-using in = Unit<prefix::none, inch, LENGTH>;
-using mil = Unit<prefix::milli, inch, LENGTH>;
+using unit_m = Unit<prefix::none, meter_t, LENGTH>;
+using unit_in = Unit<prefix::none, inch_t, LENGTH>;
+using unit_mil = Unit<prefix::milli, inch_t, LENGTH>;
 
 }  // namespace q_length
 
 // Length types
-using q_Ym =    Quantity<TypeList<q_scalar::none, q_length::Ym>, TypeList<q_scalar::none>>;
-using q_Zm =    Quantity<TypeList<q_scalar::none, q_length::Zm>, TypeList<q_scalar::none>>;
-using q_Em =    Quantity<TypeList<q_scalar::none, q_length::Em>, TypeList<q_scalar::none>>;
-using q_Pm =    Quantity<TypeList<q_scalar::none, q_length::Pm>, TypeList<q_scalar::none>>;
-using q_Tm =    Quantity<TypeList<q_scalar::none, q_length::Tm>, TypeList<q_scalar::none>>;
-using q_Gm =    Quantity<TypeList<q_scalar::none, q_length::Gm>, TypeList<q_scalar::none>>;
-using q_Mm =    Quantity<TypeList<q_scalar::none, q_length::Mm>, TypeList<q_scalar::none>>;
-using q_km =    Quantity<TypeList<q_scalar::none, q_length::km>, TypeList<q_scalar::none>>;
-using q_dam =   Quantity<TypeList<q_scalar::none, q_length::dam>,TypeList<q_scalar::none>>;
-using q_m =     Quantity<TypeList<q_scalar::none, q_length::m>,  TypeList<q_scalar::none>>;
-using q_dm =    Quantity<TypeList<q_scalar::none, q_length::dm>, TypeList<q_scalar::none>>;
-using q_cm =    Quantity<TypeList<q_scalar::none, q_length::cm>, TypeList<q_scalar::none>>;
-using q_mm =    Quantity<TypeList<q_scalar::none, q_length::mm>, TypeList<q_scalar::none>>;
-using q_um =    Quantity<TypeList<q_scalar::none, q_length::um>, TypeList<q_scalar::none>>;
-using q_nm =    Quantity<TypeList<q_scalar::none, q_length::nm>, TypeList<q_scalar::none>>;
-using q_pm =    Quantity<TypeList<q_scalar::none, q_length::pm>, TypeList<q_scalar::none>>;
-using q_fm =    Quantity<TypeList<q_scalar::none, q_length::fm>, TypeList<q_scalar::none>>;
-using q_am =    Quantity<TypeList<q_scalar::none, q_length::am>, TypeList<q_scalar::none>>;
-using q_zm =    Quantity<TypeList<q_scalar::none, q_length::zm>, TypeList<q_scalar::none>>;
-using q_ym =    Quantity<TypeList<q_scalar::none, q_length::ym>, TypeList<q_scalar::none>>;
-using q_in =    Quantity<TypeList<q_scalar::none, q_length::in>, TypeList<q_scalar::none>>;
-using q_mil =   Quantity<TypeList<q_scalar::none, q_length::mil>,TypeList<q_scalar::none>>;
+using q_Ym  =    Quantity<Numerator<q_scalar::unit_Y, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_Zm  =    Quantity<Numerator<q_scalar::unit_Z, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_Em  =    Quantity<Numerator<q_scalar::unit_E, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_Pm  =    Quantity<Numerator<q_scalar::unit_P, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_Tm  =    Quantity<Numerator<q_scalar::unit_T, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_Gm  =    Quantity<Numerator<q_scalar::unit_G, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_Mm  =    Quantity<Numerator<q_scalar::unit_M, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_km  =    Quantity<Numerator<q_scalar::unit_k, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_dam =    Quantity<Numerator<q_scalar::unit_da, q_length::unit_m>,    Denominator<q_scalar::unit_none>>;
+using q_hm  =    Quantity<Numerator<q_scalar::unit_h, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_m   =    Quantity<Numerator<q_scalar::unit_none, q_length::unit_m>,  Denominator<q_scalar::unit_none>>;
+using q_dm  =    Quantity<Numerator<q_scalar::unit_d, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_cm  =    Quantity<Numerator<q_scalar::unit_c, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_mm  =    Quantity<Numerator<q_scalar::unit_m, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_um  =    Quantity<Numerator<q_scalar::unit_u, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_nm  =    Quantity<Numerator<q_scalar::unit_n, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_pm  =    Quantity<Numerator<q_scalar::unit_p, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_fm  =    Quantity<Numerator<q_scalar::unit_f, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_am  =    Quantity<Numerator<q_scalar::unit_a, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_zm  =    Quantity<Numerator<q_scalar::unit_z, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+using q_ym  =    Quantity<Numerator<q_scalar::unit_y, q_length::unit_m>,     Denominator<q_scalar::unit_none>>;
+
+using q_in =    Quantity<Numerator<q_scalar::unit_none, q_length::unit_in>, Denominator<q_scalar::unit_none>>;
+using q_mil =   Quantity<Numerator<q_scalar::unit_none, q_length::unit_mil>,TypeList<q_scalar::unit_none>>;
 
 // Length user-defined literals
 constexpr q_Ym operator"" _q_Ym(long double v)
@@ -128,6 +104,10 @@ constexpr q_Gm operator"" _q_Gm(long double v)
 constexpr q_Mm operator"" _q_Mm(long double v)
 {
     return q_Mm{static_cast<double>(v)};
+}
+constexpr q_hm operator"" _q_hm(long double v)
+{
+    return q_hm{static_cast<double>(v)};
 }
 constexpr q_km operator"" _q_km(long double v)
 {
