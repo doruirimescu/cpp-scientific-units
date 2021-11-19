@@ -31,48 +31,38 @@
 
 #pragma once
 
-template<typename T>
-struct Orderable
-{
-    constexpr explicit Orderable(const T& t)
-        : value(t)
-    {
-    }
-    T value;
-};
-
 template <class LeftType, class RightType>
-constexpr bool operator==(const Orderable<LeftType>& left, const Orderable<RightType>& right)
+constexpr bool operator==(const LeftType& left, const RightType& right)
 {
-    return left.value == right.value;
+    return left.value == static_cast<LeftType>(right).value;
 }
 
 template <class LeftType, class RightType>
-constexpr bool operator!=(const Orderable<LeftType>& left, const Orderable<RightType>& right)
+constexpr bool operator!=(const LeftType& left, const RightType& right)
 {
-    return left.value != right.value;
+    return left.value != static_cast<LeftType>(right).value;
 }
 
 template<class LeftType, class RightType>
-constexpr bool operator<(const Orderable<LeftType>& left, const Orderable<RightType>& right)
+constexpr bool operator<(const LeftType& left, const RightType& right)
 {
-    return left.value < right.value;
+    return left.value < static_cast<LeftType>(right).value;
 }
 
 template <class LeftType, class RightType>
-constexpr bool operator<=(const Orderable<LeftType>& left, const Orderable<RightType>& right)
+constexpr bool operator<=(const LeftType& left, const RightType& right)
 {
-    return left.value <= right.value;
+    return left.value <= static_cast<LeftType>(right).value;
 }
 
 template<class LeftType, class RightType>
-constexpr bool operator>(const Orderable<LeftType>& left, const Orderable<RightType>& right)
+constexpr bool operator>(const LeftType& left, const RightType& right)
 {
-    return left.value > right.value;
+    return left.value > static_cast<LeftType>(right).value;
 }
 
 template <class LeftType, class RightType>
-constexpr bool operator>=(const Orderable<LeftType>& left, const Orderable<RightType>& right)
+constexpr bool operator>=(const LeftType& left, const RightType& right)
 {
-    return left.value >= right.value;
+    return left.value >= static_cast<LeftType>(right).value;
 }

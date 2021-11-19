@@ -20,15 +20,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   are_types_equal.hpp
+ * @file   id.hpp
  * @author Doru Irimescu
- * @date   13-11-2021
  *
  */
 #pragma once
-#include <type_traits>
-template<typename T1, typename T2>
-constexpr bool areTypesEqual()
+
+enum Q_ID
 {
-    return std::is_same<T1, T2>::value;
-}
+    //No Q_ID can be 0, otherwise it will trigger static asserts
+    MASS = 1,
+    LENGTH,
+    SPEED,
+    TIME,
+    ENERGY,
+    FORCE,
+    SCALAR,
+    ELECTRIC_CURRENT
+};

@@ -26,6 +26,7 @@
  */
 #pragma once
 #include <metaprogramming/combine_variadics.hpp>
+#include <type_traits>
 template <int N, typename... Args>
 struct RemoveNthOccurrenceOfType;
 

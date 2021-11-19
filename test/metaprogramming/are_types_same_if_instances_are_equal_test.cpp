@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <test_types.hpp>
-#include <are_types_equal_if_instances_are_equal.hpp>
+#include <metaprogramming/are_types_equal_if_instances_are_equal.hpp>
 
 TEST(areTypesEqualIfInstancesAreEqual, same_types)
 {

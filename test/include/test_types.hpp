@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
-#include <type_list.hpp>
-#include <orderable.hpp>
-#include <quantity.hpp>
+#include <type_list/type_list.hpp>
+#include <quantity/orderable.hpp>
+#include <quantity/quantity.hpp>
 struct T1
 {
     static constexpr double value = 2;
@@ -67,4 +67,10 @@ struct h
 {
     static constexpr int id = 32;
     static constexpr double value = 3600;
+};
+
+struct scalar
+{
+    static constexpr int id = -1;
+    static constexpr double value = 1.0;
 };

@@ -23,8 +23,6 @@
  * @file   are_types_equal_if_instances_are_equal.hpp
  * @author Doru Irimescu
  *
- * @brief
- * This file describes a quantity template.
  */
 
 #pragma once

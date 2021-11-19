@@ -28,13 +28,20 @@
  */
 
 #pragma once
-#include <remove_nth_occurrence_of_type.hpp>
-#include <calculate_type_list_intersection.hpp>
-#include <calculate_type_by_id.hpp>
+#include <metaprogramming/remove_nth_occurrence_of_type.hpp>
+#include <type_list/calculate_type_list_intersection.hpp>
+#include <type_list/calculate_type_list_intersection.hpp>
 #include <metaprogramming/remove_types.hpp>
 #include <metaprogramming/remove_type.hpp>
 #include <metaprogramming/is_type_in_variadic.hpp>
 #include <metaprogramming/are_variadics_containing_the_same_types.hpp>
+#include <metaprogramming/skip_first_type.hpp>
+#include <metaprogramming/get_first_type.hpp>
+#include <type_list/calculate_type_by_id.hpp>
+#include <unit/unit.hpp>
+#include <unit/id.hpp>
+#include <q/scalar.hpp>
+#include <type_traits>
 
 template <typename... ThisArgs>
 struct TypeList
@@ -46,9 +53,19 @@ struct TypeList
      *
      */
     template <typename... OtherArgs>
-    constexpr TypeList<ThisArgs..., OtherArgs...> operator+(const TypeList<OtherArgs...>& other) const
+    constexpr decltype(auto) operator+(const TypeList<OtherArgs...>& other) const
     {
         return TypeList<ThisArgs..., OtherArgs...>{};
+    }
+
+    constexpr decltype(auto) skipFirstType() const
+    {
+        return skipFirstType_t<TypeList<ThisArgs...>>{};
+    }
+
+    constexpr decltype(auto) getFirstType() const
+    {
+        return getFirstType_t<TypeList<ThisArgs...>>{};
     }
 
     /**
@@ -90,8 +107,10 @@ struct TypeList
         }
         else
         {
-            const bool is_this_in_other = AreVariadicsContainingTheSameTypes<TypeList<ThisArgs...>, TypeList<OtherArgs...>>::value;
-            const bool is_other_in_this = AreVariadicsContainingTheSameTypes<TypeList<OtherArgs...>, TypeList<ThisArgs...>>::value;
+            const bool is_this_in_other =
+                AreVariadicsContainingTheSameTypes<TypeList<ThisArgs...>, TypeList<OtherArgs...>>::value;
+            const bool is_other_in_this =
+                AreVariadicsContainingTheSameTypes<TypeList<OtherArgs...>, TypeList<ThisArgs...>>::value;
             return is_this_in_other and is_other_in_this;
         }
     }
@@ -145,10 +164,18 @@ struct TypeList
     TypeList<__VA_ARGS__>                                                                                              \
     {                                                                                                                  \
     }
+template <typename... ThisArgs>
+struct Numerator : TypeList<ThisArgs...>
+{
+};
 
+template <typename... ThisArgs>
+struct Denominator : TypeList<ThisArgs...>
+{
+};
 
 //! This works only for types which have a static int id and a double value
-template <typename...LeftArgs, typename...RightArgs>
+template <typename... LeftArgs, typename... RightArgs>
 constexpr double qConvertLists(const TypeList<LeftArgs...>& left, const TypeList<RightArgs...>& right)
 {
     static_assert(left.getSize() == right.getSize(), "Conversion cannot be performed, sizes do not match");
@@ -186,4 +213,24 @@ constexpr double convertLists(const TypeList<>& left, const TypeList<RightArgs..
 constexpr double convertLists(const TypeList<>& left, const TypeList<>& right)
 {
     return 1.0;
+}
+
+//Add scalar units
+template <int Prefix1, int Prefix2, typename... Args1, typename... Args2>
+constexpr decltype(auto) operator+(const TypeList<Unit<Prefix1, q_scalar::scalar_t, SCALAR>, Args1...>&,
+                         const TypeList<Unit<Prefix2, q_scalar::scalar_t, SCALAR>, Args2...>&)
+{
+    typedef decltype(Unit<Prefix1, q_scalar::scalar_t, SCALAR>{} * Unit<Prefix2, q_scalar::scalar_t, SCALAR>{}) result_type;
+
+    return TypeList<result_type>{} + TypeList<Args1...>{} + TypeList<Args2...>{};
+}
+
+//Subtract scalar units
+template <int Prefix1, int Prefix2, typename... Args1, typename... Args2>
+constexpr decltype(auto) operator-(const TypeList<Unit<Prefix1, q_scalar::scalar_t, SCALAR>, Args1...>&,
+                         const TypeList<Unit<Prefix2, q_scalar::scalar_t, SCALAR>, Args2...>&)
+{
+    typedef decltype(Unit<Prefix1, q_scalar::scalar_t, SCALAR>{} / Unit<Prefix2, q_scalar::scalar_t, SCALAR>{}) result_type;
+
+    return TypeList<result_type>{} + skipFirstType_t<TypeList<Args1...>>{};
 }

@@ -20,17 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   unit.hpp
+ * @file   electric_resistance.hpp
  * @author Doru Irimescu
  *
  */
-
 #pragma once
+#include <quantity/quantity.hpp>
+#include <unit/unit.hpp>
+#include <q/electric_current.hpp>
+#include <q/voltage.hpp>
 
-//Unit takes a prefix and an id
-template<typename Prefix, typename ScalingToStandard, Q_ID ID>
-struct Unit
+using q_Ohm = decltype(1.0_q_V / 1.0_q_A);
+
+constexpr q_Ohm operator"" _q_Ohm(long double v)
 {
-    static constexpr double value = Prefix::value * ScalingToStandard::value;
-    static constexpr int id = ID;
-};
+    return q_Ohm(static_cast<double>(v));
+}
+//TODO: kiloOhm, MegaOhm, milliohm, etc.

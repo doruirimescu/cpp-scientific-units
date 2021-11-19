@@ -20,15 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   are_types_equal.hpp
+ * @file   skip_first_type.hpp
  * @author Doru Irimescu
- * @date   13-11-2021
  *
  */
 #pragma once
-#include <type_traits>
-template<typename T1, typename T2>
-constexpr bool areTypesEqual()
+
+template<typename...T>
+struct SkipFirstType;
+
+template<template<class...> typename Variadic, typename First, typename...Rest>
+struct SkipFirstType<Variadic<First, Rest...>>
 {
-    return std::is_same<T1, T2>::value;
-}
+    typedef Variadic<Rest...> type;
+};
+
+template<template<class...> typename Variadic>
+struct SkipFirstType<Variadic<>>
+{
+    typedef Variadic<> type;
+};
+
+template<typename T>
+using skipFirstType_t = typename SkipFirstType<T>::type;

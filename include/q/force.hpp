@@ -20,27 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   speed.hpp
+ * @file   force.hpp
  * @author Doru Irimescu
+ * @date   09-11-2021
  *
  */
+
 #pragma once
-#include <quantity.hpp>
-#include <type_list.hpp>
-#include <prefix.hpp>
-#include <time.hpp>
-#include <length.hpp>
+#include <q/mass.hpp>
+#include <q/length.hpp>
+#include <q/time.hpp>
+#include <unit/unit.hpp>
+#include <q/scalar.hpp>
 
-// Speed types
-using q_mps = Quantity<TypeList<q_length::m>, TypeList<q_time::s>>;
-using q_kmph = Quantity<TypeList<q_length::km>, TypeList<q_time::hour>>;
+// Force types
+using q_N = decltype(1.0_q_kg * 1.0_q_m / (1.0_q_s * 1.0_q_s));
 
-// Mass user-defined literals
-constexpr q_mps operator"" _q_mps(long double v)
+// Force user-defined literals
+constexpr q_N operator"" _q_N(long double v)
 {
-    return q_mps{static_cast<double>(v)};
-}
-constexpr q_kmph operator"" _q_kmph(long double v)
-{
-    return q_kmph{static_cast<double>(v)};
+    return q_N{static_cast<double>(v)};
 }

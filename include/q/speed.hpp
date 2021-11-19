@@ -20,19 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   id.hpp
+ * @file   speed.hpp
  * @author Doru Irimescu
  *
  */
 #pragma once
+#include <quantity/quantity.hpp>
+#include <type_list/type_list.hpp>
+#include <unit/prefix.hpp>
+#include <q/time.hpp>
+#include <q/length.hpp>
+#include <q/scalar.hpp>
 
-enum Q_ID
+using q_mps = decltype(1.0_q_m / 1.0_q_s);
+using q_kmph = decltype(1.0_q_km / 1.0_q_hour);
+
+constexpr q_mps operator"" _q_mps(long double v)
 {
-    //No Q_ID can be 0, otherwise it will trigger static asserts
-    MASS = 1,
-    LENGTH,
-    SPEED,
-    TIME,
-    ENERGY,
-    FORCE
-};
+    return q_mps{static_cast<double>(v)};
+}
+constexpr q_kmph operator"" _q_kmph(long double v)
+{
+    return q_kmph{static_cast<double>(v)};
+}

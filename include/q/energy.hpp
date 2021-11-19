@@ -20,24 +20,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   force.hpp
+ * @file   energy.hpp
  * @author Doru Irimescu
- * @date   09-11-2021
  *
  */
-
 #pragma once
-#include <mass.hpp>
-#include <length.hpp>
-#include <time.hpp>
-#include <unit.hpp>
+#include <q/force.hpp>
 
+using q_J =  decltype(1.0_q_N * 1.0_q_m);
+using q_kJ = decltype(1.0_q_kilo * 1.0_q_N * 1.0_q_m);
+using q_MJ = decltype(1.0_q_mega * 1.0_q_N * 1.0_q_m);
+using q_GJ = decltype(1.0_q_giga * 1.0_q_N * 1.0_q_m);
 
-// Force types
-using q_N = Quantity<TypeList<q_mass::kg, q_length::m>, TypeList<q_time::s, q_time::s>>;
-
-// Force user-defined literals
-constexpr q_N operator"" _q_N(long double v)
+constexpr q_J operator"" _q_J(long double v)
 {
-    return q_N{static_cast<double>(v)};
+    return q_J{static_cast<double>(v)};
+}
+
+constexpr q_kJ operator"" _q_kJ(long double v)
+{
+    return q_kJ{static_cast<double>(v)};
+}
+
+constexpr q_MJ operator"" _q_MJ(long double v)
+{
+    return q_MJ{static_cast<double>(v)};
+}
+
+constexpr q_GJ operator"" _q_GJ(long double v)
+{
+    return q_GJ{static_cast<double>(v)};
 }

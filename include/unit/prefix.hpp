@@ -20,15 +20,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   are_types_equal.hpp
+ * @file   prefix.hpp
  * @author Doru Irimescu
- * @date   13-11-2021
  *
+ * @brief
+ * This file describes prefix structs.
  */
+
 #pragma once
-#include <type_traits>
-template<typename T1, typename T2>
-constexpr bool areTypesEqual()
+
+#include <math.h>
+#include <string>
+#include <quantity/orderable.hpp>
+namespace prefix
 {
-    return std::is_same<T1, T2>::value;
-}
+constexpr int yotta = 24;
+
+constexpr int zetta = 21;
+
+constexpr int exa = 18;
+
+constexpr int peta = 15;
+
+constexpr int tera = 12;
+
+constexpr int giga = 9;
+
+constexpr int mega = 6;
+
+constexpr int kilo = 3;
+
+constexpr int hecto = 2;
+
+constexpr int deca = 1;
+
+constexpr int none = 0;
+
+constexpr int deci = -1;
+
+constexpr int centi = -2;
+
+constexpr int milli = -3;
+
+constexpr int micro = -6;
+
+constexpr int nano = -9;
+
+constexpr int pico = -12;
+
+constexpr int femto = -15;
+
+constexpr int atto = -18;
+
+constexpr int zepto = -21;
+
+constexpr int yocto = -24;
+
+}  // namespace prefix

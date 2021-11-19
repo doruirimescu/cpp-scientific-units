@@ -1,8 +1,9 @@
 #include <gtest/gtest.h>
 #include <test_types.hpp>
-#include <type_list.hpp>
-#include <length.hpp>
-#include <time.hpp>
+#include <type_list/type_list.hpp>
+#include <q/length.hpp>
+#include <q/time.hpp>
+#include <q/scalar.hpp>
 
 //! TYPELIST(T1) is same as TypeList<T1>{}, but is more readable. Using both here for testing.
 TEST(TypeList, check)
@@ -40,6 +41,29 @@ TEST(TypeList, addition)
     static_assert(TypeList<T1>{} + TypeList<>{} == TypeList<T1>{}, "Empty list neutral element for addition");
     static_assert(TypeList<T1>{} + TypeList<T1>{} == TypeList<T1, T1>{});
     static_assert(TypeList<T1>{} + TypeList<T2>{} == TypeList<T1, T2>{});
+}
+
+TEST(TypeList, scalar_addition)
+{
+    static_assert(TypeList<q_scalar::unit_none>{} + TypeList<q_scalar::unit_none>{} == TypeList<q_scalar::unit_none>{});
+    static_assert(TypeList<q_scalar::unit_k>{} + TypeList<q_scalar::unit_k>{} == TypeList<q_scalar::unit_M>{});
+    static_assert(TypeList<q_scalar::unit_k>{} + TypeList<q_scalar::unit_m>{} == TypeList<q_scalar::unit_none>{});
+    static_assert(TypeList<q_scalar::unit_c>{} + TypeList<q_scalar::unit_d>{} == TypeList<q_scalar::unit_m>{}, "Centi + deci = milli - addition of type lists means multiplication of quantities");
+}
+
+TEST(TypeList, mixed_addition)
+{
+    static_assert(TypeList<q_scalar::unit_none, q_length::unit_m>{} + TypeList<q_scalar::unit_none>{} == TypeList<q_scalar::unit_none, q_length::unit_m>{});
+    static_assert(TypeList<q_scalar::unit_none>{} + TypeList<q_scalar::unit_none, q_length::unit_m>{} == TypeList<q_scalar::unit_none, q_length::unit_m>{});
+
+    static_assert(TypeList<q_scalar::unit_none, q_length::unit_m>{} + TypeList<q_scalar::unit_none, q_length::unit_m>{} == TypeList<q_scalar::unit_none, q_length::unit_m, q_length::unit_m>{});
+    static_assert(TypeList<q_length::unit_m, q_scalar::unit_none>{} + TypeList<q_length::unit_m, q_scalar::unit_none>{} == TypeList<q_length::unit_m, q_scalar::unit_none, q_length::unit_m, q_scalar::unit_none>{}, "If scalar is not first type in typelist, it does not add them");
+}
+
+TEST(TypeList, addition_of_scalar_units)
+{
+    constexpr auto new_list = TYPELIST(q_scalar::unit_k) + TYPELIST(q_scalar::unit_k);
+    // static_assert(new_list == TypeList<Unit<6, q_scalar::scalar_t, SCALAR> >{});
 }
 
 TEST(TypeList, getSize)

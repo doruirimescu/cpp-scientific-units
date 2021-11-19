@@ -20,15 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   are_types_equal.hpp
+ * @file   acceleration.hpp
  * @author Doru Irimescu
- * @date   13-11-2021
  *
  */
 #pragma once
-#include <type_traits>
-template<typename T1, typename T2>
-constexpr bool areTypesEqual()
+#include <q/speed.hpp>
+
+using q_mps2 = decltype(1.0_q_mps / 1.0_q_s);
+
+constexpr q_mps2 operator"" _q_mps2(long double v)
 {
-    return std::is_same<T1, T2>::value;
+    return q_mps2{static_cast<double>(v)};
 }

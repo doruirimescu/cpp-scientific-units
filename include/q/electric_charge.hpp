@@ -20,15 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   are_types_equal.hpp
+ * @file   electric_charge.hpp
  * @author Doru Irimescu
- * @date   13-11-2021
  *
  */
 #pragma once
-#include <type_traits>
-template<typename T1, typename T2>
-constexpr bool areTypesEqual()
+#include <quantity/quantity.hpp>
+#include <unit/unit.hpp>
+#include <q/electric_current.hpp>
+#include <q/time.hpp>
+
+using q_C = decltype(1.0_q_A * 1.0_q_s);
+
+constexpr q_C operator"" _q_C(long double v)
 {
-    return std::is_same<T1, T2>::value;
+    return q_C(static_cast<double>(v));
 }
