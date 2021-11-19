@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <test_types.hpp>
-#include <type_list.hpp>
+#include <type_list/type_list.hpp>
 #include <length.hpp>
 #include <time.hpp>
 #include <scalar.hpp>

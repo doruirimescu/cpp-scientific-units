@@ -27,6 +27,7 @@
 
 #pragma once
 #include <unit/id.hpp>
+#include <unit/prefix.hpp>
 #include <math.h>
 //Unit takes a prefix and an id
 template<int Prefix, typename ScalingToStandard, Q_ID ID>

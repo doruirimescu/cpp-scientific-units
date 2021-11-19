@@ -1,7 +1,7 @@
 #pragma once
 #include "prefix.hpp"
 #include <quantity.hpp>
-#include <type_list.hpp>
+#include <type_list/type_list.hpp>
 
 enum class UnitNameLabel
 {

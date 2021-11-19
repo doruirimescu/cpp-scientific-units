@@ -26,10 +26,7 @@
  */
 #pragma once
 #include <quantity.hpp>
-#include <type_list.hpp>
-#include <unit/prefix.hpp>
-#include <orderable.hpp>
-#include <unit/id.hpp>
+#include <type_list/type_list.hpp>
 #include <scalar.hpp>
 namespace q_time
 {
@@ -71,16 +68,16 @@ using year = Unit<prefix::none, year_t, TIME>;
 
 }  // namespace q_time
 
-using q_s =     Quantity<TypeList<q_scalar::unit_none, q_time::s>,   TypeList<q_scalar::unit_none>>;
-using q_ms =    Quantity<TypeList<q_scalar::unit_none, q_time::ms>,  TypeList<q_scalar::unit_none>>;
-using q_us =    Quantity<TypeList<q_scalar::unit_none, q_time::us>,  TypeList<q_scalar::unit_none>>;
-using q_ns =    Quantity<TypeList<q_scalar::unit_none, q_time::ns>,  TypeList<q_scalar::unit_none>>;
-using q_ps =    Quantity<TypeList<q_scalar::unit_none, q_time::ps>,  TypeList<q_scalar::unit_none>>;
-using q_fs =    Quantity<TypeList<q_scalar::unit_none, q_time::fs>,  TypeList<q_scalar::unit_none>>;
-using q_min =   Quantity<TypeList<q_scalar::unit_none, q_time::min>, TypeList<q_scalar::unit_none>>;
-using q_hour =  Quantity<TypeList<q_scalar::unit_none, q_time::hour>,TypeList<q_scalar::unit_none>>;
-using q_day =   Quantity<TypeList<q_scalar::unit_none, q_time::day>, TypeList<q_scalar::unit_none>>;
-using q_year =  Quantity<TypeList<q_scalar::unit_none, q_time::year>,TypeList<q_scalar::unit_none>>;
+using q_s =     Quantity<Numerator<q_scalar::unit_none, q_time::s>,   Denominator<q_scalar::unit_none>>;
+using q_ms =    Quantity<Numerator<q_scalar::unit_m, q_time::s>,      Denominator<q_scalar::unit_none>>;
+using q_us =    Quantity<Numerator<q_scalar::unit_u, q_time::s>,      Denominator<q_scalar::unit_none>>;
+using q_ns =    Quantity<Numerator<q_scalar::unit_n, q_time::s>,      Denominator<q_scalar::unit_none>>;
+using q_ps =    Quantity<Numerator<q_scalar::unit_p, q_time::s>,      Denominator<q_scalar::unit_none>>;
+using q_fs =    Quantity<Numerator<q_scalar::unit_f, q_time::s>,      Denominator<q_scalar::unit_none>>;
+using q_min =   Quantity<Numerator<q_scalar::unit_none, q_time::min>, Denominator<q_scalar::unit_none>>;
+using q_hour =  Quantity<Numerator<q_scalar::unit_none, q_time::hour>,Denominator<q_scalar::unit_none>>;
+using q_day =   Quantity<Numerator<q_scalar::unit_none, q_time::day>, Denominator<q_scalar::unit_none>>;
+using q_year =  Quantity<Numerator<q_scalar::unit_none, q_time::year>,Denominator<q_scalar::unit_none>>;
 
 // Time user-defined literal
 constexpr q_s operator"" _q_s(long double v)
