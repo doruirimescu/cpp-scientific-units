@@ -26,10 +26,6 @@
  */
 #pragma once
 #include <quantity/quantity.hpp>
-#include <type_list/type_list.hpp>
-#include <unit/prefix.hpp>
-#include <unit/id.hpp>
-#include <unit/unit.hpp>
 #include <q/scalar.hpp>
 namespace q_mass
 {

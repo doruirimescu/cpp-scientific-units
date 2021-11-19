@@ -20,21 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @file   id.hpp
+ * @file   voltage.hpp
  * @author Doru Irimescu
  *
  */
 #pragma once
+#include <quantity/quantity.hpp>
+#include <unit/unit.hpp>
+#include <q/energy.hpp>
+#include <q/electric_charge.hpp>
 
-enum Q_ID
+using q_V = decltype(1.0_q_J / 1.0_q_C);
+
+constexpr q_V operator"" _q_V(long double v)
 {
-    //No Q_ID can be 0, otherwise it will trigger static asserts
-    MASS = 1,
-    LENGTH,
-    SPEED,
-    TIME,
-    ENERGY,
-    FORCE,
-    SCALAR,
-    ELECTRIC_CURRENT
-};
+    return q_V(static_cast<double>(v));
+}

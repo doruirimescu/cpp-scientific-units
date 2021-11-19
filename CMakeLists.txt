@@ -32,7 +32,13 @@ include_directories(${PROJECT_SOURCE_DIR}/test/include)
 
 enable_testing()
 
-FILE(GLOB TESTFILES test/*.cpp test/quantity/*.cpp test/metaprogramming/*.cpp test/type_list/*.cpp)
+FILE(GLOB TESTFILES
+test/*.cpp
+test/quantity/*.cpp
+test/metaprogramming/*.cpp
+test/type_list/*.cpp
+test/unit/*.cpp
+test/q/*.cpp)
 
 
 set(TEST_MAIN unit_tests)   # Default name for test executable (change if you wish).
