@@ -11,7 +11,7 @@
 
 // /**
 //  * Naming convention
-//  * TEST(Quantity, static_cast_to)
+//  * TEST(Quantity, explanation)
 //  * ex: TEST(Time, static_cast_q_h)
 //  */
 
@@ -65,6 +65,7 @@ TEST(Mass, static_cast_q_g)
     static_assert(static_cast<q_g>(q_g{1.0}).value == 1.0);
     static_assert(static_cast<q_g>(q_kg{1.0}).value == 1000.0);
     static_assert(static_cast<q_g>(q_mg{1000.0}).value == 1.0);
+    EXPECT_FLOAT_EQ(static_cast<q_g>(1.0_q_kg).value, 1000.0);
 }
 
 TEST(Mass, addition_of_quantities_with_same_id)
@@ -111,7 +112,7 @@ TEST(Length, static_cast_q_km)
     static_assert(static_cast<q_km>(1.0_q_km).value == 1.0);
     static_assert(static_cast<q_km>(1000.0_q_m).value == 1.0);
 }
-TEST(Length, static_cast)
+TEST(Length, static_cast_all)
 {
     EXPECT_FLOAT_EQ(static_cast<q_m>(1.0_q_m).value, 1.0);
     EXPECT_FLOAT_EQ(static_cast<q_km>(1.0_q_m).value, 0.001);
@@ -164,6 +165,10 @@ TEST(Speed, speed)
                                        DENOMINATOR(q_scalar::unit_none, q_time::hour))>(0.5_q_mps + 0.5_q_mps)
                       .value;
     EXPECT_FLOAT_EQ(result, 3600.0);
+
+    EXPECT_FLOAT_EQ(static_cast<q_mps>(1.0_q_kmph).value, 1 / 3.6);
+
+    EXPECT_FLOAT_EQ(static_cast<q_kmph>(1.0_q_mps).value, 3.6);
 }
 
 //*********************************FORCE****************************************
@@ -215,6 +220,14 @@ TEST(Force, conversions)
     EXPECT_FLOAT_EQ(result, 60.0);
 }
 
+TEST(Force, inversion)
+{
+    constexpr auto inverse_acceleration = 2 / 1.0_q_mps2;
+    constexpr auto inverse_mass = 5 / 1.0_q_kg;
+    constexpr auto inverse_force = inverse_acceleration * inverse_mass;
+    static_assert(1.0 / inverse_force == 0.1_q_N);
+}
+
 TEST(Conversions, uncomment_to_fail)
 {
     // to_q_s(1.0_q_m);
@@ -227,17 +240,6 @@ TEST(Conversions, uncomment_to_fail)
     // static_assert(1.0_q_kg < 1000.0_q_m);
     // static_assert(1.0_q_kg > 1000.0_q_m);
     // static_assert(1.0_q_kg >= 1000.0_q_m);
-}
-
-TEST(ConvertToAnyQuantity, static_cast)
-{
-
-
-    EXPECT_FLOAT_EQ(static_cast<q_g>(1.0_q_kg).value, 1000.0);
-
-    EXPECT_FLOAT_EQ(static_cast<q_mps>(1.0_q_kmph).value, 1 / 3.6);
-
-    EXPECT_FLOAT_EQ(static_cast<q_kmph>(1.0_q_mps).value, 3.6);
 }
 
 TEST(energy, conversions)
@@ -289,4 +291,23 @@ TEST(energy, energy_to_force)
 TEST(energy, energy_to_mass)
 {
     static_assert(1.0_q_kg == 1.0_q_J / (1.0_q_m * 1.0_q_mps2));
+}
+
+TEST(ComplexConversions, energy)
+{
+    constexpr auto g = 9.81_q_mps2;
+    constexpr auto m = 1.0_q_kg + 2.0_q_N / 0.5_q_mps2;
+    constexpr auto h = 2.0_q_m - 100.0_q_cm;
+    constexpr auto potential_energy = m * g * h;
+    static_assert(potential_energy.value == 5 * 9.81);
+
+    constexpr auto kinetic_energy = 4.0_q_mps * 4.0_q_mps * 1 / 16 * 2.0_q_kg * 1 / 2;
+    static_assert(kinetic_energy.value == 1);
+
+    constexpr auto work = 1.3_q_N * 0.3_q_m;
+    static_assert(work.value == 1.3 * 0.3);
+
+    constexpr auto total_energy = potential_energy - kinetic_energy + work;
+
+    static_assert(total_energy == (5 * 9.81 - 1 + 1.3 * 0.3) * 1.0_q_J);
 }

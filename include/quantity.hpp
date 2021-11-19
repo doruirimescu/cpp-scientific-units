@@ -138,6 +138,13 @@ constexpr Quantity<Numerator, Denominator> operator*(const double scalar,
     return quantity * scalar;
 }
 
+//operator/ for quantity inversion
+template<class Numerator, class Denominator>
+constexpr Quantity<Denominator, Numerator> operator/(const double scalar, const Quantity<Numerator, Denominator>& quantity)
+{
+    return Quantity<Denominator, Numerator>{scalar / quantity.value};
+}
+
 #define NUMERATOR(...) TypeList<__VA_ARGS__>
 #define DENOMINATOR(...) TypeList<__VA_ARGS__>
 
