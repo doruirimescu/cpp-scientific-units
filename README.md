@@ -21,6 +21,7 @@ This code will generate a compile-time error.
 q_g grams{10.0};
 q_J energy = 2.0 * grams;
 ```
+![Selection_086](https://user-images.githubusercontent.com/7363000/153576272-87e3a913-4228-4fc1-853f-15cd6baf5059.png)
 
 ## How it works
 
