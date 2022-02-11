@@ -14,6 +14,20 @@ constexpr auto mass = 10.0_q_g;
 static_assert(static_cast<q_J>(1.0_q_J + 2.0_q_N * 2.5_q_m - grav_acc * height * mass).value == 5.0);
 ```
 
+When dealing with prefixes, the first prefix appearing in the expression will be assigned to the resulting type:
+```cpp
+auto mass =  10.0_q_g + 1.0_q_kg;
+static_assert(std::is_same<decltype(mass), q_g>::value);
+//******************************************************
+auto mass =  1.0_q_kg + 10.0_q_g;
+static_assert(std::is_same<decltype(mass), q_kg>::value);
+```
+
+It is possible to cast between different prefixes, as long as the unit is the same:
+```cpp
+static_assert(static_cast<q_g>(q_kg{1.0}).value == 1000.0);
+```
+
 As you note, all types are starting with ```q_``` and all user-defined type literals start with ```_q_```. Conversion between equivalent types happen implicitly. 
 
 This code will generate a compile-time error.
